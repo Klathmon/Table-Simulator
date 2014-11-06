@@ -36,6 +36,15 @@ module.exports = (grunt) ->
           ]
           dest: BUILD_DIR
         ]
+      ghpages:
+        files: [
+          expand: true
+          cwd: "ghpages"
+          src: [
+            "**"
+          ]
+          dest: RELEASE_DIR
+        ]
 
     dom_munger:
       coffee2js:
@@ -284,6 +293,13 @@ module.exports = (grunt) ->
               RELEASE_DIR
             ]
 
+    git_deploy:
+      release:
+        options:
+          url: "git@github.com:Klathmon/Table-Simulator.git"
+          branch: "gh-pages"
+          message: "autocommit"
+        src: RELEASE_DIR
 
   grunt.registerTask "buildDev", [
       "copy:html"
@@ -324,3 +340,9 @@ module.exports = (grunt) ->
       "buildRelease"
       "connect:release"
     ]
+
+  grunt.registerTask "deployRelease", [
+    "buildRelease"
+    "copy:ghpages"
+    "git_deploy:release"
+  ]
