@@ -1,0 +1,72 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/font-roboto/roboto.html">
+<link rel="import" href="../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../bower_components/core-item/core-item.html">
+<link rel="import" href="../../bower_components/core-input/core-input.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/core-menu/core-submenu.html">
+<link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../../bower_components/core-splitter/core-splitter.html">
+<link rel="import" href="../../bower_components/core-scaffold/core-scaffold.html">
+<link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
+
+
+<polymer-element name="deck-builder">
+  <template>
+    <link rel="stylesheet" href="deck-builder.sass">
+
+    <paper-shadow z="5"></paper-shadow>
+
+    <core-scaffold id="scaffold" responsiveWidth="2000px">
+      <core-header-panel navigation flex mode="seamed">
+        <core-toolbar>Decks:</core-toolbar>
+        <core-menu
+            theme="core-light-theme"
+            selected="-1"
+            selectedItem="{{selectedDeck}}"
+            on-core-activate="{{menuItemSelected}}">
+
+          <template id="deckList" repeat="{{ deck in decks }}">
+            <paper-item icon="content-copy" label="{{deck.name}}"></paper-item>
+          </template>
+
+          <paper-item icon="add-circle" label="Add New Deck"></paper-item>
+
+        </core-menu>
+      </core-header-panel>
+
+      <div tool>Deck Builder</div>
+
+      <div id="mainWindow" fit horizontal layout>
+        <template bind if="{{selectedDeck !== undefined}}">
+          <div id="deckWindow">
+            <div>
+              <h2>{{selectedDeck.label}}</h2>
+            </div>
+            <div flex horizontal layout wrap>
+            </div>
+          </div>
+          <core-splitter direction="left"></core-splitter>
+        </template>
+        <div flex vertical layout>
+          <div>
+            <h2>My Collection</h2>
+          </div>
+          <div id="collectionWindow" flex>
+          </div>
+          <div horizontal end-justified layout>
+            <paper-button raised>Add Card</paper-button>
+          </div>
+        </div>
+      </div>
+    </core-scaffold>
+
+  </template>
+  <!-- build:js deck-builder.js -->
+  <script src="../../bower_components/packery/dist/packery.pkgd.js"></script>
+  <script src="deck-builder.coffee"></script>
+  <!-- endbuild -->
+</polymer-element>

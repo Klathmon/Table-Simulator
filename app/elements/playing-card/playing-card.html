@@ -1,0 +1,28 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/font-roboto/roboto.html">
+
+<polymer-element
+  name="playing-card"
+  attributes="cardwidth"
+  on-mousedown="{{dragMouseDown}}"
+  on-dblclick="{{flipCard}}">
+  <template>
+    <link rel="stylesheet" href="playing-card.sass">
+
+    <div id="container">
+      <div id="rotateHandle" on-mousedown="{{rotateMouseDown}}"></div>
+
+      <div id="front">
+        <content id="contentThing"></content>
+      </div>
+      <div id="back"></div>
+    </div>
+
+  </template>
+  <!-- build:js playing-card.js -->
+  <script src="scripts/playing-card.coffee"></script>
+  <script src="scripts/flipping.coffee"></script>
+  <script src="scripts/rotating.coffee"></script>
+  <script src="scripts/dragging.coffee"></script>
+  <!-- endbuild -->
+</polymer-element>

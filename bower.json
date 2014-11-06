@@ -1,0 +1,19 @@
+{
+  "name": "the-round-table",
+  "version": "0.0.1",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.4.2",
+    "webcomponents": "Polymer/webcomponentsjs#master",
+    "core-elements": "Polymer/core-elements#~0.4.2",
+    "paper-elements": "Polymer/paper-elements#~0.4.2",
+    "peerjs": "peers/peerjs#master",
+    "lzma-js": "nmrugg/LZMA-JS#master"
+  },
+  "devDependencies": {
+    "polymer-test-tools": "Polymer/polymer-test-tools#~0.4.2",
+    "mocha": "~1.21.4",
+    "chai": "~1.9.1",
+    "draggabilly": "~1.1.1",
+    "packery": "~1.2.4"
+  }
+}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>The Round Table</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+  <link rel="stylesheet" href="styles/app.sass">
+  <link href='//fonts.googleapis.com/css?family=RobotoDraft:regular,bold,italic,thin,light,bolditalic,black,medium&lang=en' rel='stylesheet' type='text/css'>
+
+  <script src="bower_components/webcomponents/webcomponents.js"></script>
+
+  <link rel="import" href="bower_components/font-roboto/roboto.html">
+  <link rel="import" href="bower_components/paper-button/paper-button.html">
+
+  <link rel="import" href="elements/connection-manager/connection-manager.html">
+  <link rel="import" href="elements/playing-card/playing-card.html">
+  <link rel="import" href="elements/base-card/base-card.html">
+  <link rel="import" href="elements/deck-builder/deck-builder.html">
+
+</head>
+
+<body unresolved layout>
+
+  <h1>The Round Table</h1>
+
+  <deck-builder></deck-builder>
+
+  <!--<connection-manager apikey="c89qbb79f24eu3di"></connection-manager>-->
+
+    <paper-button id="addCardButton" raised>Add Card</paper-button>
+
+
+
+  <script src="scripts/app.coffee"></script>
+</body>
+
+</html>

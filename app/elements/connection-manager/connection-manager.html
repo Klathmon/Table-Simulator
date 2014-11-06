@@ -1,0 +1,99 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import" href="../../bower_components/font-roboto/roboto.html">
+
+<polymer-element name="connection-manager" attributes="apiKey">
+  <template>
+    <link rel="stylesheet" href="connection-manager.sass">
+
+    <paper-dialog
+      heading="Connection Manager"
+      transition="paper-dialog-transition-bottom"
+      opened=true
+      backdrop=false
+      layered=true
+      autoCloseDisabled=true>
+        <p>Enter your username and pick an option...</p>
+
+        <paper-input
+          id="username"
+          floatingLabel
+          label="Please enter a username"
+          value="{{usernameValue}}"
+          autofocus
+          required>
+        </paper-input>
+
+        <paper-button
+          id="hostButton"
+          on-click="{{hostButtonClicked}}"
+          raised
+          dismissive>
+          Host Game
+        </paper-button>
+
+        <paper-button
+          id="connectButton"
+          on-click="{{connectButtonClicked}}"
+          raised
+          affirmative
+          disabled=true>
+          Connect to Game
+        </paper-button>
+    </paper-dialog>
+
+    <paper-dialog
+      id="hostDialog"
+      heading="Host Game"
+      transition="paper-dialog-transition-bottom"
+      opened=false
+      backdrop=false
+      layered=true
+      autoCloseDisabled=true>
+        <p>Share this link with anyone you want to have in the game:</p>
+
+        <paper-input
+          id="connectionLink"
+          floatingLabel
+          readonly
+          value="{{connectionLinkValue}}"
+          on-click="{{connectionLinkClicked}}">
+        </paper-input>
+
+        <paper-button
+          raised
+          affirmative>
+          Done
+        </paper-button>
+    </paper-dialog>
+
+    <paper-dialog
+      id="errorDialog"
+      heading="Error"
+      transition="paper-dialog-transition-bottom"
+      opened=false
+      backdrop=true
+      layered=true
+      autoCloseDisabled=true>
+        <p>It looks the host can't be reached!</p>
+        <ul>
+          <li>Check your URL to make sure it matches the host's</li>
+          <li>Ensure that the host is currently running</li>
+          <li>Make sure you are using a supported browser</li>
+        </ul>
+        <p>Please reload the page to try again.</p>
+    </paper-dialog>
+
+    <paper-toast
+      id="connectionStatus"
+      duration="3000"
+      opened=false>
+    </paper-toast>
+  </template>
+  <script src="connection-manager.coffee"></script>
+</polymer-element>

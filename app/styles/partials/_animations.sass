@@ -1,0 +1,23 @@
+$flip-shadow-color: rgba(0,0,0,0.10)
+
+@keyframes flip-upsidedown
+  0%
+    transform: translateZ(0) rotateY(0deg)
+    box-shadow: 10px 10px 10px 0px $flip-shadow-color
+  50%
+    transform: translateZ(200px)
+    box-shadow: 50px 50px 50px 0px $flip-shadow-color
+  100%
+    transform: translateZ(0) rotateY(180deg)
+    box-shadow: -10px 10px 10px 0px $flip-shadow-color
+
+@keyframes flip-rightsideup
+  0%
+    transform: translateZ(0) rotateY(180deg)
+    box-shadow: -10px 10px 10px 0px $flip-shadow-color
+  50%
+    transform: translateZ(200px) rotateY(180deg)
+    box-shadow: -50px 50px 50px 0px $flip-shadow-color
+  100%
+    transform: translateZ(0) rotateY(0deg)
+    box-shadow: 10px 10px 10px 0px $flip-shadow-color

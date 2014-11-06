@@ -1,0 +1,16 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<polymer-element name="base-card" on-touchstart="{{mouseDown}}">
+  <template>
+    <link rel="stylesheet" href="base-card.sass">
+
+    <paper-shadow z="2"></paper-shadow>
+    <content></content>
+
+  </template>
+  <!-- build:js base-card.js -->
+  <script src="../../bower_components/draggabilly/dist/draggabilly.pkgd.js"></script>
+  <script src="base-card.coffee"></script>
+  <!-- endbuild -->
+</polymer-element>

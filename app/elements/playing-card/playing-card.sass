@@ -1,0 +1,53 @@
+@import 'colors', 'mixins', 'placeholders', 'animations'
+
+$rotateHandleSize: 20px
+
+\:host
+  @include reset-font
+  @include roboto-font
+  display: block
+  position: absolute
+  top: 100px
+  left: 100px
+  perspective: 1000
+
+#container
+  @extend %keep-14-9-aspect-ratio
+  transform-style: preserve-3d
+  animation: flip-rightsideup ease 1s
+  animation-fill-mode: forwards
+  &.flipped
+    animation: flip-upsidedown ease 1s
+    animation-fill-mode: forwards
+
+#front, #back
+  padding: 5%
+  position: absolute
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  border:
+    style: solid
+    width: 1px
+    color: #CFCFCF
+    radius: 5px
+  backface-visibility: hidden
+
+#front
+  background-color: $card-background
+  z-index: 2
+
+#back
+  background-color: gray
+  transform: rotateY(180deg)
+
+#rotateHandle
+  position: absolute
+  top: $rotateHandleSize / 2 * -1
+  right: $rotateHandleSize / 2 * -1
+  width: $rotateHandleSize
+  height: $rotateHandleSize
+  background-color: $rotateHandleColor
+  border-radius: 50%
+  z-index: -5
