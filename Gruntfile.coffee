@@ -202,6 +202,21 @@ module.exports = (grunt) ->
         files:
           'build/index.html': BUILD_DIR + '/app.html'
 
+    htmlmin:
+      # A bug is currently preventing this from working on large html files.
+      release:
+        options:
+          removeComments: true
+          collapseWhitespace: true
+          conservativeCollapse: true
+          collapseBooleanAttributes: true
+          removeAttributeQuotes: true
+          removeScriptTypeAttributes: true
+          removeStyleLinkTypeAttributes: true
+          minifyCSS: true
+        files:
+          'release/index.html': BUILD_DIR + "/index.html"
+
     rename:
       dev:
         src: BUILD_DIR + "/app.html"
@@ -209,7 +224,6 @@ module.exports = (grunt) ->
       release:
         src: BUILD_DIR + "/index.html"
         dest: RELEASE_DIR + "/index.html"
-
 
 
     clean:
