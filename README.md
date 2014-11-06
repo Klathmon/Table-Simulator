@@ -1,3 +1,3 @@
-# The Round Table
+# Table Simulator
 
 In development
