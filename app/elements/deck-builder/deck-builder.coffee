@@ -16,7 +16,7 @@ Polymer 'deck-builder',
     @addEventListener 'new-image', (event)->
       baseCard = document.createElement 'base-card'
       baseCard.imageData = event.detail.imageData
-      baseCard.draggie.options.grid = [115, 175]
+      baseCard.draggie.options.grid = [112, 172]
       @addCardToWindow @$.collectionWindow, baseCard
       setTimeout =>
         @packie.layout()
