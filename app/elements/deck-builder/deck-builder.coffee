@@ -27,10 +27,7 @@ Polymer 'deck-builder',
     ,500
   addCardToWindow: (containerWindow, card)->
     @packie.bindDraggabillyEvents card.draggie
-#    card.draggie.on 'dragStart', =>
-#      card.style.width = parseInt(card.style.width - 10) + "px"
     card.draggie.on 'dragEnd', =>
-#      card.style.width = parseInt(card.style.width + 10) + "px"
       setTimeout =>
         @packie.layout()
       , 450
@@ -42,3 +39,5 @@ Polymer 'deck-builder',
     @filename = @$.fileInput.$.input.files[0].name
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
+  splitterMouseUp: ->
+    @packie.layout()

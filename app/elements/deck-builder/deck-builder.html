@@ -42,7 +42,7 @@
 
       <div tool>Deck Builder</div>
 
-      <div id="mainWindow" fit horizontal layout>
+      <div class="window"  id="mainWindow" fit horizontal layout>
         <template bind if="{{selectedDeck !== undefined}}">
           <div id="deckWindow">
             <div>
@@ -51,7 +51,11 @@
             <div flex horizontal layout wrap>
             </div>
           </div>
-          <core-splitter direction="left"></core-splitter>
+          <core-splitter
+              on-mouseup="{{splitterMouseUp}}"
+              on-touchend="{{splitterMouseUp}}"
+              direction="left">
+          </core-splitter>
         </template>
         <div flex vertical layout>
           <div>
@@ -59,8 +63,8 @@
           </div>
           <div class="window" id="collectionWindow" flex>
           </div>
-          <div horizontal end-justified layout>
-            <image-uploader raised>Add Card</image-uploader>
+          <div horizontal layout reverse>
+            <image-uploader>Add Card</image-uploader>
           </div>
         </div>
       </div>
