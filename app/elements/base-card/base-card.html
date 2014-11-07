@@ -4,12 +4,13 @@
 <polymer-element
     name="base-card"
     attributes="imageData"
-    on-touchstart="{{mouseDown}}">
+    on-touchstart="{{mouseDown}}"
+    on-mousedown="{{mouseDown}}">
   <template>
     <link rel="stylesheet" href="base-card.sass">
 
     <paper-shadow z="2"></paper-shadow>
-    <img src="{{imageData}}">
+    <img id="imageElement" src="{{imageData}}">
 
   </template>
   <!-- build:js base-card.js -->
