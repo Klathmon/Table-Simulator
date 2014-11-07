@@ -1,11 +1,14 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-overlay/core-overlay.html">
+<link rel="import" href="../../bower_components/core-transition/core-transition.html">
 
 
 <polymer-element
     name="base-card"
     attributes="imageData"
     on-touchstart="{{mouseDown}}"
-    on-mousedown="{{mouseDown}}">
+    on-mousedown="{{mouseDown}}"
+    on-dblclick="{{zoomCard}}">
   <template>
     <link rel="stylesheet" href="base-card.sass">
 
