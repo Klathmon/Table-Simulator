@@ -39,5 +39,6 @@ Polymer 'deck-builder',
     @filename = @$.fileInput.$.input.files[0].name
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
+    @packie.layout()
   splitterMouseUp: ->
     @packie.layout()

@@ -42,13 +42,13 @@
 
       <div tool>Deck Builder</div>
 
-      <div class="window"  id="mainWindow" fit horizontal layout>
+      <div id="mainWindow" fit horizontal layout>
         <template bind if="{{selectedDeck !== undefined}}">
-          <div id="deckWindow">
+          <div>
             <div>
               <h2>{{selectedDeck.label}}</h2>
             </div>
-            <div flex horizontal layout wrap>
+            <div class="window" id="deckWindow">
             </div>
           </div>
           <core-splitter
