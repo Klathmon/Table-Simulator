@@ -44,7 +44,7 @@
 
       <div id="mainWindow" fit horizontal layout>
         <template bind if="{{selectedDeck !== undefined}}">
-          <div>
+          <div class="splitterWindow" >
             <div>
               <h2>{{selectedDeck.label}}</h2>
             </div>
@@ -57,13 +57,13 @@
               direction="left">
           </core-splitter>
         </template>
-        <div flex vertical layout>
+        <div class="splitterWindow" flex vertical layout>
           <div>
             <h2>My Collection</h2>
           </div>
           <div class="window" id="collectionWindow" flex>
           </div>
-          <div horizontal layout reverse>
+          <div class="lowerActions" horizontal layout reverse>
             <image-uploader>Add Card</image-uploader>
           </div>
         </div>
