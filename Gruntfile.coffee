@@ -11,6 +11,7 @@ module.exports = (grunt) ->
   require("time-grunt") grunt
   require("jit-grunt") grunt,
     useminPrepare: "grunt-usemin"
+    gitpush: "grunt-git"
 
   grunt.initConfig
 
@@ -315,6 +316,11 @@ module.exports = (grunt) ->
           message: "autocommit"
         src: RELEASE_DIR
 
+    gitpush:
+      build:
+        options:
+          remote: 'origin'
+
   grunt.registerTask "buildDev", [
       "copy:html"
       "dom_munger:coffee2js"
@@ -359,4 +365,9 @@ module.exports = (grunt) ->
     "buildRelease"
     "copy:ghpages"
     "git_deploy:release"
+  ]
+
+  grunt.registerTask "pushAndDeploy", [
+    "gitpush:build"
+    "deployRelease"
   ]
