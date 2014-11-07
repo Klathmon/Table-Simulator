@@ -24,6 +24,5 @@ Polymer 'image-uploader',
     listener = img.addEventListener "load", =>
       ctx.drawImage img, 0, 0, @imageWidth, @imageHeight
       imageData = canvas.toDataURL file.type
-      baseCard = document.createElement 'base-card'
-      baseCard.imageData = imageData
-      document.body.appendChild(baseCard)
+      @fire 'new-image',
+        imageData: imageData

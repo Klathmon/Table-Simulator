@@ -1,3 +1,5 @@
+<link rel="import" href="../base-card/base-card.html">
+<link rel="import" href="../image-uploader/image-uploader.html">
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/font-roboto/roboto.html">
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
@@ -29,7 +31,7 @@
             selectedItem="{{selectedDeck}}"
             on-core-activate="{{menuItemSelected}}">
 
-          <template id="deckList" repeat="{{ deck in decks }}">
+          <template class="window" id="deckList" repeat="{{ deck in decks }}">
             <paper-item icon="content-copy" label="{{deck.name}}"></paper-item>
           </template>
 
@@ -55,10 +57,10 @@
           <div>
             <h2>My Collection</h2>
           </div>
-          <div id="collectionWindow" flex>
+          <div class="window" id="collectionWindow" flex>
           </div>
           <div horizontal end-justified layout>
-            <paper-button raised>Add Card</paper-button>
+            <image-uploader raised>Add Card</image-uploader>
           </div>
         </div>
       </div>
