@@ -1,12 +1,15 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 
-<polymer-element name="base-card" on-touchstart="{{mouseDown}}">
+<polymer-element
+    name="base-card"
+    attributes="imageData"
+    on-touchstart="{{mouseDown}}">
   <template>
     <link rel="stylesheet" href="base-card.sass">
 
     <paper-shadow z="2"></paper-shadow>
-    <content></content>
+    <img src="{{imageData}}">
 
   </template>
   <!-- build:js base-card.js -->
