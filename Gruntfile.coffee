@@ -346,7 +346,6 @@ module.exports = (grunt) ->
       "usemin"
       "vulcanize:release"
       "rename:release"
-      "clean:postRelease"
     ]
 
   grunt.registerTask "serveDev", [

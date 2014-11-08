@@ -1,6 +1,7 @@
 Polymer 'deck-builder',
-  collection: {}
-  saveToLSTimeout: null
+  collection: []
+  saveTimeout: null
+  addCardTimeout: null
   ready: ->
     @decks = [
       {"name": "Deck 1"}
@@ -15,13 +16,15 @@ Polymer 'deck-builder',
       gutter: 10
     )
 
+    localforage.getItem("collection").then (collectionData)=>
+      @collection = collectionData if collectionData != null
+      for cardData in @collection
+        @addCardToWindow @$.collectionWindow, cardData
+      return
+
     @addEventListener 'new-image', (event)->
       @addCardToCollection event.detail.imageData
       @addCardToWindow @$.collectionWindow, event.detail.imageData
-  LSLoaded: ->
-    for uuid, cardData of @collection
-      @addCardToWindow @$.collectionWindow, cardData
-    return
 
   addCardToWindow: (containerWindow, imageData)->
     baseCard = document.createElement 'base-card'
@@ -34,15 +37,16 @@ Polymer 'deck-builder',
       , 450
     @$.collectionWindow.appendChild baseCard
     @packie.appended baseCard
-    setTimeout =>
+    clearTimeout @addCardTimeout
+    @addCardTimeout = setTimeout =>
       @packie.layout()
     ,500
   addCardToCollection: (imageData)->
-    @collection[generateUUID()] = imageData
-    clearTimeout @saveToLSTimeout
-    @saveToLSTimeout = setTimeout =>
-      @$.collectionLS.save()
-    , 1000
+    @collection.push imageData
+    clearTimeout @saveTimeout
+    @saveTimeout = setTimeout =>
+      localforage.setItem("collection", @collection)
+    , 250
     return
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
