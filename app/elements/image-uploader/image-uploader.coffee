@@ -2,8 +2,13 @@ Polymer 'image-uploader',
   imageType: /image.*/
   imageWidth: 300
   imageHeight: 467
-  ready: ->
-
+  addIcon: "add"
+  importCardHover: ->
+    @$.importCardButton.classList.toggle "hovering"
+    @addIcon = "create"
+  importCardHoverOut: ->
+    @$.importCardButton.classList.toggle "hovering"
+    @addIcon = "add"
   importCardClicked: ->
     @$.trueFileInput.click()
   fileImported: ->

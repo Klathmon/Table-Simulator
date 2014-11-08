@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/font-roboto/roboto.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
 
 
 <polymer-element name="image-uploader">
@@ -9,9 +10,13 @@
 
     <input id="trueFileInput" on-change="{{fileImported}}" type="file" multiple>
 
-    <paper-button raised on-click="{{importCardClicked}}">
-      <content></content>
-    </paper-button>
+    <paper-fab
+        id="importCardButton"
+        icon="{{addIcon}}"
+        on-mouseover="{{importCardHover}}"
+        on-mouseout="{{importCardHoverOut}}"
+        on-click="{{importCardClicked}}">
+    </paper-fab>
 
   </template>
   <!-- build:js image-uploader.js -->

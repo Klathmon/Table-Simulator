@@ -10,3 +10,11 @@
   visibility: none
   width: 0
   height: 0
+
+#importCardButton
+  &::shadow #icon
+    transition-property: transform
+    transition-duration: .3s
+    transform: rotate(180deg)
+  &.hovering::shadow #icon
+    transform: rotate(360deg)

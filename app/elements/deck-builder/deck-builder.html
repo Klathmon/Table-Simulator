@@ -40,7 +40,10 @@
         </core-menu>
       </core-header-panel>
 
-      <div tool>Deck Builder</div>
+      <div tool>
+        <div flex>Deck Builder</div>
+
+      </div>
 
       <div id="mainWindow" fit horizontal layout>
         <template bind if="{{selectedDeck !== undefined}}">
@@ -64,7 +67,7 @@
           <div class="window" id="collectionWindow" flex>
           </div>
           <div class="lowerActions" horizontal layout reverse>
-            <image-uploader>Add Card</image-uploader>
+            <image-uploader></image-uploader>
           </div>
         </div>
       </div>
