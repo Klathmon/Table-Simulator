@@ -1,5 +1,7 @@
 @import 'colors', 'mixins', 'placeholders', 'animations'
 
+$cardWidth: 100px
+
 \:host
   @include reset-font
   @include roboto-font
@@ -29,6 +31,5 @@ core-header-panel
   overflow-y: auto
   z-index: 0
   base-card
-    width: 100px
-    &.is-dragging
-      transition: all .07s
+    width: $cardWidth
+    perspective: 600
