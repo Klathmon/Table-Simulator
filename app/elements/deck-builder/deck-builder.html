@@ -14,11 +14,19 @@
 <link rel="import" href="../../bower_components/core-splitter/core-splitter.html">
 <link rel="import" href="../../bower_components/core-scaffold/core-scaffold.html">
 <link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
+<link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
 
 
 <polymer-element name="deck-builder">
   <template>
     <link rel="stylesheet" href="deck-builder.sass">
+
+    <core-localstorage
+        id="collectionLS"
+        name="my-collection"
+        value="{{collection}}"
+        on-core-localstorage-load="{{LSLoaded}}">
+    </core-localstorage>
 
     <paper-shadow z="5"></paper-shadow>
 
@@ -73,6 +81,7 @@
   </template>
   <!-- build:js deck-builder.js -->
   <script src="../../bower_components/packery/dist/packery.pkgd.js"></script>
+  <script src="../../scripts/includes/uuid.js"></script>
   <script src="deck-builder.coffee"></script>
   <!-- endbuild -->
 </polymer-element>

@@ -1,4 +1,6 @@
 Polymer 'deck-builder',
+  collection: {}
+  saveToLSTimeout: null
   ready: ->
     @decks = [
       {"name": "Deck 1"}
@@ -14,29 +16,34 @@ Polymer 'deck-builder',
     )
 
     @addEventListener 'new-image', (event)->
-      baseCard = document.createElement 'base-card'
-      baseCard.imageData = event.detail.imageData
-      baseCard.draggie.options.grid = [112, 172]
-      @addCardToWindow @$.collectionWindow, baseCard
-      setTimeout =>
-        @packie.layout()
-      ,500
+      @addCardToCollection event.detail.imageData
+      @addCardToWindow @$.collectionWindow, event.detail.imageData
+  LSLoaded: ->
+    for uuid, cardData of @collection
+      @addCardToWindow @$.collectionWindow, cardData
+    return
 
-    setTimeout =>
-      @packie.layout()
-    ,500
-  addCardToWindow: (containerWindow, card)->
-    @packie.bindDraggabillyEvents card.draggie
-    card.draggie.on 'dragEnd', =>
+  addCardToWindow: (containerWindow, imageData)->
+    baseCard = document.createElement 'base-card'
+    baseCard.imageData = imageData
+    baseCard.draggie.options.grid = [112, 172]
+    @packie.bindDraggabillyEvents baseCard.draggie
+    baseCard.draggie.on 'dragEnd', =>
       setTimeout =>
         @packie.layout()
       , 450
-    @$.collectionWindow.appendChild card
-    @packie.appended card
-  importFileButtonClicked: ->
-    @$.fileInput.click()
-  fileInputChanged: ->
-    @filename = @$.fileInput.$.input.files[0].name
+    @$.collectionWindow.appendChild baseCard
+    @packie.appended baseCard
+    setTimeout =>
+      @packie.layout()
+    ,500
+  addCardToCollection: (imageData)->
+    @collection[generateUUID()] = imageData
+    clearTimeout @saveToLSTimeout
+    @saveToLSTimeout = setTimeout =>
+      @$.collectionLS.save()
+    , 1000
+    return
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
     @packie.layout()
