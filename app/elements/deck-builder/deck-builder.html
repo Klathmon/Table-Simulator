@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/font-roboto/roboto.html">
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
 <link rel="import" href="../../bower_components/core-item/core-item.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../../bower_components/core-input/core-input.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
@@ -40,19 +41,24 @@
         </core-menu>
       </core-header-panel>
 
-      <div tool>
+      <div tool horizontal layout>
         <div flex>Deck Builder</div>
-
       </div>
 
       <div id="mainWindow" fit horizontal layout>
         <template bind if="{{selectedDeck !== undefined}}">
-          <div class="splitterWindow" >
+          <div class="splitterWindow" vertical layout>
+
             <div>
-              <h2>{{selectedDeck.label}}</h2>
+              <h2 contenteditable>{{selectedDeck.label}}</h2>
             </div>
-            <div class="window" id="deckWindow">
+
+            <div class="window" id="deckWindow" flex></div>
+
+            <div class="lowerActions" horizontal layout end>
+              <paper-fab class="deleteButton" icon="delete" mini></paper-fab>
             </div>
+
           </div>
           <core-splitter
               on-mouseup="{{splitterMouseUp}}"
@@ -61,14 +67,26 @@
           </core-splitter>
         </template>
         <div class="splitterWindow" flex vertical layout>
+
           <div>
             <h2>My Collection</h2>
           </div>
-          <div class="window" id="collectionWindow" flex>
-          </div>
-          <div class="lowerActions" horizontal layout reverse>
+
+          <div class="window" id="collectionWindow" flex></div>
+
+          <div class="lowerActions" horizontal layout end>
+            <div flex>
+              <paper-fab
+                  class="deleteButton"
+                  icon="delete"
+                  mini
+                  on-tap="{{deleteCollection}}"
+                  on-click="{{deleteCollection}}">
+              </paper-fab>
+            </div>
             <image-uploader></image-uploader>
           </div>
+
         </div>
       </div>
     </core-scaffold>

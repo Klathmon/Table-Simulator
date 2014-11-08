@@ -2,6 +2,7 @@ Polymer 'deck-builder',
   collection: []
   saveTimeout: null
   addCardTimeout: null
+  cloudSyncIcon: "colud-download"
   ready: ->
     @decks = [
       {"name": "Deck 1"}
@@ -23,7 +24,6 @@ Polymer 'deck-builder',
       @collection = collectionData if collectionData != null
       for cardData in @collection
         @addCardToWindow @$.collectionWindow, cardData
-      console.log @$.collectionWindow
       return
 
     @addEventListener 'new-image', (event)->
@@ -47,6 +47,10 @@ Polymer 'deck-builder',
       localforage.setItem("collection", @collection)
     , 250
     return
+  deleteCollection: ->
+    localforage.setItem("collection", null)
+    @packie.remove @$.collectionWindow.querySelectorAll 'base-card'
+    @packie.layout()
   initPackery: ->
     @packie = new Packery(@$.collectionWindow,
       itemSelector: "base-card"
