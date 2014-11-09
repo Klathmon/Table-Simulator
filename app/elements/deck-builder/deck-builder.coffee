@@ -113,6 +113,6 @@ Polymer 'deck-builder',
 
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
-    @packie.layout()
+    @layoutCards()
   splitterMouseUp: ->
     @layoutCards()
