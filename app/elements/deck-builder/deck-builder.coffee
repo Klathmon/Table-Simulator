@@ -6,6 +6,7 @@ Polymer 'deck-builder',
   collectionPacker: {}
   created: ->
     @deleteCollection()
+    return
   ready: ->
     @decks = [
       {"name": "Deck 1"}
@@ -22,6 +23,7 @@ Polymer 'deck-builder',
       @addCardToCollection event.detail.imageData
       @addCardToWindow @collectionPacker, event.detail.imageData
 
+    return
   getDataFromForage: (callback)->
     localforage.getItem("dataObject").then (dataObject)=>
       @dataObject = dataObject if dataObject != null
@@ -117,5 +119,7 @@ Polymer 'deck-builder',
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
     @layoutCards()
+    return
   splitterMouseUp: ->
     @layoutCards()
+    return
