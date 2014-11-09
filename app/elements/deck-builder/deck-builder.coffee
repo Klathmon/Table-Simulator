@@ -34,10 +34,13 @@ Polymer 'deck-builder',
       localforage.setItem("dataObject", @dataObject)
     , 250
     return
-  layoutCards: (packerObj)->
+  layoutCards: ()->
     clearTimeout @layoutTimeout
-    @layoutTimeout = setTimeout ->
-      packerObj.layout()
+    @layoutTimeout = setTimeout =>
+      try
+        @collectionPacker.layout()
+      try
+        @deckPacker.layout()
     ,500
     return
   addCardToDeck: (deckName, cardData)->
