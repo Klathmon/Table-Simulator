@@ -5,7 +5,9 @@ Polymer 'deck-builder',
   deckPacker: {}
   collectionPacker: {}
   created: ->
-    @deleteCollection()
+    @dataObject =
+      collection: []
+      decks: {}
     return
   ready: ->
     @decks = [
@@ -96,6 +98,8 @@ Polymer 'deck-builder',
     @dataObject =
       collection: []
       decks: {}
+    @loadCollection()
+    @saveDataToForage()
     return
   addCardToWindow: (packerObj, cardData)->
     baseCard = document.createElement 'base-card'
