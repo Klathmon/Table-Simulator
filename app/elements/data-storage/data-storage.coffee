@@ -21,7 +21,7 @@ Polymer 'data-storage',
   #  Fires the "deck added" event
   addDeck: (deckName)->
     localforage.setItem("Deck:" + deckName, []).then ->
-      @fireAsync 'CardAdded',
+      @fireAsync 'DeckAdded',
         deckName: deckName
     return
   # renameDeck renames the deck... All contents stay the same (and in the same order)
