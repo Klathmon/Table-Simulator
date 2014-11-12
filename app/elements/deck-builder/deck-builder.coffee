@@ -9,25 +9,24 @@ Polymer 'deck-builder',
       rowHeight: "base-card"
       gutter: 10
   ready: ->
-
     @collectionPacker = new Packery @$.collectionWindow, @packerOptions
 
     @$.dataStorage.listDecks().then (decks)=>
       @decks = decks
 
     @$.dataStorage.loadDeck @$.dataStorage.collectionDeckName
-
     return
   newImageUploaded: (event)->
+    # TODO: BUG: Currently this has a "race condition" if i try to add more than one card at a time
     @$.dataStorage.addCardToDeck @$.dataStorage.collectionDeckName, event.detail.imageData
     return
   cardAddedToDeck: (event)->
+    console.log "Thing Fired"
     if event.detail.deckName == @$.dataStorage.collectionDeckName
       @addCardToWindow @collectionPacker, event.detail.cardData
     return
   layoutCards: ()->
-    clearTimeout @layoutTimeout
-    @layoutTimeout = setTimeout =>
+    @job 'layoutCards', =>
       try
         @collectionPacker.layout()
       try
