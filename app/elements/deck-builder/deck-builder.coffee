@@ -14,15 +14,14 @@ Polymer 'deck-builder',
     @$.dataStorage.listDecks().then (decks)=>
       @decks = decks
 
-    @$.dataStorage.loadDeck @$.dataStorage.collectionDeckName
+    @$.dataStorage.loadDeck @$.dataStorage.collection
     return
   newImageUploaded: (event)->
     # TODO: BUG: Currently this has a "race condition" if i try to add more than one card at a time
-    @$.dataStorage.addCardToDeck @$.dataStorage.collectionDeckName, event.detail.imageData
+    @$.dataStorage.addCardToDeck @$.dataStorage.collection, event.detail.imageData
     return
   cardAddedToDeck: (event)->
-    console.log "Thing Fired"
-    if event.detail.deckName == @$.dataStorage.collectionDeckName
+    if event.detail.deckName == @$.dataStorage.collection
       @addCardToWindow @collectionPacker, event.detail.cardData
     return
   layoutCards: ()->

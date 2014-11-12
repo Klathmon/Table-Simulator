@@ -7,10 +7,21 @@
 # card-removed
 Polymer 'data-storage',
   deckPrefix: "Deck:"
-  collectionDeckName: "__COLLECTION"
+  collection: "__COLLECTION"
+  addCardQueue: {}
+  removeCardQueue: {}
+
+  ready: ->
+    localforage.config
+      name: "Table Simulator"
+      driver: localforage.INDEXDDB
+      version: "1.0"
+      description: "Storage of all card info and decks"
+    return
   # listDecks returns an array of deck names (not including the collection)
   #  returns an ES6 promise
   listDecks: ()->
+    localforage
     return new Promise (resolve, reject)=>
       localforage.keys().then (keys)=>
         decks = []
@@ -30,9 +41,14 @@ Polymer 'data-storage',
   #  Silently fails if the deck name does not exist
   #  fires the "deck deleted" regardless of if the deck exists or not
   deleteDeck: (deckName)->
-    localforage.removeItem(@deckPrefix + deckName).then =>
-      @asyncFire 'deck-deleted',
-        deckName: deckName
+    localforage.getItem(@deckPrefix + deckName).then (deck)=>
+      for cardData in deck
+        @asyncFire 'card-removed',
+          deckName: deckName
+          cardData: cardData
+      localforage.removeItem(@deckPrefix + deckName).then =>
+        @asyncFire 'deck-deleted',
+          deckName: deckName
     return
   # createDeck creates a deck with no cards in it
   #  TODO: Will add an incrementing number if the deckName already exists
@@ -47,7 +63,7 @@ Polymer 'data-storage',
   #  Fires the "deck renamed" event ONLY!
   renameDeck: (oldDeckName, newDeckName)->
     localforage.getItem(@deckPrefix + oldDeckName).then (deck)=>
-      localforage.setItem(@deckPrefix + newDeckName).then =>
+      localforage.setItem(@deckPrefix + newDeckName, deck).then =>
         localforage.removeItem(@deckPrefix + oldDeckName).then =>
           @asyncFire 'deck-renamed',
             deckName: newDeckName
@@ -56,26 +72,21 @@ Polymer 'data-storage',
     return
   # addCardToDeck does what it says. It will fire the "card added" event
   addCardToDeck: (deckName, cardData)->
-    localforage.getItem(@deckPrefix + deckName).then (deck)=>
-      try
-        deck.length
-      catch
-        deck = []
-      finally
-        deck.push cardData
-      localforage.setItem(@deckPrefix + deckName, deck).then =>
-        @asyncFire 'card-added',
-          deckName: deckName
-          cardData: cardData
+    @addCardQueue[deckName] = [] if @addCardQueue[deckName] == undefined
+    @addCardQueue[deckName].push cardData
+    @asyncFire 'card-added',
+      deckName: deckName
+      cardData: cardData
+    @persistDataToStorage()
     return
   # removeCardToDeck does what it says. It will fire the "card removed" event
   removeCardFromDeck: (deckName, cardData)=>
-    localforage.getItem(@deckPrefix + deckName).then (deck)=>
-      deck.splice deck.indexOf(cardData), 1
-      localforage.setItem(@deckPrefix + deckName, deck).then =>
-        @asyncFire 'card-removed',
-          deckName: deckName
-          cardData: cardData
+    @removeCardQueue[deckName] = [] if @removeCardQueue[deckName] == undefined
+    @removeCardQueue[deckName].push cardData
+    @asyncFire 'card-removed',
+      deckName: deckName
+      cardData: cardData
+    @persistDataToStorage()
     return
   # deleteCollection removes ALL decks from the system
   deleteCollection: ->
@@ -83,5 +94,27 @@ Polymer 'data-storage',
       decks = []
       for keyName in keys
         if keyName.indexOf @deckPrefix > -1
-          localforage.removeItem keyName
+          @deleteDeck keyName.substring @deckPrefix.length
+    return
+
+  persistDataToStorage: ->
+    @job 'processAddCardQueue', =>
+      for deckName, cardArray of @addCardQueue
+        localforage.getItem(@deckPrefix + deckName).then (deck)=>
+          for unused in cardArray
+            try
+              deck.length
+            catch
+              deck = []
+            finally
+              deck.push @addCardQueue[deckName].shift()
+          localforage.setItem(@deckPrefix + deckName, deck)
+    , 500
+    @job 'processRemoveCardQueue', =>
+      for deckName, cardArray of @removeCardQueue
+        localforage.getItem(@deckPrefix + deckName).then (deck)=>
+          for unused in cardArray
+            deck.splice deck.indexOf(@removeCardQueue[deckName].shift()), 1
+          localforage.setItem(@deckPrefix + deckName, deck)
+    , 500
     return
