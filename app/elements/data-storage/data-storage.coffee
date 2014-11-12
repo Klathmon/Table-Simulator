@@ -110,16 +110,12 @@ Polymer 'data-storage',
           localforage.setItem(@deckPrefix + deckName, deck)
     , 500
     @job 'processRenameDeckQueue', =>
-      console.log "Firing rename deck job"
       recursiveRenameDeck = =>
         try
           deckNames = @renameDeckQueue.shift()
           localforage.getItem(@deckPrefix + deckNames[0]).then (deck)=>
-            console.log "got " + deckNames[0]
             localforage.setItem(@deckPrefix + deckNames[1], deck).then =>
-              console.log "saved as " + deckNames[1]
               localforage.removeItem(@deckPrefix + deckNames[0]).then =>
-                console.log "deleted " + deckNames[0]
                 recursiveRenameDeck()
         catch
           @asyncFire 'deck-renamed'
