@@ -26,8 +26,9 @@ Polymer 'data-storage',
       localforage.keys().then (keys)=>
         decks = []
         for keyName in keys
-          if keyName.indexOf @deckPrefix > -1
-            decks.push keyName.substring @deckPrefix.length
+          if keyName.indexOf(@deckPrefix) > -1
+            if keyName.indexOf(@collection) == -1
+              decks.push keyName.substring @deckPrefix.length
         resolve decks
   # loadDeck runs the "card added" event for each card in the given deck
   loadDeck: (deckName)->
@@ -41,14 +42,9 @@ Polymer 'data-storage',
   #  Silently fails if the deck name does not exist
   #  fires the "deck deleted" regardless of if the deck exists or not
   deleteDeck: (deckName)->
-    localforage.getItem(@deckPrefix + deckName).then (deck)=>
-      for cardData in deck
-        @asyncFire 'card-removed',
-          deckName: deckName
-          cardData: cardData
-      localforage.removeItem(@deckPrefix + deckName).then =>
-        @asyncFire 'deck-deleted',
-          deckName: deckName
+    localforage.removeItem(@deckPrefix + deckName).then =>
+      @asyncFire 'deck-deleted',
+        deckName: deckName
     return
   # createDeck creates a deck with no cards in it
   #  TODO: Will add an incrementing number if the deckName already exists

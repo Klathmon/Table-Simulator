@@ -16,14 +16,24 @@ Polymer 'deck-builder',
 
     @$.dataStorage.loadDeck @$.dataStorage.collection
     return
+
+#######EVENTS#######
   newImageUploaded: (event)->
-    # TODO: BUG: Currently this has a "race condition" if i try to add more than one card at a time
     @$.dataStorage.addCardToDeck @$.dataStorage.collection, event.detail.imageData
     return
   cardAddedToDeck: (event)->
     if event.detail.deckName == @$.dataStorage.collection
       @addCardToWindow @collectionPacker, event.detail.cardData
     return
+  deckAdded: (event)->
+    @decks.push event.detail.deckName
+    return
+#####END-EVENTS#####
+
+  addNewDeck: ()->
+    @$.dataStorage.addDeck "Click here to change Deck name"
+    return
+
   layoutCards: ()->
     @job 'layoutCards', =>
       try
@@ -31,56 +41,6 @@ Polymer 'deck-builder',
       try
         @deckPacker.layout()
     ,500
-    return
-  addCardToDeck: (deckName, cardData)->
-    @dataObject.decks["deckName"].push cardData
-    @saveDataToForage()
-    return
-  removeCardFromDeck: (deckName, cardData)->
-    deckArray = @dataObject.decks[deckName]
-    for index, value in deckArray
-      deckArray.splice(index, 1) if value == cardData
-      break
-    @saveDataToForage()
-    return
-  loadDeck: (deckName)->
-    try
-      @clearWindow @deckPacker
-      @deckPacker.destroy()
-    @deckPacker = new Packery @$.deckWindow, @packerOptions
-    for cardInfo in @dataObject.decks[deckName]
-      @addCardToWindow @deckPacker, cardInfo
-    return
-  deleteDeck: (deckName)->
-    delete @dataObject[deckName]
-    @saveDataToForage()
-    return
-  addCardToCollection: (cardData)->
-    @dataObject.collection.push cardData
-    @saveDataToForage()
-    return
-  removeCardFromCollection: (cardData)->
-    for index, value in @dataObject.collection
-      @dataObject.collection.splice(index, 1) if value == cardData
-      for key, value of @dataObject.decks
-        @removeCardFromDeck key, cardData
-      break
-    @saveDataToForage()
-    return
-  loadCollection: ->
-    try
-      @clearWindow @collectionPacker
-      @collectionPacker.destroy()
-    @collectionPacker = new Packery @$.collectionWindow,
-      itemSelector: "base-card"
-      columnWidth: "base-card"
-      rowHeight: "base-card"
-      gutter: 10
-    for cardInfo in @dataObject.collection
-      @addCardToWindow @collectionPacker, cardInfo
-    return
-  deleteCollection: ->
-    @$.dataStorage.deleteCollection()
     return
   addCardToWindow: (packerObj, cardData)->
     baseCard = document.createElement 'base-card'
