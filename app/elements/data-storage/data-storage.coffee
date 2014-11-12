@@ -7,6 +7,17 @@
 # CardRemoved
 Polymer 'data-storage',
   deckPrefix: "Deck:"
+  collectionDeckName: "__COLLECTION"
+  # listDecks returns an array of deck names (not including the collection)
+  #  returns an ES6 promise
+  listDecks: ()->
+    return new Promise (resolve, reject)->
+      localforage.keys().then (keys)->
+        decks = []
+        for keyName in keys
+          if keyName.indexOf @deckPrefix > -1
+            decks.push keyName.substring @deckPrefix.length
+        resolve decks
   # loadDeck runs the "card added" event for each card in the given deck
   loadDeck: (deckName)->
     localForage.getItem(@deckPrefix + deckName).then (deck)->
@@ -40,6 +51,8 @@ Polymer 'data-storage',
         localForage.removeItem(@deckPrefix + oldDeckName).then ->
           @fireAsync 'DeckRenamed',
             deckName: newDeckName
+            newDeckName: newDeckName
+            oldDeckName: oldDeckName
     return
   # addCardToDeck does what it says. It will fire the "card added" event
   addCardToDeck: (deckName, cardData)->
