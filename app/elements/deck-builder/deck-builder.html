@@ -1,5 +1,6 @@
 <link rel="import" href="../base-card/base-card.html">
 <link rel="import" href="../image-uploader/image-uploader.html">
+<link rel="import" href="../data-storage/data-storage.html">
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/font-roboto/roboto.html">
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
@@ -17,9 +18,14 @@
 <link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
 
 
-<polymer-element name="deck-builder">
+<polymer-element name="deck-builder" on-new-image="{{newImageUploaded}}">
   <template>
     <link rel="stylesheet" href="deck-builder.sass">
+
+    <data-storage
+        id="dataStorage"
+        on-card-added={{cardAddedToDeck}}>
+    </data-storage>
 
     <paper-shadow z="5"></paper-shadow>
 
@@ -32,8 +38,12 @@
             selectedItem="{{selectedDeck}}"
             on-core-activate="{{menuItemSelected}}">
 
-          <template class="window" id="deckList" repeat="{{ deck in decks }}">
-            <paper-item icon="content-copy" label="{{deck.name}}"></paper-item>
+          <template class="window" id="deckList" repeat="{{ deckName in decks }}">
+            <paper-item
+                icon="content-copy"
+                label="{{deckName}}"
+                on-tap="{{selectDeck}}">
+            </paper-item>
           </template>
 
           <paper-item icon="add-circle" label="Add New Deck"></paper-item>

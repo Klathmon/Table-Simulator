@@ -1,10 +1,10 @@
 #
 # Events:
-# DeckAdded
-# DeckDeleted
-# DeckRenamed
-# CardAdded
-# CardRemoved
+# deck-added
+# deck-deleted
+# deck-renamed
+# card-added
+# card-removed
 Polymer 'data-storage',
   deckPrefix: "Deck:"
   collectionDeckName: "__COLLECTION"
@@ -22,7 +22,7 @@ Polymer 'data-storage',
   loadDeck: (deckName)->
     localforage.getItem(@deckPrefix + deckName).then (deck)=>
       for cardData in deck
-        @fireAsync 'CardAdded',
+        @asyncFire 'card-added',
           deckName: deckName
           cardData: cardData
     return
@@ -31,7 +31,7 @@ Polymer 'data-storage',
   #  fires the "deck deleted" regardless of if the deck exists or not
   deleteDeck: (deckName)->
     localforage.removeItem(@deckPrefix + deckName).then =>
-      @fireAsync 'DeckDeleted',
+      @asyncFire 'deck-deleted',
         deckName: deckName
     return
   # createDeck creates a deck with no cards in it
@@ -39,7 +39,7 @@ Polymer 'data-storage',
   #  Fires the "deck added" event
   addDeck: (deckName)->
     localforage.setItem(@deckPrefix + deckName, []).then =>
-      @fireAsync 'DeckAdded',
+      @asyncFire 'deck-added',
         deckName: deckName
     return
   # renameDeck renames the deck... All contents stay the same (and in the same order)
@@ -49,7 +49,7 @@ Polymer 'data-storage',
     localforage.getItem(@deckPrefix + oldDeckName).then (deck)=>
       localforage.setItem(@deckPrefix + newDeckName).then =>
         localforage.removeItem(@deckPrefix + oldDeckName).then =>
-          @fireAsync 'DeckRenamed',
+          @asyncFire 'deck-renamed',
             deckName: newDeckName
             newDeckName: newDeckName
             oldDeckName: oldDeckName
@@ -57,9 +57,14 @@ Polymer 'data-storage',
   # addCardToDeck does what it says. It will fire the "card added" event
   addCardToDeck: (deckName, cardData)->
     localforage.getItem(@deckPrefix + deckName).then (deck)=>
-      deck.push cardData
+      try
+        deck.length
+      catch
+        deck = []
+      finally
+        deck.push cardData
       localforage.setItem(@deckPrefix + deckName, deck).then =>
-        @fireAsync 'CardAdded',
+        @asyncFire 'card-added',
           deckName: deckName
           cardData: cardData
     return
@@ -68,7 +73,15 @@ Polymer 'data-storage',
     localforage.getItem(@deckPrefix + deckName).then (deck)=>
       deck.splice deck.indexOf(cardData), 1
       localforage.setItem(@deckPrefix + deckName, deck).then =>
-        @fireAsync 'CardRemoved',
+        @asyncFire 'card-removed',
           deckName: deckName
           cardData: cardData
+    return
+  # deleteCollection removes ALL decks from the system
+  deleteCollection: ->
+    localforage.keys().then (keys)=>
+      decks = []
+      for keyName in keys
+        if keyName.indexOf @deckPrefix > -1
+          localforage.removeItem keyName
     return

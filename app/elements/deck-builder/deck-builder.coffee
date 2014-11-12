@@ -1,30 +1,29 @@
 Polymer 'deck-builder',
-  dataObject: {}
-  saveToForageTimeout: null
-  layoutTimeout: null
   deckPacker: {}
   collectionPacker: {}
+  packerOptions: {}
   created: ->
-    @dataObject =
-      collection: []
-      decks: {}
-    return
+    @packerOptions =
+      itemSelector: "base-card"
+      columnWidth: "base-card"
+      rowHeight: "base-card"
+      gutter: 10
   ready: ->
-    @decks = [
-      {"name": "Deck 1"}
-      {"name": "Deck 2"}
-      {"name": "Deck 3"}
-    ]
 
-    ##BELOW THIS IS REAL CODE!
+    @collectionPacker = new Packery @$.collectionWindow, @packerOptions
 
-    @getDataFromForage @loadCollection
+    @$.dataStorage.listDecks().then (decks)=>
+      @decks = decks
 
+    @$.dataStorage.loadDeck @$.dataStorage.collectionDeckName
 
-    @addEventListener 'new-image', (event)->
-      @addCardToCollection event.detail.imageData
-      @addCardToWindow @collectionPacker, event.detail.imageData
-
+    return
+  newImageUploaded: (event)->
+    @$.dataStorage.addCardToDeck @$.dataStorage.collectionDeckName, event.detail.imageData
+    return
+  cardAddedToDeck: (event)->
+    if event.detail.deckName == @$.dataStorage.collectionDeckName
+      @addCardToWindow @collectionPacker, event.detail.cardData
     return
   layoutCards: ()->
     clearTimeout @layoutTimeout
@@ -83,11 +82,7 @@ Polymer 'deck-builder',
       @addCardToWindow @collectionPacker, cardInfo
     return
   deleteCollection: ->
-    @dataObject =
-      collection: []
-      decks: {}
-    @loadCollection()
-    @saveDataToForage()
+    @$.dataStorage.deleteCollection()
     return
   addCardToWindow: (packerObj, cardData)->
     baseCard = document.createElement 'base-card'
