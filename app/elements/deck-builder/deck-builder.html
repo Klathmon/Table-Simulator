@@ -25,7 +25,8 @@
     <data-storage
         id="dataStorage"
         on-card-added={{cardAddedToDeck}}
-        on-deck-added={{deckAdded}}>
+        on-deck-added={{deckAdded}}
+        on-deck-renamed={{loadDeckList}}>
     </data-storage>
 
     <paper-shadow z="5"></paper-shadow>
@@ -35,8 +36,8 @@
         <core-toolbar>Decks:</core-toolbar>
         <core-menu
             theme="core-light-theme"
-            selected="-1"
-            selectedItem="{{selectedDeck}}"
+            valueattr="label"
+            selected="{{selectedDeck}}"
             on-core-activate="{{menuItemSelected}}">
 
           <template class="window" id="deckList" repeat="{{ deckName in decks }}">
@@ -61,11 +62,14 @@
       </div>
 
       <div id="mainWindow" fit horizontal layout>
-        <template bind if="{{selectedDeck !== undefined}}">
+        <template bind if="{{selectedDeck !== ''}}">
           <div class="splitterWindow" vertical layout>
 
             <div>
-              <h2 contenteditable>{{selectedDeck.label}}</h2>
+              <input
+                  id="deckName"
+                  type="text"
+                  value="{{selectedDeck}}">
             </div>
 
             <div class="window" id="deckWindow" flex></div>

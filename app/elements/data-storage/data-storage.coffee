@@ -10,7 +10,7 @@ Polymer 'data-storage',
   collection: "__COLLECTION"
   addCardQueue: {}
   removeCardQueue: {}
-
+  renameDeckQueue: []
   ready: ->
     localforage.config
       name: "Table Simulator"
@@ -58,13 +58,9 @@ Polymer 'data-storage',
   #  TODO: Will add an incrementing number if the deckName already exists
   #  Fires the "deck renamed" event ONLY!
   renameDeck: (oldDeckName, newDeckName)->
-    localforage.getItem(@deckPrefix + oldDeckName).then (deck)=>
-      localforage.setItem(@deckPrefix + newDeckName, deck).then =>
-        localforage.removeItem(@deckPrefix + oldDeckName).then =>
-          @asyncFire 'deck-renamed',
-            deckName: newDeckName
-            newDeckName: newDeckName
-            oldDeckName: oldDeckName
+    @renameDeckQueue = [] if @renameDeckQueue == undefined
+    @renameDeckQueue.push([oldDeckName, newDeckName])
+    @persistDataToStorage()
     return
   # addCardToDeck does what it says. It will fire the "card added" event
   addCardToDeck: (deckName, cardData)->
@@ -112,5 +108,21 @@ Polymer 'data-storage',
           for unused in cardArray
             deck.splice deck.indexOf(@removeCardQueue[deckName].shift()), 1
           localforage.setItem(@deckPrefix + deckName, deck)
+    , 500
+    @job 'processRenameDeckQueue', =>
+      console.log "Firing rename deck job"
+      recursiveRenameDeck = =>
+        try
+          deckNames = @renameDeckQueue.shift()
+          localforage.getItem(@deckPrefix + deckNames[0]).then (deck)=>
+            console.log "got " + deckNames[0]
+            localforage.setItem(@deckPrefix + deckNames[1], deck).then =>
+              console.log "saved as " + deckNames[1]
+              localforage.removeItem(@deckPrefix + deckNames[0]).then =>
+                console.log "deleted " + deckNames[0]
+                recursiveRenameDeck()
+        catch
+          @asyncFire 'deck-renamed'
+      recursiveRenameDeck()
     , 500
     return

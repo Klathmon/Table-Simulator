@@ -1,6 +1,7 @@
 Polymer 'deck-builder',
   deckPacker: {}
   collectionPacker: {}
+  selectedDeck: ""
   packerOptions: {}
   created: ->
     @packerOptions =
@@ -11,13 +12,16 @@ Polymer 'deck-builder',
   ready: ->
     @collectionPacker = new Packery @$.collectionWindow, @packerOptions
 
-    @$.dataStorage.listDecks().then (decks)=>
-      @decks = decks
+    @loadDeckList()
 
     @$.dataStorage.loadDeck @$.dataStorage.collection
     return
 
 #######EVENTS#######
+  loadDeckList: ->
+    @$.dataStorage.listDecks().then (decks)=>
+      @decks = decks
+    return
   newImageUploaded: (event)->
     @$.dataStorage.addCardToDeck @$.dataStorage.collection, event.detail.imageData
     return
@@ -32,6 +36,9 @@ Polymer 'deck-builder',
 
   addNewDeck: ()->
     @$.dataStorage.addDeck "Click here to change Deck name"
+    return
+  selectedDeckChanged: (oldDeckName, newDeckName)->
+    @$.dataStorage.renameDeck oldDeckName, newDeckName
     return
 
   layoutCards: ()->
