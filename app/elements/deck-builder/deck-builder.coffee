@@ -37,8 +37,12 @@ Polymer 'deck-builder',
   addNewDeck: ()->
     @$.dataStorage.addDeck "Click here to change Deck name"
     return
-  selectedDeckChanged: (oldDeckName, newDeckName)->
-    @$.dataStorage.renameDeck oldDeckName, newDeckName
+  selectedDeckChanged: ->
+    @deckName = @selectedDeck
+    return
+  deckNameChanged: (oldDeckName, newDeckName)->
+    if @deckName != @selectedDeck
+      @$.dataStorage.renameDeck oldDeckName, newDeckName
     return
 
   layoutCards: ()->

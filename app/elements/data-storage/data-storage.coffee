@@ -58,6 +58,9 @@ Polymer 'data-storage',
   #  TODO: Will add an incrementing number if the deckName already exists
   #  Fires the "deck renamed" event ONLY!
   renameDeck: (oldDeckName, newDeckName)->
+    console.log oldDeckName + "     " + newDeckName
+    return if oldDeckName == "" or newDeckName == ""
+    return if oldDeckName == undefined or newDeckName == undefined
     @renameDeckQueue = [] if @renameDeckQueue == undefined
     @renameDeckQueue.push([oldDeckName, newDeckName])
     @persistDataToStorage()
