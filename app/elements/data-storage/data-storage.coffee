@@ -12,10 +12,17 @@ Polymer 'data-storage',
   loadDeck: (deckName)->
     return
   # deleteDeck deletes the deck and all cards within it
+  #  Silently fails if the deck name does not exist
+  #  fires the "deck deleted" regardless of if the deck exists or not
   deleteDeck: (deckName)->
     return
   # createDeck creates a deck with no cards in it
-  createDeck: (deckName)->
+  #  TODO: Will add an incrementing number if the deckName already exists
+  #  Fires the "deck added" event
+  addDeck: (deckName)->
+    localforage.setItem("Deck:" + deckName, []).then ->
+      @fireAsync 'CardAdded',
+        deckName: deckName
     return
   # renameDeck renames the deck... All contents stay the same (and in the same order)
   renameDeck: (oldDeckName, newDeckName)->
