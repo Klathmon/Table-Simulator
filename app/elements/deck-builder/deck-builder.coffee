@@ -26,18 +26,6 @@ Polymer 'deck-builder',
       @addCardToWindow @collectionPacker, event.detail.imageData
 
     return
-  getDataFromForage: (callback)->
-    localforage.getItem("dataObject").then (dataObject)=>
-      @dataObject = dataObject if dataObject != null
-      callback.bind(@)()
-
-    return
-  saveDataToForage: ->
-    clearTimeout @saveToForageTimeout
-    @saveToForageTimeout = setTimeout =>
-      localforage.setItem("dataObject", @dataObject)
-    , 250
-    return
   layoutCards: ()->
     clearTimeout @layoutTimeout
     @layoutTimeout = setTimeout =>
