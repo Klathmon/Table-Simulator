@@ -19,18 +19,14 @@ Polymer 'builder-card',
       @hoverCard.draggie.disable()
       @hoverCard.style.width = cardComputedStyle.getPropertyValue "width"
       @hoverCard.style.position = 'absolute'
-      @hoverCard.style['z-index'] = '5000'
+      @hoverCard.style['z-index'] = '-50'
       @setXYPos pointer.pageX, pointer.pageY
       document.body.appendChild @hoverCard
-
     @draggie.on 'dragMove', (dragIns, event, pointer)=>
+      @hoverCard.style['z-index'] = '5000'
       @setXYPos pointer.pageX, pointer.pageY
     @draggie.on 'dragEnd', (dragIns, event, pointer)=>
       @hoverCard.parentElement.removeChild @hoverCard
-    return
-
-  zoomCard: ->
-    @super()
     return
 
   setXYPos: (pageX, pageY)->
