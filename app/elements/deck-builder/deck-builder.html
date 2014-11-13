@@ -62,30 +62,30 @@
       </div>
 
       <div id="mainWindow" fit horizontal layout>
-        <template bind if="{{selectedDeck !== ''}}">
-          <div class="splitterWindow" vertical layout>
+        <div id="deckSplitterWindow" class="splitterWindow hideMe" vertical layout>
 
-            <div>
-              <paper-input
-                  id="deckName"
-                  type="text"
-                  value="{{deckName}}">
-              </paper-input>
-            </div>
-
-            <div class="window" id="deckWindow" flex></div>
-
-            <div class="lowerActions" horizontal layout end>
-              <paper-fab class="deleteButton" icon="delete" mini></paper-fab>
-            </div>
-
+          <div>
+            <paper-input
+                id="deckName"
+                type="text"
+                value="{{deckName}}">
+            </paper-input>
           </div>
-          <core-splitter
-              on-mouseup="{{splitterMouseUp}}"
-              on-touchend="{{splitterMouseUp}}"
-              direction="left">
-          </core-splitter>
-        </template>
+
+          <div class="window" id="deckWindow" flex></div>
+
+          <div class="lowerActions" horizontal layout end>
+            <paper-fab class="deleteButton" icon="delete" mini></paper-fab>
+          </div>
+
+        </div>
+        <core-splitter
+            id="splitter"
+            class="hideMe"
+            on-mouseup="{{splitterMouseUp}}"
+            on-touchend="{{splitterMouseUp}}"
+            direction="left">
+        </core-splitter>
         <div class="splitterWindow" flex vertical layout>
 
           <div>

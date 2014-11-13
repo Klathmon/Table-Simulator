@@ -20,8 +20,14 @@ $cardWidth: 100px
 
 core-header-panel
   z-index: 1000
+  core-menu paper-item
+    width: 100%
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
 
 .splitterWindow
+  width: 45%
   padding: 2%
 
 .lowerActions
@@ -41,3 +47,6 @@ core-header-panel
   @include roboto-font
   font-size: 1.5em
   width: 100%
+
+.hideMe
+  display: none !important

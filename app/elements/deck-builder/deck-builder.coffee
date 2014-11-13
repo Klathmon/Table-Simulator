@@ -11,10 +11,10 @@ Polymer 'deck-builder',
       gutter: 8
   ready: ->
     @loadDeck @$.dataStorage.collection
-
     @loadDeckList()
     return
 
+#### BOUND EVENTS ####
   loadDeckList: ->
     @$.dataStorage.listDecks().then (decks)=>
       @decks = decks
@@ -22,24 +22,43 @@ Polymer 'deck-builder',
   newImageUploaded: (event)->
     @$.dataStorage.addCardToDeck @$.dataStorage.collection, event.detail.imageData
     return
+  newCardAdded: (event)->
+    @$.dataStorage.addCardToDeck @selectedDeck, event.detail.imageData
+    return
   cardAddedToDeck: (event)->
     if event.detail.deckName == @$.dataStorage.collection
       @addCardToWindow @collectionPacker, event.detail.cardData
+    else
+      @addCardToWindow @deckPacker, event.detail.cardData
     return
   deckAdded: (event)->
     @decks.push event.detail.deckName
+    @selectedDeck = event.detail.deckName
     return
-
+  menuItemSelected: ->
+    @$.scaffold.closeDrawer()
+    @layoutCards()
+    @loadDeck @selectedDeck
+    return
+  splitterMouseUp: ->
+    @layoutCards()
+    return
   addNewDeck: ()->
     @$.dataStorage.addDeck "Click here to change Deck name"
     return
+#### END BOUND EVENTS ####
+
+#### CHANGED WATCHERS ####
   selectedDeckChanged: ->
+    @$.splitter.classList.remove 'hideMe'
+    @$.deckSplitterWindow.classList.remove 'hideMe'
     @deckName = @selectedDeck
     return
   deckNameChanged: (oldDeckName, newDeckName)->
     if @deckName != @selectedDeck
       @$.dataStorage.renameDeck oldDeckName, newDeckName
     return
+#### END CHANGED WATCHERS ####
 
 
   loadDeck: (deckName)->
@@ -52,17 +71,8 @@ Polymer 'deck-builder',
       try
         @clearWindow @deckPacker
         @deckPacker.destroy()
-      @deckPacker = new Packery @$.collectionWindow, @packerOptions
+      @deckPacker = new Packery @$.deckWindow, @packerOptions
     @$.dataStorage.loadDeck deckName
-    return
-
-  layoutCards: ()->
-    @job 'layoutCards', =>
-      try
-        @collectionPacker.layout()
-      try
-        @deckPacker.layout()
-    ,500
     return
   addCardToWindow: (packerObj, cardData)->
     baseCard = document.createElement 'builder-card'
@@ -82,11 +92,11 @@ Polymer 'deck-builder',
   clearWindow: (packerObj)->
     packerObj.remove packerObj.getItemElements()
     return
-
-  menuItemSelected: ->
-    @$.scaffold.closeDrawer()
-    @layoutCards()
-    return
-  splitterMouseUp: ->
-    @layoutCards()
+  layoutCards: ()->
+    @job 'layoutCards', =>
+      try
+        @collectionPacker.layout()
+      try
+        @deckPacker.layout()
+    ,500
     return
