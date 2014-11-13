@@ -8,13 +8,11 @@ Polymer 'deck-builder',
       itemSelector: "builder-card"
       columnWidth: "builder-card"
       rowHeight: "builder-card"
-      gutter: 10
+      gutter: 8
   ready: ->
-    @collectionPacker = new Packery @$.collectionWindow, @packerOptions
+    @loadDeck @$.dataStorage.collection
 
     @loadDeckList()
-
-    @$.dataStorage.loadDeck @$.dataStorage.collection
     return
 
   loadDeckList: ->
@@ -41,6 +39,21 @@ Polymer 'deck-builder',
   deckNameChanged: (oldDeckName, newDeckName)->
     if @deckName != @selectedDeck
       @$.dataStorage.renameDeck oldDeckName, newDeckName
+    return
+
+
+  loadDeck: (deckName)->
+    if deckName == @$.dataStorage.collection
+      try
+        @clearWindow @collectionPacker
+        @collectionPacker.destroy()
+      @collectionPacker = new Packery @$.collectionWindow, @packerOptions
+    else
+      try
+        @clearWindow @deckPacker
+        @deckPacker.destroy()
+      @deckPacker = new Packery @$.collectionWindow, @packerOptions
+    @$.dataStorage.loadDeck deckName
     return
 
   layoutCards: ()->
