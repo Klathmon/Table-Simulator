@@ -5,9 +5,9 @@ Polymer 'deck-builder',
   packerOptions: {}
   created: ->
     @packerOptions =
-      itemSelector: "base-card"
-      columnWidth: "base-card"
-      rowHeight: "base-card"
+      itemSelector: "builder-card"
+      columnWidth: "builder-card"
+      rowHeight: "builder-card"
       gutter: 10
   ready: ->
     @collectionPacker = new Packery @$.collectionWindow, @packerOptions
@@ -17,7 +17,6 @@ Polymer 'deck-builder',
     @$.dataStorage.loadDeck @$.dataStorage.collection
     return
 
-#######EVENTS#######
   loadDeckList: ->
     @$.dataStorage.listDecks().then (decks)=>
       @decks = decks
@@ -32,7 +31,6 @@ Polymer 'deck-builder',
   deckAdded: (event)->
     @decks.push event.detail.deckName
     return
-#####END-EVENTS#####
 
   addNewDeck: ()->
     @$.dataStorage.addDeck "Click here to change Deck name"
@@ -54,7 +52,7 @@ Polymer 'deck-builder',
     ,500
     return
   addCardToWindow: (packerObj, cardData)->
-    baseCard = document.createElement 'base-card'
+    baseCard = document.createElement 'builder-card'
     baseCard.imageData = cardData
     packerObj.bindDraggabillyEvents baseCard.draggie
     packerObj.element.appendChild baseCard

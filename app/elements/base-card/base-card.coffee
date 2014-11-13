@@ -1,4 +1,5 @@
 Polymer 'base-card',
+  draggie: {}
   created: ->
     @setZindex()
   ready: ->

@@ -1,0 +1,19 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../base-card/base-card.html">
+
+
+<polymer-element
+    name="builder-card"
+    extends="base-card"
+    attributes="imageData">
+  <template>
+    <link rel="stylesheet" href="builder-card.sass">
+
+    <shadow></shadow>
+
+  </template>
+  <!-- build:js builder-card.js -->
+  <script src="../../bower_components/draggabilly/dist/draggabilly.pkgd.js"></script>
+  <script src="builder-card.coffee"></script>
+  <!-- endbuild -->
+</polymer-element>
