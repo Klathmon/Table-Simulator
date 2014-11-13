@@ -12,6 +12,9 @@ Polymer 'deck-builder',
   ready: ->
     @loadDeck @$.dataStorage.collection
     @loadDeckList()
+    @.addEventListener 'dragEnd', (event)=>
+      console.log "Something stopped being dragged on this!"
+      console.log event.detail
     return
 
 #### BOUND EVENTS ####
