@@ -27,9 +27,9 @@ Polymer 'deck-builder',
     return
   cardAddedToDeck: (event)->
     if event.detail.deckName == @$.dataStorage.collection
-      @async(@addCardToWindow @collectionPacker, event.detail.cardData)
+      @addCardToWindow @collectionPacker, event.detail.cardData
     else
-      @async(@addCardToWindow @deckPacker, event.detail.cardData)
+      @addCardToWindow @deckPacker, event.detail.cardData
     return
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
