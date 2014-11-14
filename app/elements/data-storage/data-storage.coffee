@@ -11,6 +11,7 @@ Polymer 'data-storage',
   addCardQueue: {}
   removeCardQueue: {}
   renameDeckQueue: []
+  saveToLSDelay: 500
   ready: ->
     localforage.config
       name: "Table Simulator"
@@ -31,54 +32,72 @@ Polymer 'data-storage',
               decks.push keyName.substring @deckPrefix.length
         resolve decks
   # loadDeck runs the "card added" event for each card in the given deck
-  loadDeck: (deckName)->
-    localforage.getItem(@deckPrefix + deckName).then (deck)=>
-      for cardData in deck
+  loadDeck: (deckGUID)->
+    localforage.getItem(@deckPrefix + deckGUID).then (deck)=>
+      console.log deck
+      if deck == null and deckGUID = @collection
+        @addDeck @collection
+        @loadDeck()
+        return
+      deckName = deck.deckName
+      cardList = deck.cards
+      for cardData in cardList
         @asyncFire 'card-added',
+          deckGUID: deckGUID
           deckName: deckName
           cardData: cardData
     return
   # deleteDeck deletes the deck and all cards within it
   #  Silently fails if the deck name does not exist
   #  fires the "deck deleted" regardless of if the deck exists or not
-  deleteDeck: (deckName)->
-    localforage.removeItem(@deckPrefix + deckName).then =>
+  deleteDeck: (deckGUID)->
+    localforage.removeItem(@deckPrefix + deckGUID).then =>
       @asyncFire 'deck-deleted',
-        deckName: deckName
+        deckGUID: deckGUID
     return
   # createDeck creates a deck with no cards in it
   #  TODO: Will add an incrementing number if the deckName already exists
   #  Fires the "deck added" event
   addDeck: (deckName)->
-    localforage.setItem(@deckPrefix + deckName, []).then =>
+    if deckName = @collection
+      deckGUID = @collection
+      storedDeckName = ''
+    else
+      deckGUID = @generateGUID()
+      storedDeckName = deckName
+    deckData =
+      deckName: storedDeckName
+      cards: []
+
+    localforage.setItem(@deckPrefix + deckGUID, deckData).then =>
       @asyncFire 'deck-added',
+        deckGUID: deckGUID
         deckName: deckName
     return
   # renameDeck renames the deck... All contents stay the same (and in the same order)
   #  TODO: Will add an incrementing number if the deckName already exists
   #  Fires the "deck renamed" event ONLY!
-  renameDeck: (oldDeckName, newDeckName)->
-    return if oldDeckName == "" or newDeckName == ""
-    return if oldDeckName == undefined or newDeckName == undefined
+  renameDeck: (deckGUID, newDeckName)->
+    return if newDeckName == "" or newDeckName == undefined
     @renameDeckQueue = [] if @renameDeckQueue == undefined
-    @renameDeckQueue.push([oldDeckName, newDeckName])
+    @renameDeckQueue.push([deckGUID, newDeckName])
     @persistDataToStorage()
     return
   # addCardToDeck does what it says. It will fire the "card added" event
-  addCardToDeck: (deckName, cardData)->
-    @addCardQueue[deckName] = [] if @addCardQueue[deckName] == undefined
-    @addCardQueue[deckName].push cardData
+  addCardToDeck: (deckGUID, cardData)->
+    @addCardQueue[deckGUID] = [] if @addCardQueue[deckGUID] == undefined
+    @addCardQueue[deckGUID].push cardData
     @asyncFire 'card-added',
-      deckName: deckName
+      deckGUID: deckGUID
       cardData: cardData
     @persistDataToStorage()
     return
   # removeCardToDeck does what it says. It will fire the "card removed" event
-  removeCardFromDeck: (deckName, cardData)=>
-    @removeCardQueue[deckName] = [] if @removeCardQueue[deckName] == undefined
-    @removeCardQueue[deckName].push cardData
+  removeCardFromDeck: (deckGUID, cardData)=>
+    @removeCardQueue[deckGUID] = [] if @removeCardQueue[deckGUID] == undefined
+    @removeCardQueue[deckGUID].push cardData
     @asyncFire 'card-removed',
-      deckName: deckName
+      deckGUID: deckGUID
       cardData: cardData
     @persistDataToStorage()
     return
@@ -93,38 +112,38 @@ Polymer 'data-storage',
 
   persistDataToStorage: ->
     @job 'processAddCardQueue', =>
-      for deckName, cardArray of @addCardQueue
-        localforage.getItem(@deckPrefix + deckName).then (deck)=>
+      for deckGUID, cardArray of @addCardQueue
+        localforage.getItem(@deckPrefix + deckGUID).then (deck)=>
           for unused in cardArray
             try
-              deck.length
+              deck.cards.length
             catch
-              deck = []
+              deck.cards = []
             finally
-              deck.push @addCardQueue[deckName].shift()
-          localforage.setItem(@deckPrefix + deckName, deck)
-    , 500
+              deck.cards.push @addCardQueue[deckGUID].shift()
+          localforage.setItem(@deckPrefix + deckGUID, deck)
+    , @saveToLSDelay
     @job 'processRemoveCardQueue', =>
-      for deckName, cardArray of @removeCardQueue
-        localforage.getItem(@deckPrefix + deckName).then (deck)=>
+      for deckGUID, cardArray of @removeCardQueue
+        localforage.getItem(@deckPrefix + deckGUID).then (deck)=>
           for unused in cardArray
-            deck.splice deck.indexOf(@removeCardQueue[deckName].shift()), 1
-          localforage.setItem(@deckPrefix + deckName, deck)
-    , 500
+            deck.cards.splice deck.cards.indexOf(@removeCardQueue[deckGUID].shift()), 1
+          localforage.setItem(@deckPrefix + deckGUID, deck)
+    , @saveToLSDelay
     @job 'processRenameDeckQueue', =>
       recursiveRenameDeck = =>
         try
           deckNames = @renameDeckQueue.shift()
           localforage.getItem(@deckPrefix + deckNames[0]).then (deck)=>
-            localforage.setItem(@deckPrefix + deckNames[1], deck).then =>
-              localforage.removeItem(@deckPrefix + deckNames[0]).then =>
-                recursiveRenameDeck()
+            deck.deckName = deckNames[1]
+            localforage.setItem(@deckPrefix + deckNames[0], deck).then =>
+              recursiveRenameDeck()
         catch
           @asyncFire 'deck-renamed'
       recursiveRenameDeck()
-    , 500
+    , @saveToLSDelay
     return
-  generateUUID: ->
+  generateGUID: ->
     d = performance.now() * 100000000
     uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) ->
       r = (d + Math.random() * 16) % 16 | 0
