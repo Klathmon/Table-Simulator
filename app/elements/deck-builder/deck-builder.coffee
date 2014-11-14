@@ -15,10 +15,6 @@ Polymer 'deck-builder',
     return
 
 #### BOUND EVENTS ####
-  loadDeckList: ->
-    @$.dataStorage.listDecks().then (decks)=>
-      @decks = decks
-    return
   newImageUploaded: (event)->
     @$.dataStorage.addCardToDeck @$.dataStorage.collection, event.detail.imageData
     return
@@ -31,21 +27,22 @@ Polymer 'deck-builder',
     else
       @addCardToWindow @deckPacker, event.detail.cardData
     return
+  loadDeckList: ->
+    @$.dataStorage.listDecks().then (decks)=>
+      @decks = decks
+    return
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
-    @layoutCards()
-    @loadDeck @selectedDeck
-    return
-  splitterMouseUp: ->
     @layoutCards()
     return
   addNewDeck: ()->
     @$.dataStorage.addDeck "Click here to change Deck name"
+    @layoutCards()
     return
   deckAdded: (event)->
     if event.detail.deckGUID != @$.dataStorage.collection
       @decks.push event.detail
-      @selectedDeck = event.detail.deckName
+      @selectedDeckGUID = event.detail.deckGUID
     return
   cardDropped: (event)->
     droppedPlace = @shadowRoot.elementFromPoint event.detail.xPos, event.detail.yPos
@@ -67,19 +64,17 @@ Polymer 'deck-builder',
 #### END BOUND EVENTS ####
 
 #### CHANGED WATCHERS ####
-  selectedDeckChanged: ->
-    if @selectedDeck != ''
-      @$.splitter.classList.remove 'hideMe'
-      @$.deckSplitterWindow.classList.remove 'hideMe'
-    else
+  selectedDeckGUIDChanged: ->
+    if @selectedDeckGUID == ''
       @$.splitter.classList.add 'hideMe'
       @$.deckSplitterWindow.classList.add 'hideMe'
-    #@deckName = @selectedDeck
+    else
+      @$.splitter.classList.remove 'hideMe'
+      @$.deckSplitterWindow.classList.remove 'hideMe'
+      @$.dataStorage.loadDeck(@selectedDeckGUID).then (deckName)=>
+        @deckName = deckName
+        return
     return
-  deckNameChanged: (oldDeckName, newDeckName)->
-    #if @deckName != @selectedDeck
-    #  @$.dataStorage.renameDeck oldDeckName, newDeckName
-    #return
 #### END CHANGED WATCHERS ####
 
 

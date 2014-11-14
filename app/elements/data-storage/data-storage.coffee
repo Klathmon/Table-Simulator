@@ -22,32 +22,35 @@ Polymer 'data-storage',
   # listDecks returns an array of deck names (not including the collection)
   #  returns an ES6 promise
   listDecks: ()->
-    localforage
     return new Promise (resolve, reject)=>
-      localforage.keys().then (keys)=>
-        decks = []
-        for keyName in keys
-          if keyName.indexOf(@deckPrefix) > -1
-            if keyName.indexOf(@collection) == -1
-              decks.push keyName.substring @deckPrefix.length
+      decks = []
+      localforage.iterate (value, key)=>
+        if key.indexOf(@deckPrefix) > -1
+          if key.indexOf(@collection) == -1
+            decks.push
+              GUID: key.substring @deckPrefix.length
+              name: value.deckName
+        return
+      .then =>
         resolve decks
+      return
   # loadDeck runs the "card added" event for each card in the given deck
   loadDeck: (deckGUID)->
-    localforage.getItem(@deckPrefix + deckGUID).then (deck)=>
-      #if deck == null and deckGUID = @collection
-      #  @addDeck @collection
-      #  setTimeout =>
-      #    @loadDeck()
-      #  , @saveToLSDelay
-      #  return
-      deckName = deck.deckName
-      cardList = deck.cards
-      for cardData in cardList
-        @asyncFire 'card-added',
-          deckGUID: deckGUID
-          deckName: deckName
-          cardData: cardData
-    return
+    return new Promise (resolve, reject)=>
+      localforage.getItem(@deckPrefix + deckGUID).then (deck)=>
+        if deck == null and deckGUID = @collection
+          @addDeck @collection
+          @loadDeck @collection
+          return
+        deckName = deck.deckName
+        cardList = deck.cards
+        for cardData in cardList
+          @asyncFire 'card-added',
+            deckGUID: deckGUID
+            deckName: deckName
+            cardData: cardData
+        resolve deckName
+      return
   # deleteDeck deletes the deck and all cards within it
   #  Silently fails if the deck name does not exist
   #  fires the "deck deleted" regardless of if the deck exists or not

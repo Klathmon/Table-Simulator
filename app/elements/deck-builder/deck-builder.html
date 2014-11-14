@@ -37,20 +37,21 @@
         <core-toolbar>Decks:</core-toolbar>
         <core-menu
             theme="core-light-theme"
-            valueattr="label"
-            selected="{{selectedDeck}}"
+            valueattr="id"
+            selected="{{selectedDeckGUID}}"
             on-core-activate="{{menuItemSelected}}">
 
           <template class="window" id="deckList" repeat="{{ deck in decks }}">
             <paper-item
                 icon="content-copy"
-                id="{{deck.deckGUID}}"
-                label="{{deck.deckName}}"
+                id="{{deck.GUID}}"
+                label="{{deck.name}}"
                 on-tap="{{selectDeck}}">
             </paper-item>
           </template>
 
           <paper-item
+              id="addNewDeckButton"
               icon="add-circle"
               label="Add New Deck"
               on-tap="{{addNewDeck}}">
@@ -88,8 +89,8 @@
         <core-splitter
             id="splitter"
             class="hideMe"
-            on-mouseup="{{splitterMouseUp}}"
-            on-touchend="{{splitterMouseUp}}"
+            on-mouseup="{{layoutCards}}"
+            on-touchend="{{layoutCards}}"
             direction="left">
         </core-splitter>
         <div class="splitterWindow" flex vertical layout>
