@@ -17,7 +17,7 @@ Polymer 'image-uploader',
         alert "Not an image!"
         #TODO: replace this with a fancy dialogue
       else
-        @importFile file
+        @async(@importFile file)
   importFile: (file)->
     img = new Image()
     canvas = document.createElement "canvas"
@@ -29,5 +29,5 @@ Polymer 'image-uploader',
     listener = img.addEventListener "load", =>
       ctx.drawImage img, 0, 0, @imageWidth, @imageHeight
       imageData = canvas.toDataURL file.type
-      @fire 'new-image',
+      @asyncFire 'new-image',
         imageData: imageData

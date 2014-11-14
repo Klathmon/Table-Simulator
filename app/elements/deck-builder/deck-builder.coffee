@@ -27,9 +27,9 @@ Polymer 'deck-builder',
     return
   cardAddedToDeck: (event)->
     if event.detail.deckName == @$.dataStorage.collection
-      @addCardToWindow @collectionPacker, event.detail.cardData
+      @async(@addCardToWindow @collectionPacker, event.detail.cardData)
     else
-      @addCardToWindow @deckPacker, event.detail.cardData
+      @async(@addCardToWindow @deckPacker, event.detail.cardData)
     return
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
@@ -120,5 +120,5 @@ Polymer 'deck-builder',
         @collectionPacker.layout()
       try
         @deckPacker.layout()
-    ,500
+    ,200
     return
