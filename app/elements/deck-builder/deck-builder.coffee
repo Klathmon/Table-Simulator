@@ -31,10 +31,6 @@ Polymer 'deck-builder',
     else
       @addCardToWindow @deckPacker, event.detail.cardData
     return
-  deckAdded: (event)->
-    @decks.push event.detail.deckName
-    @selectedDeck = event.detail.deckName
-    return
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
     @layoutCards()
@@ -46,6 +42,10 @@ Polymer 'deck-builder',
   addNewDeck: ()->
     @$.dataStorage.addDeck "Click here to change Deck name"
     return
+  deckAdded: (event)->
+    @decks.push event.detail.deckName
+    @selectedDeck = event.detail.deckName
+    return
   cardDropped: (event)->
     droppedPlace = @shadowRoot.elementFromPoint event.detail.xPos, event.detail.yPos
     while droppedPlace and droppedPlace != @$.deckWindow
@@ -54,12 +54,25 @@ Polymer 'deck-builder',
     return if droppedPlace == event.detail.parent
     @$.dataStorage.addCardToDeck @selectedDeck, event.detail.element.imageData
     return
+  deleteCollection: ->
+    @$.dataStorage.deleteCollection()
+    return
+  deckDeleted: (event)->
+    if event.detail.deckName == @$.dataStorage.collection
+      @clearWindow @collectionPacker
+    else
+      @clearWindow @deckPacker
+    return
 #### END BOUND EVENTS ####
 
 #### CHANGED WATCHERS ####
   selectedDeckChanged: ->
-    @$.splitter.classList.remove 'hideMe'
-    @$.deckSplitterWindow.classList.remove 'hideMe'
+    if @selectedDeck != ''
+      @$.splitter.classList.remove 'hideMe'
+      @$.deckSplitterWindow.classList.remove 'hideMe'
+    else
+      @$.splitter.classList.add 'hideMe'
+      @$.deckSplitterWindow.classList.add 'hideMe'
     @deckName = @selectedDeck
     return
   deckNameChanged: (oldDeckName, newDeckName)->
@@ -92,13 +105,14 @@ Polymer 'deck-builder',
     return
   removeCardFromWindow: (packerObj, cardData)->
     for baseCard in packerObj.getItemElements()
-      if baseCard.imageData = cardData
+      if baseCard.imageData == cardData
         packerObj.remove baseCard
         break
     @layoutCards packerObj
     return
   clearWindow: (packerObj)->
     packerObj.remove packerObj.getItemElements()
+    @selectedDeck = '' if packerObj == @deckPacker
     return
   layoutCards: ()->
     @job 'layoutCards', =>
