@@ -61,6 +61,12 @@ Polymer 'deck-builder',
     else
       @clearWindow @deckPacker
     return
+  deckNameFieldBlur: ->
+    @$.dataStorage.renameDeck @selectedDeckGUID, @deckName
+    return
+  deckNameOnInput: (event)->
+    event.target.blur() if event.keyCode == 13
+    return
 #### END BOUND EVENTS ####
 
 #### CHANGED WATCHERS ####
@@ -76,7 +82,6 @@ Polymer 'deck-builder',
         return
     return
 #### END CHANGED WATCHERS ####
-
 
   loadDeck: (deckName)->
     if deckName == @$.dataStorage.collection

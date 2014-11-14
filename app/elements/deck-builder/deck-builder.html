@@ -69,9 +69,11 @@
 
           <div>
             <paper-input
-                id="deckName"
+                id="deckNameInput"
                 type="text"
-                value="{{deckName}}">
+                value="{{deckName}}"
+                on-blur="{{deckNameFieldBlur}}"
+                on-keydown="{{deckNameOnInput}}">
             </paper-input>
           </div>
 

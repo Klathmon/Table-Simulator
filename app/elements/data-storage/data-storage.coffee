@@ -60,7 +60,6 @@ Polymer 'data-storage',
         deckGUID: deckGUID
     return
   # createDeck creates a deck with no cards in it
-  #  TODO: Will add an incrementing number if the deckName already exists
   #  Fires the "deck added" event
   addDeck: (deckName)->
     if deckName == @collection
@@ -79,7 +78,6 @@ Polymer 'data-storage',
         deckName: storedDeckName
     return
   # renameDeck renames the deck... All contents stay the same (and in the same order)
-  #  TODO: Will add an incrementing number if the deckName already exists
   #  Fires the "deck renamed" event ONLY!
   renameDeck: (deckGUID, newDeckName)->
     return if newDeckName == "" or newDeckName == undefined
