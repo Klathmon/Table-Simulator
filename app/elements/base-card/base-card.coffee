@@ -10,10 +10,11 @@ Polymer 'base-card',
       cardComputedStyle = window.getComputedStyle(@)
       xPos = left + (parseInt(cardComputedStyle.getPropertyValue "width") / 2)
       yPos = top + (parseInt(cardComputedStyle.getPropertyValue "height") / 2)
-      @fire 'dragEnd',
+      @fire 'drag-end',
+        "element": @
         "parent": @parentNode
-        "xPos": xPos + "px"
-        "yPos": yPos + "px"
+        "xPos": xPos
+        "yPos": yPos
     return
   mouseDown: ->
     @setZindex()

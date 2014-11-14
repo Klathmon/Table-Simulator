@@ -61,7 +61,7 @@
         <div flex>Deck Builder</div>
       </div>
 
-      <div id="mainWindow" fit horizontal layout>
+      <div id="mainWindow" on-drag-end="{{cardDropped}}" fit horizontal layout>
         <div id="deckSplitterWindow" class="splitterWindow hideMe" vertical layout>
 
           <div>
@@ -72,7 +72,11 @@
             </paper-input>
           </div>
 
-          <div class="window" id="deckWindow" flex></div>
+          <div
+              flex
+              class="window"
+              id="deckWindow">
+          </div>
 
           <div class="lowerActions" horizontal layout end>
             <paper-fab class="deleteButton" icon="delete" mini></paper-fab>

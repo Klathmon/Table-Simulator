@@ -12,9 +12,6 @@ Polymer 'deck-builder',
   ready: ->
     @loadDeck @$.dataStorage.collection
     @loadDeckList()
-    @.addEventListener 'dragEnd', (event)=>
-      console.log "Something stopped being dragged on this!"
-      console.log event.detail
     return
 
 #### BOUND EVENTS ####
@@ -48,6 +45,15 @@ Polymer 'deck-builder',
     return
   addNewDeck: ()->
     @$.dataStorage.addDeck "Click here to change Deck name"
+    return
+  cardDropped: (event)->
+    droppedPlace = @shadowRoot.elementFromPoint event.detail.xPos, event.detail.yPos
+    while droppedPlace and droppedPlace != @$.deckWindow
+      droppedPlace = droppedPlace.parentNode
+    return if droppedPlace == null
+    return if droppedPlace == event.detail.parent
+    @$.dataStorage.addCardToDeck @selectedDeck, event.detail.element.imageData
+    console.log event
     return
 #### END BOUND EVENTS ####
 
