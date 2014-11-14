@@ -2,6 +2,7 @@ Polymer 'base-card',
   draggie: {}
   created: ->
     @setZindex()
+    return
   ready: ->
     @draggie = new Draggabilly(this)
     @draggie.on 'dragEnd', (dragIns, event, pointer)=>
@@ -16,6 +17,7 @@ Polymer 'base-card',
     return
   mouseDown: ->
     @setZindex()
+    return
   zoomCard: ->
     dbox = document.createElement "core-overlay"
     dbox.style.width = "310px"
@@ -34,11 +36,13 @@ Polymer 'base-card',
     dbox.addEventListener "core-overlay-close-completed", (event)->
       event.target.parentNode.removeChild event.target
     document.body.appendChild dbox
+    return
   setZindex: ()->
     window.currentCardZindex = 1 if typeof window.currentCardZindex == 'undefined'
     if @style['z-index'] < window.currentCardZindex
       window.currentCardZindex++
       @style['z-index'] = window.currentCardZindex
+    return
   getMyPosition: ->
     xPos = 0
     yPos = 0
