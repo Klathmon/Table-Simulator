@@ -34,10 +34,11 @@ Polymer 'data-storage',
   # loadDeck runs the "card added" event for each card in the given deck
   loadDeck: (deckGUID)->
     localforage.getItem(@deckPrefix + deckGUID).then (deck)=>
-      console.log deck
       if deck == null and deckGUID = @collection
         @addDeck @collection
-        @loadDeck()
+        setTimeout =>
+          @loadDeck()
+        , @saveToLSDelay
         return
       deckName = deck.deckName
       cardList = deck.cards

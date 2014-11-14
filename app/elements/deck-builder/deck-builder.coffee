@@ -43,8 +43,9 @@ Polymer 'deck-builder',
     @$.dataStorage.addDeck "Click here to change Deck name"
     return
   deckAdded: (event)->
-    @decks.push event.detail.deckName
-    @selectedDeck = event.detail.deckName
+    if event.detail.deckGUID != @$.dataStorage.collection
+      @decks.push event.detail.deckName
+      @selectedDeck = event.detail.deckName
     return
   cardDropped: (event)->
     droppedPlace = @shadowRoot.elementFromPoint event.detail.xPos, event.detail.yPos
