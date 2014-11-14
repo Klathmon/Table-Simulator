@@ -4,13 +4,13 @@ Polymer 'builder-card',
   offsetX: 0
   offsetY: 0
   hoverCard: {}
+  notFirstHoverEvent: false
   ready: ->
     @super()
     @draggie.on 'dragStart', (dragIns, event, pointer)=>
       cardComputedStyle = window.getComputedStyle(@)
 
       [xPos, yPos] = @getMyPosition()
-
       @offsetX = pointer.pageX - xPos
       @offsetY = pointer.pageY - yPos
 
@@ -22,11 +22,17 @@ Polymer 'builder-card',
       @hoverCard.style['z-index'] = '-50'
       @setXYPos pointer.pageX, pointer.pageY
       document.body.appendChild @hoverCard
+      @notFirstHoverEvent = false
+      return
     @draggie.on 'dragMove', (dragIns, event, pointer)=>
-      @hoverCard.style['z-index'] = '5000'
-      @setXYPos pointer.pageX, pointer.pageY
+      if @notFirstHoverEvent
+        @hoverCard.style['z-index'] = '5000'
+        @setXYPos pointer.pageX, pointer.pageY
+      @notFirstHoverEvent = true
+      return
     @draggie.on 'dragEnd', (dragIns, event, pointer)=>
       @hoverCard.parentElement.removeChild @hoverCard
+      return
     return
 
   setXYPos: (pageX, pageY)->
