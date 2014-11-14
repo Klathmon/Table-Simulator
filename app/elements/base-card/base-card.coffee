@@ -6,14 +6,14 @@ Polymer 'base-card',
   ready: ->
     @draggie = new Draggabilly(this)
     @draggie.on 'dragEnd', (dragIns, event, pointer)=>
-      [xPos, yPos] = @getMyPosition()
+      [left, top] = @getMyPosition()
       cardComputedStyle = window.getComputedStyle(@)
+      xPos = left + (parseInt(cardComputedStyle.getPropertyValue "width") / 2)
+      yPos = top + (parseInt(cardComputedStyle.getPropertyValue "height") / 2)
       @fire 'dragEnd',
         "parent": @parentNode
         "xPos": xPos + "px"
         "yPos": yPos + "px"
-        "width": cardComputedStyle.getPropertyValue "width"
-        "height": cardComputedStyle.getPropertyValue "height"
     return
   mouseDown: ->
     @setZindex()
