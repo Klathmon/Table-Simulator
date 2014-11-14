@@ -50,7 +50,7 @@ Polymer 'deck-builder',
       droppedPlace = droppedPlace.parentNode
     return if droppedPlace == null
     return if droppedPlace == event.detail.parent
-    @$.dataStorage.addCardToDeck @selectedDeck, event.detail.element.imageData
+    @$.dataStorage.addCardToDeck @selectedDeckGUID, event.detail.element.imageData
     return
   deleteCollection: ->
     @$.dataStorage.deleteCollection()
@@ -79,6 +79,7 @@ Polymer 'deck-builder',
       @$.deckSplitterWindow.classList.remove 'hideMe'
       @$.dataStorage.loadDeck(@selectedDeckGUID).then (deckName)=>
         @deckName = deckName
+        @loadDeck deckName
         return
     return
 #### END CHANGED WATCHERS ####
@@ -94,7 +95,7 @@ Polymer 'deck-builder',
         @clearWindow @deckPacker
         @deckPacker.destroy()
       @deckPacker = new Packery @$.deckWindow, @packerOptions
-    @$.dataStorage.loadDeck deckName
+    @$.dataStorage.loadDeck @selectedDeckGUID
     return
   addCardToWindow: (packerObj, cardData)->
     baseCard = document.createElement 'builder-card'
