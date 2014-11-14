@@ -53,7 +53,6 @@ Polymer 'deck-builder',
     return if droppedPlace == null
     return if droppedPlace == event.detail.parent
     @$.dataStorage.addCardToDeck @selectedDeck, event.detail.element.imageData
-    console.log event
     return
 #### END BOUND EVENTS ####
 
