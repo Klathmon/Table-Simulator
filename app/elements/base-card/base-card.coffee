@@ -4,6 +4,16 @@ Polymer 'base-card',
     @setZindex()
   ready: ->
     @draggie = new Draggabilly(this)
+    @draggie.on 'dragEnd', (dragIns, event, pointer)=>
+      [xPos, yPos] = @getMyPosition()
+      cardComputedStyle = window.getComputedStyle(@)
+      @fire 'dragEnd',
+        "parent": @parentNode
+        "xPos": xPos + "px"
+        "yPos": yPos + "px"
+        "width": cardComputedStyle.getPropertyValue "width"
+        "height": cardComputedStyle.getPropertyValue "height"
+    return
   mouseDown: ->
     @setZindex()
   zoomCard: ->
@@ -21,7 +31,6 @@ Polymer 'base-card',
     img.style.width = "100%"
     img.style.height = "100%"
     dbox.appendChild img
-
     dbox.addEventListener "core-overlay-close-completed", (event)->
       event.target.parentNode.removeChild event.target
     document.body.appendChild dbox
@@ -30,3 +39,12 @@ Polymer 'base-card',
     if @style['z-index'] < window.currentCardZindex
       window.currentCardZindex++
       @style['z-index'] = window.currentCardZindex
+  getMyPosition: ->
+    xPos = 0
+    yPos = 0
+    element = @
+    while element
+      xPos += (element.offsetLeft - element.scrollLeft + element.clientLeft)
+      yPos += (element.offsetTop - element.scrollTop + element.clientTop)
+      element = element.offsetParent
+    return [xPos, yPos]

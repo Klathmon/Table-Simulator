@@ -26,13 +26,6 @@ Polymer 'builder-card',
       @hoverCard.style['z-index'] = '5000'
       @setXYPos pointer.pageX, pointer.pageY
     @draggie.on 'dragEnd', (dragIns, event, pointer)=>
-      [xPos, yPos] = @getMyPosition()
-      cardComputedStyle = window.getComputedStyle(@)
-      @fire 'dragEnd',
-        "xPos": xPos + "px"
-        "yPos": yPos + "px"
-        "width": cardComputedStyle.getPropertyValue "width"
-        "height": cardComputedStyle.getPropertyValue "height"
       @hoverCard.parentElement.removeChild @hoverCard
     return
 
@@ -40,13 +33,3 @@ Polymer 'builder-card',
     @hoverCard.style.left = (pageX - @offsetX) + 'px'
     @hoverCard.style.top = (pageY - @offsetY) + 'px'
     return
-
-  getMyPosition: ->
-    xPos = 0
-    yPos = 0
-    element = @
-    while element
-      xPos += (element.offsetLeft - element.scrollLeft + element.clientLeft)
-      yPos += (element.offsetTop - element.scrollTop + element.clientTop)
-      element = element.offsetParent
-    return [xPos, yPos]
