@@ -41,10 +41,11 @@
             selected="{{selectedDeck}}"
             on-core-activate="{{menuItemSelected}}">
 
-          <template class="window" id="deckList" repeat="{{ deckName in decks }}">
+          <template class="window" id="deckList" repeat="{{ deck in decks }}">
             <paper-item
                 icon="content-copy"
-                label="{{deckName}}"
+                id="{{deck.deckGUID}}"
+                label="{{deck.deckName}}"
                 on-tap="{{selectDeck}}">
             </paper-item>
           </template>

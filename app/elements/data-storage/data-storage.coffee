@@ -34,12 +34,12 @@ Polymer 'data-storage',
   # loadDeck runs the "card added" event for each card in the given deck
   loadDeck: (deckGUID)->
     localforage.getItem(@deckPrefix + deckGUID).then (deck)=>
-      if deck == null and deckGUID = @collection
-        @addDeck @collection
-        setTimeout =>
-          @loadDeck()
-        , @saveToLSDelay
-        return
+      #if deck == null and deckGUID = @collection
+      #  @addDeck @collection
+      #  setTimeout =>
+      #    @loadDeck()
+      #  , @saveToLSDelay
+      #  return
       deckName = deck.deckName
       cardList = deck.cards
       for cardData in cardList
@@ -60,7 +60,7 @@ Polymer 'data-storage',
   #  TODO: Will add an incrementing number if the deckName already exists
   #  Fires the "deck added" event
   addDeck: (deckName)->
-    if deckName = @collection
+    if deckName == @collection
       deckGUID = @collection
       storedDeckName = ''
     else
@@ -73,7 +73,7 @@ Polymer 'data-storage',
     localforage.setItem(@deckPrefix + deckGUID, deckData).then =>
       @asyncFire 'deck-added',
         deckGUID: deckGUID
-        deckName: deckName
+        deckName: storedDeckName
     return
   # renameDeck renames the deck... All contents stay the same (and in the same order)
   #  TODO: Will add an incrementing number if the deckName already exists

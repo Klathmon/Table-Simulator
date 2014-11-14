@@ -26,7 +26,7 @@ Polymer 'deck-builder',
     @$.dataStorage.addCardToDeck @selectedDeck, event.detail.imageData
     return
   cardAddedToDeck: (event)->
-    if event.detail.deckName == @$.dataStorage.collection
+    if event.detail.deckGUID == @$.dataStorage.collection
       @addCardToWindow @collectionPacker, event.detail.cardData
     else
       @addCardToWindow @deckPacker, event.detail.cardData
@@ -44,7 +44,7 @@ Polymer 'deck-builder',
     return
   deckAdded: (event)->
     if event.detail.deckGUID != @$.dataStorage.collection
-      @decks.push event.detail.deckName
+      @decks.push event.detail
       @selectedDeck = event.detail.deckName
     return
   cardDropped: (event)->
@@ -74,12 +74,12 @@ Polymer 'deck-builder',
     else
       @$.splitter.classList.add 'hideMe'
       @$.deckSplitterWindow.classList.add 'hideMe'
-    @deckName = @selectedDeck
+    #@deckName = @selectedDeck
     return
   deckNameChanged: (oldDeckName, newDeckName)->
-    if @deckName != @selectedDeck
-      @$.dataStorage.renameDeck oldDeckName, newDeckName
-    return
+    #if @deckName != @selectedDeck
+    #  @$.dataStorage.renameDeck oldDeckName, newDeckName
+    #return
 #### END CHANGED WATCHERS ####
 
 
