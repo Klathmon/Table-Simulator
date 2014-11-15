@@ -15,10 +15,6 @@ Polymer 'deck-builder',
     return
 
 #### BOUND EVENTS ####
-  loadDeckList: ->
-    @$.dataStorage.listDecks().then (decks)=>
-      @decks = decks
-    return
   newImageUploaded: (event)->
     @$.dataStorage.addCardToDeck @$.dataStorage.collection, event.detail.imageData
     return
@@ -26,25 +22,27 @@ Polymer 'deck-builder',
     @$.dataStorage.addCardToDeck @selectedDeck, event.detail.imageData
     return
   cardAddedToDeck: (event)->
-    if event.detail.deckName == @$.dataStorage.collection
+    if event.detail.deckGUID == @$.dataStorage.collection
       @addCardToWindow @collectionPacker, event.detail.cardData
     else
       @addCardToWindow @deckPacker, event.detail.cardData
     return
+  loadDeckList: ->
+    @$.dataStorage.listDecks().then (decks)=>
+      @decks = decks
+    return
   menuItemSelected: ->
     @$.scaffold.closeDrawer()
-    @layoutCards()
-    @loadDeck @selectedDeck
-    return
-  splitterMouseUp: ->
     @layoutCards()
     return
   addNewDeck: ()->
     @$.dataStorage.addDeck "Click here to change Deck name"
+    @layoutCards()
     return
   deckAdded: (event)->
-    @decks.push event.detail.deckName
-    @selectedDeck = event.detail.deckName
+    if event.detail.deckGUID != @$.dataStorage.collection
+      @decks.push event.detail
+      @selectedDeckGUID = event.detail.deckGUID
     return
   cardDropped: (event)->
     droppedPlace = @shadowRoot.elementFromPoint event.detail.xPos, event.detail.yPos
@@ -52,48 +50,55 @@ Polymer 'deck-builder',
       droppedPlace = droppedPlace.parentNode
     return if droppedPlace == null
     return if droppedPlace == event.detail.parent
-    @$.dataStorage.addCardToDeck @selectedDeck, event.detail.element.imageData
+    @$.dataStorage.addCardToDeck @selectedDeckGUID, event.detail.element.imageData
     return
   deleteCollection: ->
     @$.dataStorage.deleteCollection()
     return
   deckDeleted: (event)->
-    if event.detail.deckName == @$.dataStorage.collection
+    if event.detail.deckGUID == @$.dataStorage.collection
       @clearWindow @collectionPacker
     else
       @clearWindow @deckPacker
+      setTimeout =>
+        @selectedDeckGUID = ''
+      , 200
+    return
+  deckNameFieldBlur: ->
+    @$.dataStorage.renameDeck @selectedDeckGUID, @deckName
+    return
+  deckNameOnInput: (event)->
+    event.target.blur() if event.keyCode == 13
     return
 #### END BOUND EVENTS ####
 
 #### CHANGED WATCHERS ####
-  selectedDeckChanged: ->
-    if @selectedDeck != ''
-      @$.splitter.classList.remove 'hideMe'
-      @$.deckSplitterWindow.classList.remove 'hideMe'
-    else
+  selectedDeckGUIDChanged: ->
+    if @selectedDeckGUID == ''
       @$.splitter.classList.add 'hideMe'
       @$.deckSplitterWindow.classList.add 'hideMe'
-    @deckName = @selectedDeck
-    return
-  deckNameChanged: (oldDeckName, newDeckName)->
-    if @deckName != @selectedDeck
-      @$.dataStorage.renameDeck oldDeckName, newDeckName
+    else
+      @$.splitter.classList.remove 'hideMe'
+      @$.deckSplitterWindow.classList.remove 'hideMe'
+      @loadDeck @selectedDeckGUID
     return
 #### END CHANGED WATCHERS ####
 
-
-  loadDeck: (deckName)->
-    if deckName == @$.dataStorage.collection
+  loadDeck: (deckGUID)->
+    if deckGUID == @$.dataStorage.collection
       try
         @clearWindow @collectionPacker
         @collectionPacker.destroy()
       @collectionPacker = new Packery @$.collectionWindow, @packerOptions
+      @$.dataStorage.loadDeck @$.dataStorage.collection
     else
       try
         @clearWindow @deckPacker
         @deckPacker.destroy()
       @deckPacker = new Packery @$.deckWindow, @packerOptions
-    @$.dataStorage.loadDeck deckName
+      @$.dataStorage.loadDeck(deckGUID).then (deckName)=>
+        @deckName = deckName
+        return
     return
   addCardToWindow: (packerObj, cardData)->
     baseCard = document.createElement 'builder-card'
@@ -112,7 +117,6 @@ Polymer 'deck-builder',
     return
   clearWindow: (packerObj)->
     packerObj.remove packerObj.getItemElements()
-    @selectedDeck = '' if packerObj == @deckPacker
     return
   layoutCards: ()->
     @job 'layoutCards', =>

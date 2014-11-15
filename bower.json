@@ -10,7 +10,7 @@
     "lzma-js": "nmrugg/LZMA-JS#master",
     "draggabilly": "~1.1.1",
     "packery": "~1.2.4",
-    "localforage": "~1.1.1"
+    "localforage": "#master"
   },
   "devDependencies": {
     "polymer-test-tools": "Polymer/polymer-test-tools#~0.4.2",
