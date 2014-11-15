@@ -48,5 +48,11 @@ core-header-panel
   font-size: 1.5em
   width: 100%
 
-.hideMe
+core-splitter.hideMe
   display: none !important
+
+#deckSplitterWindow
+  transition: width .5s
+  &.hideMe
+    width: 0
+    visibility: hidden
