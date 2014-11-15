@@ -70,6 +70,13 @@ Polymer 'deck-builder',
   deckNameOnInput: (event)->
     event.target.blur() if event.keyCode == 13
     return
+  startSplitterDrag: ->
+    @$.deckSplitterWindow.classList.add 'dragging'
+    return
+  endSplitterDrag: ->
+    @$.deckSplitterWindow.classList.remove 'dragging'
+    @layoutCards()
+    return
 #### END BOUND EVENTS ####
 
 #### CHANGED WATCHERS ####
