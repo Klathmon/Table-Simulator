@@ -60,6 +60,9 @@ Polymer 'deck-builder',
       @clearWindow @collectionPacker
     else
       @clearWindow @deckPacker
+      setTimeout =>
+        @selectedDeckGUID = '' if packerObj == @deckPacker
+      , 500
     return
   deckNameFieldBlur: ->
     @$.dataStorage.renameDeck @selectedDeckGUID, @deckName
@@ -77,25 +80,25 @@ Polymer 'deck-builder',
     else
       @$.splitter.classList.remove 'hideMe'
       @$.deckSplitterWindow.classList.remove 'hideMe'
-      @$.dataStorage.loadDeck(@selectedDeckGUID).then (deckName)=>
-        @deckName = deckName
-        @loadDeck deckName
-        return
+      @loadDeck @selectedDeckGUID
     return
 #### END CHANGED WATCHERS ####
 
-  loadDeck: (deckName)->
-    if deckName == @$.dataStorage.collection
+  loadDeck: (deckGUID)->
+    if deckGUID == @$.dataStorage.collection
       try
         @clearWindow @collectionPacker
         @collectionPacker.destroy()
       @collectionPacker = new Packery @$.collectionWindow, @packerOptions
+      @$.dataStorage.loadDeck @$.dataStorage.collection
     else
       try
         @clearWindow @deckPacker
         @deckPacker.destroy()
       @deckPacker = new Packery @$.deckWindow, @packerOptions
-    @$.dataStorage.loadDeck @selectedDeckGUID
+      @$.dataStorage.loadDeck(deckGUID).then (deckName)=>
+        @deckName = deckName
+        return
     return
   addCardToWindow: (packerObj, cardData)->
     baseCard = document.createElement 'builder-card'
@@ -114,7 +117,6 @@ Polymer 'deck-builder',
     return
   clearWindow: (packerObj)->
     packerObj.remove packerObj.getItemElements()
-    @selectedDeck = '' if packerObj == @deckPacker
     return
   layoutCards: ()->
     @job 'layoutCards', =>

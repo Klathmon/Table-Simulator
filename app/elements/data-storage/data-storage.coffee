@@ -38,7 +38,7 @@ Polymer 'data-storage',
   loadDeck: (deckGUID)->
     return new Promise (resolve, reject)=>
       localforage.getItem(@deckPrefix + deckGUID).then (deck)=>
-        if deck == null and deckGUID = @collection
+        if deck == null and deckGUID == @collection
           @addDeck @collection
           @loadDeck @collection
           return
@@ -115,6 +115,7 @@ Polymer 'data-storage',
   persistDataToStorage: ->
     @job 'processAddCardQueue', =>
       for deckGUID, cardArray of @addCardQueue
+        continue if cardArray.length == 0
         localforage.getItem(@deckPrefix + deckGUID).then (deck)=>
           for unused in cardArray
             try
