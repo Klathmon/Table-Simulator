@@ -56,12 +56,12 @@ Polymer 'deck-builder',
     @$.dataStorage.deleteCollection()
     return
   deckDeleted: (event)->
-    if event.detail.deckName == @$.dataStorage.collection
+    if event.detail.deckGUID == @$.dataStorage.collection
       @clearWindow @collectionPacker
     else
       @clearWindow @deckPacker
       setTimeout =>
-        @selectedDeckGUID = '' if packerObj == @deckPacker
+        @selectedDeckGUID = ''
       , 500
     return
   deckNameFieldBlur: ->
