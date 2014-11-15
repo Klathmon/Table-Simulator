@@ -62,7 +62,7 @@ Polymer 'deck-builder',
       @clearWindow @deckPacker
       setTimeout =>
         @selectedDeckGUID = ''
-      , 500
+      , 200
     return
   deckNameFieldBlur: ->
     @$.dataStorage.renameDeck @selectedDeckGUID, @deckName
