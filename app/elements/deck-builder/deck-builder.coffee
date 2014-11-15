@@ -135,5 +135,5 @@ Polymer 'deck-builder',
         @collectionPacker.layout()
       try
         @deckPacker.layout()
-    ,100
+    ,200
     return
