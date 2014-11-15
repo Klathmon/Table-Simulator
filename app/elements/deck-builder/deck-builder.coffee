@@ -72,9 +72,13 @@ Polymer 'deck-builder',
     return
   startSplitterDrag: ->
     @$.deckSplitterWindow.classList.add 'dragging'
+    @draggingSplitterInterval = setInterval =>
+      @layoutCards()
+    , 500
     return
   endSplitterDrag: ->
     @$.deckSplitterWindow.classList.remove 'dragging'
+    clearInterval @draggingSplitterInterval
     @layoutCards()
     return
 #### END BOUND EVENTS ####
@@ -131,5 +135,5 @@ Polymer 'deck-builder',
         @collectionPacker.layout()
       try
         @deckPacker.layout()
-    ,200
+    ,100
     return
