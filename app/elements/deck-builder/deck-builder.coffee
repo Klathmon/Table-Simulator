@@ -44,7 +44,11 @@ Polymer 'deck-builder',
       @decks.push event.detail
       @selectedDeckGUID = event.detail.deckGUID
     return
+  cardPickedUp: ->
+    @$.deckWindow.classList.add 'colorOnHover'
+    return
   cardDropped: (event)->
+    @$.deckWindow.classList.remove 'colorOnHover'
     droppedPlace = @shadowRoot.elementFromPoint event.detail.xPos, event.detail.yPos
     while droppedPlace and droppedPlace != @$.deckWindow
       droppedPlace = droppedPlace.parentNode

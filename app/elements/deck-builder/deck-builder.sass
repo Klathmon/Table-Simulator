@@ -59,3 +59,24 @@ core-splitter.hideMe
   &.hideMe
     width: 0px
     visibility: hidden
+
+#dragCover
+  display: block
+  opacity: 0
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  height: 100%
+  width: 100%
+  z-index: -3000
+  background-color: rgb(58, 135, 173)
+  color: white
+  border-radius: 10px
+  transition: all .25s
+  h1
+    text-align: center
+#deckWindow.colorOnHover #dragCover
+  z-index: 3000
+  opacity: .95

@@ -64,7 +64,7 @@
         <div flex>Deck Builder</div>
       </div>
 
-      <div id="mainWindow" on-drag-end="{{cardDropped}}" fit horizontal layout>
+      <div id="mainWindow" on-drag-end="{{cardDropped}}"  on-drag-start="{{cardPickedUp}}" fit horizontal layout>
         <div id="deckSplitterWindow" class="splitterWindow hideMe" vertical layout>
 
           <div>
@@ -81,6 +81,12 @@
               flex
               class="window"
               id="deckWindow">
+              <div
+                  id="dragCover">
+                <div fit vertical layout center-justified>
+                  <h1>DROP CARD HERE TO ADD TO DECK</h1>
+                </div>
+              </div>
           </div>
 
           <div class="lowerActions" horizontal layout end>
@@ -102,7 +108,7 @@
             on-touchend="{{endSplitterDrag}}"
             direction="left">
         </core-splitter>
-        <div class="splitterWindow" flex vertical layout>
+        <div class="splitterWindow" flex vertical layout on-mousedown="{{mouseDownOnCollection}}">
 
           <div>
             <h2>My Collection</h2>
