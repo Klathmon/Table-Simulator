@@ -36,7 +36,7 @@ Polymer 'deck-builder',
     @layoutCards()
     return
   addNewDeck: ()->
-    @$.dataStorage.addDeck "Click here to change Deck name"
+    @$.dataStorage.addDeck "Unnamed Deck"
     @layoutCards()
     return
   deckAdded: (event)->
@@ -55,6 +55,9 @@ Polymer 'deck-builder',
   deleteCollection: ->
     @$.dataStorage.deleteCollection()
     return
+  deleteDeck: ->
+    @$.dataStorage.deleteDeck @selectedDeckGUID
+    return
   deckDeleted: (event)->
     if event.detail.deckGUID == @$.dataStorage.collection
       @clearWindow @collectionPacker
@@ -63,6 +66,7 @@ Polymer 'deck-builder',
       setTimeout =>
         @selectedDeckGUID = ''
       , 200
+      @decks.splice @decks.indexOf(event.detail.deckGUID), 1
     return
   deckNameFieldBlur: ->
     @$.dataStorage.renameDeck @selectedDeckGUID, @deckName
@@ -109,6 +113,9 @@ Polymer 'deck-builder',
       @deckPacker = new Packery @$.deckWindow, @packerOptions
       @$.dataStorage.loadDeck(deckGUID).then (deckName)=>
         @deckName = deckName
+        setTimeout =>
+          @layoutCards()
+        , 400
         return
     return
   addCardToWindow: (packerObj, cardData)->
@@ -128,6 +135,9 @@ Polymer 'deck-builder',
     return
   clearWindow: (packerObj)->
     packerObj.remove packerObj.getItemElements()
+    setTimeout =>
+      @layoutCards()
+    , 400
     return
   layoutCards: ()->
     @job 'layoutCards', =>
@@ -135,5 +145,5 @@ Polymer 'deck-builder',
         @collectionPacker.layout()
       try
         @deckPacker.layout()
-    ,200
+    ,100
     return
