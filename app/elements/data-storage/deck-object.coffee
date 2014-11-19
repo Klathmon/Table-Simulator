@@ -18,6 +18,13 @@ class Deck
     else
       @cards = cards
 
+    notifier = Object.getNotifier @
+    Array.observe @cards, ->
+      notifier.notify
+        type: 'update'
+        name: 'cards'
+        oldValue: null
+      return
     return
 
   addCard: (cardData)->
