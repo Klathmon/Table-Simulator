@@ -37,8 +37,6 @@ Polymer 'data-storage',
       console.log "Listing Decks..."
       decks = []
       localforage.iterate((value, key)=>
-        console.log key.indexOf(@deckPrefix)
-        console.log key.indexOf(@collection)
         return if key.indexOf(@deckPrefix) is not 0
         return if key.indexOf(@collection) is not -1
         decks.push
@@ -62,6 +60,7 @@ Polymer 'data-storage',
           reject "Deck not found"
         else
           console.log "Got Deck."
+          deck = new Deck deck.guid, deck.name, deck.cards
           @observeDeck deck
           resolve deck
         return
@@ -83,9 +82,11 @@ Polymer 'data-storage',
       return
 
   deleteDeck: (deck)->
+    debugger;
+    deckGUID = if typeof deck is 'string' then deck else deck.guid
     return new Promise (resolve, reject)=>
       console.log "Deleting Deck..."
-      localforage.removeItem(@deckPrefix + deck.guid).then =>
+      localforage.removeItem(@deckPrefix + deckGUID).then =>
         console.log "Deck Deleted."
         resolve()
         return
