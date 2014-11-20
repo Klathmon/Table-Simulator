@@ -23,6 +23,7 @@ Polymer 'base-card',
     dbox.appendChild img
     dbox.addEventListener "core-overlay-close-completed", (event)->
       event.target.parentNode.removeChild event.target
+      return
     document.body.appendChild dbox
     return
   setZindex: ()->

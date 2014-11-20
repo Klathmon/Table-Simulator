@@ -1,12 +1,11 @@
-Polymer 'builder-card',
-  draggie: {}
-  hoverWidth: 0
-  offsetX: 0
-  offsetY: 0
-  hoverCard: {}
-  notFirstHoverEvent: false
-  ready: ->
+Polymer 'builder-card', Platform.mixin(
+  created: ->
     @super()
+    return
+  ready: ->
+    @setupDraggable()
+
+    ###
     @draggie.on 'dragStart', (dragIns, event, pointer)=>
       cardComputedStyle = window.getComputedStyle(@)
 
@@ -33,9 +32,11 @@ Polymer 'builder-card',
     @draggie.on 'dragEnd', (dragIns, event, pointer)=>
       @hoverCard.parentElement.removeChild @hoverCard
       return
+    ###
     return
 
   setXYPos: (pageX, pageY)->
     @hoverCard.style.left = (pageX - @offsetX) + 'px'
     @hoverCard.style.top = (pageY - @offsetY) + 'px'
     return
+, draggable)
