@@ -38,11 +38,13 @@ Polymer 'deck-sorter', Platform.mixin(
   layout: ->
     @job 'packery-layout-job', =>
       @packery.layout()
-    , 100
+      @job 'layout-complete', =>
+        @asyncFire 'layout-complete',
+          'elements': @packery.getItemElements()
+        return
+      , 500
+      return
+    , 200
     return
 
-  setXYPos: (pageX, pageY)->
-    @hoverCard.style.left = (pageX - @offsetX) + 'px'
-    @hoverCard.style.top = (pageY - @offsetY) + 'px'
-    return
 , draggable)
