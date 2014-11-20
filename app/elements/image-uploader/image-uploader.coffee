@@ -17,7 +17,6 @@ Polymer 'image-uploader',
     importInterval = setInterval =>
       file = files[fileNumber]
       fileNumber--
-      console.log file
       if typeof file is 'undefined'
         clearInterval importInterval
       else
@@ -28,7 +27,7 @@ Polymer 'image-uploader',
           @importFile file
 
       return
-    , 10
+    , 1
     return
   importFile: (file)->
     img = new Image()
@@ -41,5 +40,5 @@ Polymer 'image-uploader',
     listener = img.addEventListener "load", =>
       ctx.drawImage img, 0, 0, @imageWidth, @imageHeight
       imageData = canvas.toDataURL file.type
-      @fire 'new-image',
+      @asyncFire 'new-image',
         imageData: imageData
