@@ -12,16 +12,14 @@
   <link rel="stylesheet" href="styles/app.sass">
   <link href='//fonts.googleapis.com/css?family=RobotoDraft:regular,bold,italic,thin,light,bolditalic,black,medium&lang=en' rel='stylesheet' type='text/css'>
 
-  <script src="bower_components/webcomponents/webcomponents.js"></script>
+  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
 
   <link rel="import" href="bower_components/font-roboto/roboto.html">
   <link rel="import" href="bower_components/paper-button/paper-button.html">
 
-  <link rel="import" href="elements/connection-manager/connection-manager.html">
-  <link rel="import" href="elements/playing-card/playing-card.html">
-  <link rel="import" href="elements/base-card/base-card.html">
-  <link rel="import" href="elements/deck-builder/deck-builder.html">
+  <link rel="import" href="elements/builder-card/builder-card.html">
   <link rel="import" href="elements/image-uploader/image-uploader.html">
+  <link rel="import" href="elements/deck-sorter/deck-sorter.html">
 
 </head>
 
@@ -30,15 +28,11 @@
   <h1>Table Simulator</h1>
   <h2>**IN HEAVY DEVELOPMENT**</h2>
 
-  <deck-builder></deck-builder>
+  <image-uploader></image-uploader>
 
-  <!--<image-uploader></image-uploader>-->
-
-  <!--<connection-manager apikey="c89qbb79f24eu3di"></connection-manager>-->
-
-  <!--<paper-button id="addCardButton" raised>Add Card</paper-button>-->
-
-  <!--<playing-card><h2>This is a test!</h2></playing-card>-->
+  <div vertical layout>
+    <deck-sorter></deck-sorter>
+  </div>
 
 
   <script src="scripts/app.coffee"></script>

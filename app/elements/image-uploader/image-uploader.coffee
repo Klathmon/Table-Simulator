@@ -6,18 +6,35 @@ Polymer 'image-uploader',
   importCardHover: ->
     @$.importCardButton.classList.toggle "hovering"
     @addIcon = "create"
+    return
   importCardHoverOut: ->
     @$.importCardButton.classList.toggle "hovering"
     @addIcon = "add"
+    return
   importCardClicked: ->
     @$.trueFileInput.click()
+    return
+  trueFileInputClicked: ->
+    @$.trueFileInput.value = null
+    return
   fileImported: ->
-    for file in @$.trueFileInput.files
-      if !file.type.match(@imageType)
-        alert "Not an image!"
-        #TODO: replace this with a fancy dialogue
+    files = @$.trueFileInput.files
+    fileNumber = 0
+    importInterval = setInterval =>
+      file = files[fileNumber]
+      fileNumber++
+      if typeof file is 'undefined'
+        clearInterval importInterval
       else
-        @async(@importFile file)
+        if !file.type.match(@imageType)
+          alert "Not an image!"
+          #TODO: replace this with a fancy dialogue
+        else
+          @importFile file
+
+      return
+    , 1
+    return
   importFile: (file)->
     img = new Image()
     canvas = document.createElement "canvas"
@@ -31,3 +48,5 @@ Polymer 'image-uploader',
       imageData = canvas.toDataURL file.type
       @asyncFire 'new-image',
         imageData: imageData
+      return
+    return
