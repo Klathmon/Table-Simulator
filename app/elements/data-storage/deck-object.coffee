@@ -3,17 +3,17 @@ class Deck
   name: 'Unnamed Deck'
   cards: []
   constructor: (guid, name, cards)->
-    if typeof guid == 'undefined'
+    if typeof guid in ['undefined', 'null']
       @guid = window.generateGUID()
     else
       @guid = guid
 
-    if typeof name == 'undefined'
+    if typeof name in ['undefined', 'null']
       @name = 'Unnamed Deck'
     else
       @name = name
 
-    if typeof cards == 'undefined'
+    if typeof cards in ['undefined', 'null']
       @cards = []
     else
       @cards = cards
