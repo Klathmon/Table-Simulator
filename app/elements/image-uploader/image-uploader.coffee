@@ -6,13 +6,17 @@ Polymer 'image-uploader',
   importCardHover: ->
     @$.importCardButton.classList.toggle "hovering"
     @addIcon = "create"
+    return
   importCardHoverOut: ->
     @$.importCardButton.classList.toggle "hovering"
     @addIcon = "add"
+    return
   importCardClicked: ->
     @$.trueFileInput.click()
+    return
   trueFileInputClicked: ->
     @$.trueFileInput.value = null
+    return
   fileImported: ->
     files = @$.trueFileInput.files
     fileNumber = 0
@@ -44,3 +48,5 @@ Polymer 'image-uploader',
       imageData = canvas.toDataURL file.type
       @asyncFire 'new-image',
         imageData: imageData
+      return
+    return
