@@ -82,7 +82,6 @@ Polymer 'data-storage',
       return
 
   deleteDeck: (deck)->
-    debugger;
     deckGUID = if typeof deck is 'string' then deck else deck.guid
     return new Promise (resolve, reject)=>
       console.log "Deleting Deck..."
