@@ -11,6 +11,8 @@ Polymer 'image-uploader',
     @addIcon = "add"
   importCardClicked: ->
     @$.trueFileInput.click()
+  trueFileInputClicked: ->
+    @$.trueFileInput.value = null
   fileImported: ->
     files = @$.trueFileInput.files
     fileNumber = 0

@@ -9,7 +9,7 @@
   <template>
     <link rel="stylesheet" href="image-uploader.sass">
 
-    <input id="trueFileInput" on-change="{{fileImported}}" type="file" multiple>
+    <input id="trueFileInput" on-change="{{fileImported}}" on-click={{trueFileInputClicked}} type="file" multiple>
 
     <paper-fab
         id="importCardButton"
