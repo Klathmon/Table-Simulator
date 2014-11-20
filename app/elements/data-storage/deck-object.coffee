@@ -2,21 +2,11 @@ class Deck
   guid: ''
   name: 'Unnamed Deck'
   cards: []
-  constructor: (guid, name, cards)->
-    if typeof guid in ['undefined', 'null']
-      @guid = window.generateGUID()
-    else
-      @guid = guid
+  constructor: (guid = window.generateGUID(), name = 'Unnamed Deck', cards = [])->
 
-    if typeof name in ['undefined', 'null']
-      @name = 'Unnamed Deck'
-    else
-      @name = name
-
-    if typeof cards in ['undefined', 'null']
-      @cards = []
-    else
-      @cards = cards
+    @guid = guid
+    @name = name
+    @cards = cards
 
     notifier = Object.getNotifier @
     Array.observe @cards, ->
