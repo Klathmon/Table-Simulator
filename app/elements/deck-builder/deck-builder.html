@@ -22,13 +22,7 @@
   <template>
     <link rel="stylesheet" href="deck-builder.sass">
 
-    <data-storage
-        id="dataStorage"
-        on-card-added={{cardAddedToDeck}}
-        on-deck-added={{deckAdded}}
-        on-deck-deleted={{deckDeleted}}
-        on-deck-renamed={{loadDeckList}}>
-    </data-storage>
+    <data-storage id="dataStorage"></data-storage>
 
     <paper-shadow z="5"></paper-shadow>
 
