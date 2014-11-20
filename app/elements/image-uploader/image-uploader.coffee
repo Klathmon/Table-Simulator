@@ -13,10 +13,10 @@ Polymer 'image-uploader',
     @$.trueFileInput.click()
   fileImported: ->
     files = @$.trueFileInput.files
-    fileNumber = files.length - 1
+    fileNumber = 0
     importInterval = setInterval =>
       file = files[fileNumber]
-      fileNumber--
+      fileNumber++
       if typeof file is 'undefined'
         clearInterval importInterval
       else
