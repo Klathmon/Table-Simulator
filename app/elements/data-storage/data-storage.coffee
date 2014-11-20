@@ -37,8 +37,10 @@ Polymer 'data-storage',
       console.log "Listing Decks..."
       decks = []
       localforage.iterate((value, key)=>
-        return if key.indexOf(@deckPrefix) > -1
-        return if key.indexOf(@collection) is -1
+        console.log key.indexOf(@deckPrefix)
+        console.log key.indexOf(@collection)
+        return if key.indexOf(@deckPrefix) is not 0
+        return if key.indexOf(@collection) is not -1
         decks.push
           guid: value.guid
           name: value.name
