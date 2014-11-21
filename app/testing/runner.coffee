@@ -1,25 +1,21 @@
 class TestRunner
 
-  setupTests: ()->
-    mocha.setup {ui: 'tdd', slow: 2000, timeout: 10000, htmlbase: ''}
-
-  testElements: () ->
-    thisObject = this
-    Array.prototype.forEach.call thisObject.getListItemElements('/elements/'), (elementName)->
-
-      htmlSuite elementName, ->
-        path = '/elements/' + elementName + '/tests/'
-        Array.prototype.forEach.call thisObject.getListItemElements(path), (htmlFile)->
-          htmlTest path + htmlFile
+  testElements: ->
+    retVal = []
+    for elementName in @getListItemElements '/elements/'
+      path = '/elements/' + elementName + '/tests/'
+      for test in @getListItemElements path
+        retVal.push '..' + path + test
+    return retVal
 
   getListItemElements: (url)->
-    returnVal = []
-    Array.prototype.forEach.call this.queryUrlResponseAll(url, '#wrapper .view-tiles li span.name'), (span)->
+    retVal = []
+    for span in @queryUrlResponseAll url, '#wrapper .view-tiles li span.name'
       text = span.innerHTML
-      return if text == '..'
-      return if text.indexOf('.coffee') > -1
-      returnVal.push text
-    return returnVal
+      continue if text is '..'
+      continue if text.indexOf('.coffee') > -1
+      retVal.push text
+    return retVal
 
   queryUrlResponseAll: (url, selector)->
     request = new XMLHttpRequest()

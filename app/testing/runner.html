@@ -1,33 +1,17 @@
 <!doctype html>
 <html>
-  <head>
-  	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>Note Element Test Runner</title>
-    <meta charset="UTF-8">
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta charset="utf-8">
+  <script src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script src="runner.coffee"></script>
+</head>
+<body>
+  <script>
+    var runner = new TestRunner();
 
-    <link rel="stylesheet" href="../bower_components/mocha/mocha.css" />
-
-    <script src="../bower_components/platform/platform.js"></script>
-    <script src="../bower_components/mocha/mocha.js"></script>
-    <script src="../bower_components/chai/chai.js"></script>
-    <script src="../bower_components/polymer-test-tools/mocha-htmltest.js"></script>
-
-    <script src="runner.coffee"></script>
-
-    <script>
-      var runner = new TestRunner();
-
-      runner.setupTests();
-
-      runner.testElements();
-    </script>
-
-
-  </head>
-  <body>
-    <div id="mocha"></div>
-    <script>
-      mocha.run();
-    </script>
-  </body>
+    WCT.loadSuites(runner.testElements());
+  </script>
+</body>
 </html>
