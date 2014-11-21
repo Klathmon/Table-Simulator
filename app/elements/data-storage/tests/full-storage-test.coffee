@@ -1,6 +1,10 @@
 window.addEventListener "polymer-ready", ->
   dataStorage = document.querySelector 'data-storage'
   suite '<data-storage>', ->
+    setup (done)->
+      dataStorage.purgeEverything().then ->
+        done()
+
     test 'check-element-exists', ->
       expect(dataStorage.deckPrefix).to.equal("Deck:")
 
@@ -9,16 +13,14 @@ window.addEventListener "polymer-ready", ->
       expect(deck.guid).to.not.equal('')
 
     test 'check-deck-listing', ->
-      dataStorage.purgeEverything().then ->
-        deck = dataStorage.createDeck()
-        dataStorage.saveDeck(deck).then ->
-          dataStorage.listDecks().then (decks)->
-            expect(decks.length).to.equal(1)
+      deck = dataStorage.createDeck()
+      dataStorage.saveDeck(deck).then ->
+        dataStorage.listDecks().then (decks)->
+          expect(decks.length).to.equal(1)
 
     test 'check-deck-removal', ->
-      dataStorage.purgeEverything().then ->
-        deck = dataStorage.createDeck()
-        dataStorage.saveDeck(deck).then ->
-          dataStorage.deleteDeck(deck).then ->
-            dataStorage.listDecks().then (decks)->
-              expect(decks.length).to.equal(0)
+      deck = dataStorage.createDeck()
+      dataStorage.saveDeck(deck).then ->
+        dataStorage.deleteDeck(deck).then ->
+          dataStorage.listDecks().then (decks)->
+            expect(decks.length).to.equal(0)
