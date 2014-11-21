@@ -9,15 +9,20 @@ Polymer 'data-storage',
   deckPrefix: "Deck:"
   collection: "__COLLECTION"
   ready: ->
+    storageName = ''
+    if @teststoragename is ''
+      storageName = "Table Simulator"
+    else
+      storageName = @teststoragename
+
     localforage.config
-      name: "Table Simulator"
+      name: storageName
       driver: localforage.INDEXDDB
       version: "1.0"
       description: "Storage of all card info and decks"
     return
   observeDeck: (deck)->
     Object.observe deck, (observerArray)=>
-      console.log "Deck Changed."
       @saveDeck observerArray[observerArray.length - 1].object
       return
     return
@@ -34,7 +39,6 @@ Polymer 'data-storage',
 
   listDecks: ->
     return new Promise (resolve, reject)=>
-      console.log "Listing Decks..."
       decks = []
       localforage.iterate((value, key)=>
         return if key.indexOf(@deckPrefix) is not 0
@@ -44,7 +48,6 @@ Polymer 'data-storage',
           name: value.name
         return
       ).then =>
-        console.log "Got Deck List."
         resolve decks
         return
       , (err)=>
@@ -54,12 +57,10 @@ Polymer 'data-storage',
 
   getDeck: (guid)->
     return new Promise (resolve, reject)=>
-      console.log "Getting Deck..."
       localforage.getItem(@deckPrefix + guid).then (deck)=>
         if deck is null
           reject "Deck not found"
         else
-          console.log "Got Deck."
           deck = new Deck deck.guid, deck.name, deck.cards
           @observeDeck deck
           resolve deck
@@ -71,9 +72,7 @@ Polymer 'data-storage',
 
   saveDeck: (deck)->
     return new Promise (resolve, reject)=>
-      console.log "Saving Deck..."
       localforage.setItem(@deckPrefix + deck.guid, deck).then (deck)=>
-        console.log "Deck Saved."
         resolve deck
         return
       , (err)=>
@@ -84,12 +83,15 @@ Polymer 'data-storage',
   deleteDeck: (deck)->
     deckGUID = if typeof deck is 'string' then deck else deck.guid
     return new Promise (resolve, reject)=>
-      console.log "Deleting Deck..."
       localforage.removeItem(@deckPrefix + deckGUID).then =>
-        console.log "Deck Deleted."
         resolve()
         return
       , (err)=>
         reject err
         return
+      return
+
+  purgeEverything: ()->
+    return new Promise (resolve, reject)=>
+      localforage.clear(resolve)
       return
