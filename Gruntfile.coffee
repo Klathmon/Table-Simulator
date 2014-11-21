@@ -369,6 +369,7 @@ module.exports = (grunt) ->
       "copy:bower"
       "buildDev"
       "wct-test:local"
+      "clean:build"
     ]
 
   grunt.registerTask "serveRelease", [
