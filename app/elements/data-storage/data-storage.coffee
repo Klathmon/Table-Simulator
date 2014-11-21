@@ -83,15 +83,10 @@ Polymer 'data-storage',
   deleteDeck: (deck)->
     deckGUID = if typeof deck is 'string' then deck else deck.guid
     return new Promise (resolve, reject)=>
-      localforage.removeItem(@deckPrefix + deckGUID).then =>
-        resolve()
-        return
-      , (err)=>
-        reject err
-        return
+      localforage.removeItem(@deckPrefix + deckGUID, resolve)
       return
 
   purgeEverything: ()->
-    return new Promise (resolve, reject)=>
+    return new Promise (resolve, reject)->
       localforage.clear(resolve)
       return
