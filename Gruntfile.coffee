@@ -12,6 +12,7 @@ module.exports = (grunt) ->
   require("jit-grunt") grunt,
     useminPrepare: "grunt-usemin"
     gitpush: "grunt-git"
+    'wct-test': "web-component-tester"
 
   grunt.initConfig
 
@@ -321,6 +322,14 @@ module.exports = (grunt) ->
         options:
           remote: 'origin'
 
+    'wct-test':
+      local:
+        options:
+          remote: false
+          suites: [BUILD_DIR + '/elements/*/tests/*.html']
+          testTimeout: 90 * 1000
+          browsers: ['chrome', 'firefox', 'canary']
+
   grunt.registerTask "buildDev", [
       "copy:html"
       "dom_munger:coffee2js"
@@ -353,6 +362,13 @@ module.exports = (grunt) ->
       "buildDev"
       "connect:dev"
       "watch"
+    ]
+
+  grunt.registerTask "testDev", [
+      "clean:build"
+      "copy:bower"
+      "buildDev"
+      "wct-test:local"
     ]
 
   grunt.registerTask "serveRelease", [
