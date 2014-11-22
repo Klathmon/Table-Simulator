@@ -267,7 +267,6 @@ module.exports = (grunt) ->
           "dom_munger:coffee2js"
           "dom_munger:sass2css"
           "rename:dev"
-          "wct-test:local"
         ]
       sass:
         files: [
@@ -278,7 +277,6 @@ module.exports = (grunt) ->
         tasks: [
           "sass:dev"
           "autoprefixer:dev"
-          "wct-test:local"
         ]
       coffee:
         files: [
@@ -288,7 +286,6 @@ module.exports = (grunt) ->
         ]
         tasks: [
           "coffee:dev"
-          "wct-test:local"
         ]
 
     connect:
