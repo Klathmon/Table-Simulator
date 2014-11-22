@@ -6,7 +6,10 @@
   <template>
     <link rel="stylesheet" href="deck-sorter.sass">
 
-    <content></content>
+    <content
+        on-drag-start="{{dragStarted}}"
+        on-drag-end="{{dragStopped}}">
+    </content>
 
   </template>
   <!-- build:js deck-sorter.js -->

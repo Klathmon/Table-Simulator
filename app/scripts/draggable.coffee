@@ -12,25 +12,26 @@ draggable =
     @draggie.on 'dragEnd', @dragEndFire.bind(this)
     return
   dragStartFire: ->
-    [xPos, yPos] = @getMyPosition()
+    @startLeft = @style.left
+    @startTop = @style.top
     @asyncFire 'drag-start',
       element: @
-      xPos: xPos
-      yPos: yPos
+      left: @startLeft
+      top: @startTop
     return
   dragMoveFire: ->
-    [xPos, yPos] = @getMyPosition()
     @asyncFire 'drag-move',
       element: @
-      xPos: xPos
-      yPos: yPos
+      left: @style.left
+      top: @style.top
     return
   dragEndFire: ->
-    [xPos, yPos] = @getMyPosition()
+    @startLeft = null
+    @startTop = null
     @asyncFire 'drag-end',
       element: @
-      xPos: xPos
-      yPos: yPos
+      left: @style.left
+      top: @style.top
     return
   getMyPosition: ->
     left = 0

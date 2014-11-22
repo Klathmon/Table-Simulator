@@ -39,6 +39,14 @@ Polymer 'deck-sorter', Platform.mixin(
       @layout()
     return
 
+ dragStarted: (event, object)->
+   console.log object
+   return
+
+ dragStopped: (event, object)->
+   console.log object
+   return
+
   layout: ->
     @job 'packery-layout-job', =>
       @packery.layout()
@@ -50,5 +58,4 @@ Polymer 'deck-sorter', Platform.mixin(
       return
     , 200
     return
-
 , draggable)
