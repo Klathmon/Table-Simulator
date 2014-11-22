@@ -7,15 +7,14 @@ Polymer 'base-card',
     @setZindex()
     return
   zoomCard: ->
-    dbox = document.createElement "core-overlay"
-    dbox.style.width = "310px"
-    dbox.style.height = "477px"
-    dbox.style.overflow = "hidden"
+    dbox = document.createElement "paper-dialog"
     dbox.setAttribute "transition", "core-transition-center"
-    dbox.setAttribute "opened", true
-    dbox.setAttribute "backdrop", false
     dbox.setAttribute "layered", true
+    dbox.setAttribute "backdrop", true
+    dbox.setAttribute "opened", true
     dbox.setAttribute "closeSelector", "img"
+    dbox.style.width = "310px"
+    dbox.shadowRoot.querySelector('#scroller').style.padding = '0'
     img = document.createElement "img"
     img.src = @imageData
     img.style.width = "100%"
