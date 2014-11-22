@@ -1,10 +1,12 @@
 draggable =
+  createDraggabilly: ->
+      @draggie = new Draggabilly this
+      return
   setupDraggable: ->
     elementComputedStyle = window.getComputedStyle @
     @elementWidth = parseInt(elementComputedStyle.getPropertyValue "width")
     @elementHeight = parseInt(elementComputedStyle.getPropertyValue "height")
 
-    @draggie = new Draggabilly this
     @draggie.on 'dragStart', @dragStartFire.bind(this)
     @draggie.on 'dragMove', @dragMoveFire.bind(this)
     @draggie.on 'dragEnd', @dragEndFire.bind(this)
@@ -28,7 +30,10 @@ draggable =
       yPos: yPos
     return
   getMyPosition: ->
-    left = xPos = top = yPos = 0
+    left = 0
+    xPos = 0
+    top = 0
+    yPos = 0
     element = @
     while element
       left += (element.offsetLeft - element.scrollLeft + element.clientLeft)

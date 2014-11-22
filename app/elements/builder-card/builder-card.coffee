@@ -3,6 +3,9 @@ Polymer 'builder-card', Platform.mixin(
     @super()
     return
   ready: ->
+    @createDraggabilly()
+    return
+  domReady: ->
     @setupDraggable()
     return
 
