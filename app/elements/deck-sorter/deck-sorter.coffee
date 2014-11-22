@@ -7,6 +7,10 @@ Polymer 'deck-sorter', Platform.mixin(
       rowHeight: "builder-card"
       gutter: 8
 
+    @packery.on 'dragItemPositioned', =>
+      @layout()
+      return
+
     @onMutation @, @contentChanged
     return
   contentChanged: (observer, mutations)->
