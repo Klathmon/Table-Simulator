@@ -72,8 +72,8 @@ Polymer 'data-storage',
 
   saveDeck: (deck)->
     return new Promise (resolve, reject)=>
-      localforage.setItem(@deckPrefix + deck.guid, deck).then (deck)=>
-        resolve deck
+      localforage.setItem(@deckPrefix + deck.guid, deck).then (deckSaved)=>
+        resolve deckSaved
         return
       , (err)=>
         reject err
