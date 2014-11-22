@@ -267,6 +267,7 @@ module.exports = (grunt) ->
           "dom_munger:coffee2js"
           "dom_munger:sass2css"
           "rename:dev"
+          "wct-test:local"
         ]
       sass:
         files: [
@@ -277,6 +278,7 @@ module.exports = (grunt) ->
         tasks: [
           "sass:dev"
           "autoprefixer:dev"
+          "wct-test:local"
         ]
       coffee:
         files: [
@@ -286,6 +288,7 @@ module.exports = (grunt) ->
         ]
         tasks: [
           "coffee:dev"
+          "wct-test:local"
         ]
 
     connect:
@@ -326,9 +329,26 @@ module.exports = (grunt) ->
       options:
         suites: [BUILD_DIR + '/elements/*/tests/*.html']
         testTimeout: 30 * 1000
+      localPersistant:
+        options:
+          remote: false
+          persistent: true
+          browsers: [
+            'chrome'
+            'canary'
+            'firefox'
+            'ie'
+          ]
       local:
         options:
           remote: false
+          testTimeout: 5 * 1000
+          browsers: [
+            'chrome'
+            'canary'
+            'firefox'
+            'ie'
+          ]
       remote:
         options:
           remote: true
@@ -394,6 +414,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask "serveDev", [
       "clean:build"
+      "copy:bower"
       "buildDev"
       "connect:dev"
       "watch"
@@ -403,7 +424,7 @@ module.exports = (grunt) ->
       "clean:build"
       "copy:bower"
       "buildDev"
-      "wct-test:local"
+      "wct-test:localPersistant"
       "clean:build"
     ]
 
