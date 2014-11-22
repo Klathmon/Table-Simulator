@@ -33,6 +33,6 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt testTravis --verbose"
+    "test": "grunt testRemote --verbose"
   }
 }
