@@ -6,10 +6,10 @@ img.style.display = "none"
 window.addEventListener "polymer-ready", ->
   suite '<base-card>', ->
 
-    test 'check-element-exists', ->
+    test 'check element exists', ->
       expect(baseCard.imageData).to.equal img.src
 
-    test 'check-element-has-layout', ->
+    test 'check element has layout', ->
       computedStyle = window.getComputedStyle baseCard
       expect(computedStyle.getPropertyValue 'width').to.be.above '10'
       expect(computedStyle.getPropertyValue 'height').to.be.above '10'
