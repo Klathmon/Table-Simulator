@@ -14,18 +14,21 @@ draggable =
   dragStartFire: ->
     [xPos, yPos] = @getMyPosition()
     @asyncFire 'drag-start',
+      element: @
       xPos: xPos
       yPos: yPos
     return
   dragMoveFire: ->
     [xPos, yPos] = @getMyPosition()
     @asyncFire 'drag-move',
+      element: @
       xPos: xPos
       yPos: yPos
     return
   dragEndFire: ->
     [xPos, yPos] = @getMyPosition()
     @asyncFire 'drag-end',
+      element: @
       xPos: xPos
       yPos: yPos
     return
