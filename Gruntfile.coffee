@@ -324,7 +324,8 @@ module.exports = (grunt) ->
 
     'wct-test':
       options:
-        suites: [BUILD_DIR + '/elements/*/tests/*.html']
+        root: BUILD_DIR
+        suites: ['elements/*/tests/*.html']
         testTimeout: 30 * 1000
       localPersistant:
         options:
@@ -418,6 +419,14 @@ module.exports = (grunt) ->
     ]
 
   grunt.registerTask "testLocal", [
+      "clean:build"
+      "copy:bower"
+      "buildDev"
+      "wct-test:local"
+      "clean:build"
+    ]
+
+  grunt.registerTask "testLocalPersistant", [
       "clean:build"
       "copy:bower"
       "buildDev"
