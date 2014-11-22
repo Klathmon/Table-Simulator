@@ -1,0 +1,12 @@
+env:
+  global:
+    - secure: c/YT6kHT3q3kJ3CKEepLcETCe10ZpO7NS5tomAMjcByENol3DYfTJ8j3W8pVzYTzsWYmITEr0wbamdGEpQL6osEro4zQmaXUSPbd0rcyLStP9+2J/r79grzPBxlH94U8oEUu2ZYgiaqnXX72gQSsH67HAJ5ZjMPJYTUud9TWTb4=
+    - secure: iZjxKEbXNXlCLuCtp4Wq6OxCMm2N2lQWSfMMQE75sbZRNijGqXFjswb2oJQoivw7yeaF7w9zIpzrxzQ6ceAWG0yIKp0s8+1p8Ouomn8TJKul3euPr7q3yEjiO66PZeJERS3fjhtQEDT++uU1FBvFdtUBoUTgQwOuoH6NmewWpsY=
+
+language: node_js
+
+install:
+  - "./install-all.sh"
+
+script:
+  - npm test

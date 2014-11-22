@@ -323,12 +323,47 @@ module.exports = (grunt) ->
           remote: 'origin'
 
     'wct-test':
+      options:
+        suites: [BUILD_DIR + '/elements/*/tests/*.html']
+        testTimeout: 30 * 1000
       local:
         options:
           remote: false
-          suites: [BUILD_DIR + '/elements/*/tests/*.html']
-          testTimeout: 90 * 1000
-          browsers: ['chrome', 'firefox', 'canary']
+      remote:
+        options:
+          remote: true
+          browsers: [
+            # 100% Supported
+            'Windows 8.1/Chrome@dev'
+            'Windows 8.1/Chrome@beta'
+            'Windows 8.1/Chrome'
+            'Windows 7/Chrome'
+            'Linux/Chrome'
+            'OS X 10.10/Chrome'
+
+            # Supported as Client
+            'Windows 8.1/Firefox@dev'
+            'Windows 8.1/Firefox@beta'
+            'Windows 8.1/Firefox'
+            'Windows 7/Firefox'
+            'Linux/Firefox'
+            'OS X 10.10/Firefox'
+
+            # Not supported but might work
+            'OS X 10.10/Safari@8'
+            'OS X 10.9/Safari@7'
+            'Windows 8.1/Internet Explorer@11'
+            'Windows 7/Internet Explorer@11'
+
+            # Mobile
+            'Linux/Android@4.4'
+            'Linux/Android@4.3'
+            'OS X 10.9/iPhone@8.1'
+            'OS X 10.9/iPad@8.1'
+            'OS X 10.9/iPhone@7.1'
+            'OS X 10.9/iPad@7.1'
+          ]
+
 
   grunt.registerTask "buildDev", [
       "copy:html"
@@ -364,11 +399,19 @@ module.exports = (grunt) ->
       "watch"
     ]
 
-  grunt.registerTask "testDev", [
+  grunt.registerTask "testLocal", [
       "clean:build"
       "copy:bower"
       "buildDev"
       "wct-test:local"
+      "clean:build"
+    ]
+
+  grunt.registerTask "testRemote", [
+      "clean:build"
+      "copy:bower"
+      "buildDev"
+      "wct-test:remote"
       "clean:build"
     ]
 
@@ -378,12 +421,12 @@ module.exports = (grunt) ->
     ]
 
   grunt.registerTask "deployRelease", [
-    "buildRelease"
-    "copy:ghpages"
-    "git_deploy:release"
-  ]
+      "buildRelease"
+      "copy:ghpages"
+      "git_deploy:release"
+    ]
 
   grunt.registerTask "pushAndDeploy", [
-    "gitpush:build"
-    "deployRelease"
-  ]
+      "gitpush:build"
+      "deployRelease"
+    ]
