@@ -350,6 +350,7 @@ module.exports = (grunt) ->
       remote:
         options:
           remote: true
+          ttyOutput: false
           browsers: [
             # 100% Supported
             'Windows 8.1/Chrome@dev'
