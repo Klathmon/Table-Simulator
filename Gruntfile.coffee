@@ -326,7 +326,7 @@ module.exports = (grunt) ->
       options:
         root: BUILD_DIR
         suites: ['elements/*/tests/*.html']
-        testTimeout: 30 * 1000
+        testTimeout: 5 * 1000
       localPersistant:
         options:
           remote: false
@@ -335,17 +335,14 @@ module.exports = (grunt) ->
             'chrome'
             'canary'
             'firefox'
-            'ie'
           ]
       local:
         options:
           remote: false
-          testTimeout: 5 * 1000
           browsers: [
             'chrome'
             'canary'
             'firefox'
-            'ie'
           ]
       remote:
         options:
@@ -371,8 +368,6 @@ module.exports = (grunt) ->
             # Not supported but might work
             'OS X 10.10/Safari@8'
             'OS X 10.9/Safari@7'
-            'Windows 8.1/Internet Explorer@11'
-            'Windows 7/Internet Explorer@11'
 
             # Mobile
             'Linux/Android@4.4'
