@@ -21,19 +21,13 @@ Polymer 'data-storage',
       version: "1.0"
       description: "Storage of all card info and decks"
     return
-  observeDeck: (deck)->
-    Object.observe deck, (observerArray)=>
-      @saveDeck observerArray[observerArray.length - 1].object
-      return
-    return
 
   createDeck: (isCollection = false)->
     deck = null
     if isCollection is true
-      deck = new Deck @collection, @collection
+      deck = new Deck @, @collection, @collection
     else
-      deck = new Deck
-    @observeDeck deck
+      deck = new Deck @,
     @saveDeck deck
     return deck
 
@@ -61,8 +55,7 @@ Polymer 'data-storage',
         if deck is null
           reject "Deck not found"
         else
-          deck = new Deck deck.guid, deck.name, deck.cards
-          @observeDeck deck
+          deck = new Deck @, deck.guid, deck.name, deck.cards
           resolve deck
         return
       , (err)=>
@@ -71,9 +64,13 @@ Polymer 'data-storage',
       return
 
   saveDeck: (deck)->
+    storageDeck =
+      guid: deck.guid
+      name: deck.name
+      cards: deck.cards
     return new Promise (resolve, reject)=>
-      localforage.setItem(@deckPrefix + deck.guid, deck).then (deckSaved)=>
-        resolve deckSaved
+      localforage.setItem(@deckPrefix + deck.guid, storageDeck).then =>
+        resolve deck
         return
       , (err)=>
         reject err

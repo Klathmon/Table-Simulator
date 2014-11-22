@@ -1,11 +1,11 @@
 class Deck
+  dataStorage: null
   guid: ''
   name: 'Unnamed Deck'
-  _lastCardAdded: ''
-  _lastCardRemoved: ''
   cards: []
-  constructor: (guid = window.generateGUID(), name = 'Unnamed Deck', cards = [])->
+  constructor: (dataStorageObject, guid = window.generateGUID(), name = 'Unnamed Deck', cards = [])->
 
+    @dataStorage = dataStorageObject
     @guid = guid
     @name = name
     @cards = cards
@@ -13,10 +13,15 @@ class Deck
 
   addCard: (cardData)->
     @cards.push cardData
-    @_lastCardAdded = cardData
+    @dataStorage.saveDeck @
     return
 
   deleteCard: (cardData)->
     @cards.splice @cards.indexOf(cardData), 1
-    @_lastCardRemoved = cardData
+    @dataStorage.saveDeck @
+    return
+
+  setName: (newDeckName)->
+    @name = newDeckName
+    @dataStorage.saveDeck @
     return

@@ -16,7 +16,7 @@ window.addEventListener "polymer-ready", ->
       deck = dataStorage.createDeck()
       dataStorage.saveDeck(deck).then ->
         dataStorage.listDecks().then (decks)->
-          expect(decks.length).to.equal 1
+          expect(decks).to.have.length 1
           done()
 
     test 'check deck removal', (done)->
