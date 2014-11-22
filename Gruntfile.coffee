@@ -413,7 +413,6 @@ module.exports = (grunt) ->
 
   grunt.registerTask "serveDev", [
       "clean:build"
-      "copy:bower"
       "buildDev"
       "connect:dev"
       "watch"
