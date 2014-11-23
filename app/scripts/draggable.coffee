@@ -26,12 +26,13 @@ draggable =
       top: @style.top
     return
   dragEndFire: ->
-    @startLeft = null
-    @startTop = null
+    [xPos, yPos] = @getMyPosition()
     @asyncFire 'drag-end',
       element: @
-      left: @style.left
-      top: @style.top
+      startLeft: @startLeft
+      startTop: @startTop
+      xPos: xPos
+      yPos: yPos
     return
   getMyPosition: ->
     left = 0

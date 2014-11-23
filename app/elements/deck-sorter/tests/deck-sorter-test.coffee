@@ -4,7 +4,7 @@ window.addEventListener "polymer-ready", ->
   imageUploader = document.querySelector 'image-uploader'
   deckSorter = document.querySelector 'deck-sorter'
 
-  addCardToDeckSorter = (img1Element)->
+  addCardToDeckSorter = (img1Element, top = null, left = null)->
     newImage = (event)->
       card = document.createElement 'builder-card'
       card.imageData = event.detail.imageData
@@ -24,14 +24,14 @@ window.addEventListener "polymer-ready", ->
         deckSorter.removeEventListener 'layout-complete', eventL
         done()
       deckSorter.addEventListener 'layout-complete', eventL
-      addCardToDeckSorter(img1)
+      addCardToDeckSorter img1
 
     test 'check removing card works', (done)->
       eventL = (event)->
         expect(event.detail.elements).to.have.length 1
         deckSorter.removeEventListener 'layout-complete', eventL
+        oldCard.parentNode.removeChild document.querySelector 'deck-sorter builder-card'
         done()
       deckSorter.addEventListener 'layout-complete', eventL
-      oldCard = document.querySelector 'deck-sorter builder-card'
-      oldCard.parentNode.removeChild oldCard
-      addCardToDeckSorter(img2)
+      oldCard.parentNode.removeChild document.querySelector 'deck-sorter builder-card'
+      addCardToDeckSorter img2

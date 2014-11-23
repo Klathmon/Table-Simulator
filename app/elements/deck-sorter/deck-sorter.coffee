@@ -39,13 +39,15 @@ Polymer 'deck-sorter', Platform.mixin(
       @layout()
     return
 
- dragStarted: (event, object)->
-   console.log object
-   return
-
- dragStopped: (event, object)->
-   console.log object
-   return
+  # return the element to it's start position if it's outside the starting deck-sorter
+  dragStopped: (event, object)->
+    element = document.elementFromPoint object.xPos, object.yPos
+    while element
+      return if element is @
+      element = element.parentNode
+    @packery.fit object.element, object.startLeft, object.startRight
+    @packery.layout()
+    return
 
   layout: ->
     @job 'packery-layout-job', =>
