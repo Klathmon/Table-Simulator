@@ -30,8 +30,10 @@ window.addEventListener "polymer-ready", ->
       eventL = (event)->
         expect(event.detail.elements).to.have.length 1
         deckSorter.removeEventListener 'layout-complete', eventL
-        oldCard.parentNode.removeChild document.querySelector 'deck-sorter builder-card'
+        oldCard = document.querySelector 'deck-sorter builder-card'
+        oldCard.parentNode.removeChild oldCard
         done()
       deckSorter.addEventListener 'layout-complete', eventL
-      oldCard.parentNode.removeChild document.querySelector 'deck-sorter builder-card'
+      oldCard = document.querySelector 'deck-sorter builder-card'
+      oldCard.parentNode.removeChild oldCard
       addCardToDeckSorter img2
