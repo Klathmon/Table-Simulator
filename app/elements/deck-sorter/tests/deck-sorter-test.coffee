@@ -4,7 +4,7 @@ window.addEventListener "polymer-ready", ->
   imageUploader = document.querySelector 'image-uploader'
   deckSorter = document.querySelector 'deck-sorter'
 
-  addCardToDeckSorter = (img1Element, top = null, left = null)->
+  addCardToDeckSorter = (img1Element)->
     newImage = (event)->
       card = document.createElement 'builder-card'
       card.imageData = event.detail.imageData
