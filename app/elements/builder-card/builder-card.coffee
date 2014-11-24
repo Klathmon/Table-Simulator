@@ -33,7 +33,7 @@ Polymer 'builder-card', Platform.mixin(
     @hoverCard.imageData = @imageData
     @hoverCard.style.width = @cardWidth
     @hoverCard.style.position = 'absolute'
-    @hoverCard.style['z-index'] = '5000'
+    @hoverCard.style['z-index'] = '-50'
     @hoverCard.style.opacity = 0
     @setXYPos pointer.pageX, pointer.pageY
     document.body.appendChild @hoverCard
@@ -41,15 +41,14 @@ Polymer 'builder-card', Platform.mixin(
     return
   moveGhostElement: (dragInstance, event, pointer)->
     if @notFirstHoverEvent
+      @hoverCard.style['z-index'] = '5000'
       @hoverCard.style.opacity = 1
       @style.opacity = 0
       @setXYPos pointer.pageX, pointer.pageY
       #now get the bounding box of the container, and check if this element is within it
       boundingRect = @parentElement.getBoundingClientRect()
-      compStyle = window.getComputedStyle @hoverCard
-
-      x = pointer.pageX - @offsetX + (parseInt(compStyle.getPropertyValue "width") / 2)
-      y = pointer.pageY - @offsetY + (parseInt(compStyle.getPropertyValue "height") / 2)
+      x = pointer.pageX
+      y = pointer.pageY
       if (x < boundingRect.left or x > boundingRect.right) or (y < boundingRect.top or y > boundingRect.bottom)
         @hoverCard.style.width = @cardIconPx + 'px'
         @offsetX = @offsetIconX
