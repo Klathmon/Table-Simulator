@@ -14,7 +14,7 @@ Polymer 'builder-card', Platform.mixin(
     return
 
   createGhostElement: (dragInstance, event, pointer)->
-    cardComputedStyle = window.getComputedStyle(@)
+    cardComputedStyle = window.getComputedStyle @
     @cardWidth = cardComputedStyle.getPropertyValue "width"
     @cardHeight = cardComputedStyle.getPropertyValue "height"
 
@@ -49,7 +49,7 @@ Polymer 'builder-card', Platform.mixin(
       boundingRect = @parentElement.getBoundingClientRect()
       x = pointer.pageX
       y = pointer.pageY
-      if (x < boundingRect.left or x > boundingRect.right) or (y < boundingRect.top or y > boundingRect.bottom)
+      if x < boundingRect.left or x > boundingRect.right or y < boundingRect.top or y > boundingRect.bottom
         @hoverCard.style.width = @cardIconPx + 'px'
         @offsetX = @offsetIconX
         @offsetY = @offsetIconY
