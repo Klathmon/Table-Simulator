@@ -25,18 +25,21 @@ Polymer 'builder-card', Platform.mixin(
     @hoverCard.imageData = @imageData
     @hoverCard.style.width = cardWidth
     @hoverCard.style.position = 'absolute'
-    @hoverCard.style['z-index'] = '-50'
+    @hoverCard.style['z-index'] = '5000'
+    @hoverCard.style.opacity = 0
     @setXYPos pointer.pageX, pointer.pageY
     document.body.appendChild @hoverCard
     @notFirstHoverEvent = false
     return
   moveGhostElement: (dragInstance, event, pointer)->
     if @notFirstHoverEvent
-      @hoverCard.style['z-index'] = '5000'
+      @hoverCard.style.opacity = 1
+      @style.opacity = 0
       @setXYPos pointer.pageX, pointer.pageY
     @notFirstHoverEvent = true
     return
   killGhostElement: (dragInstance, event, pointer)->
+    @style.opacity = 1
     @hoverCard.parentElement.removeChild @hoverCard
     return
 
