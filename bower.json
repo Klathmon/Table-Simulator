@@ -12,6 +12,6 @@
     "localforage": "#master"
   },
   "devDependencies": {
-    "web-component-tester": "Polymer/web-component-tester#~2.0.0"
+    "web-component-tester": "Polymer/web-component-tester#d475c57c82a1d657f5b89a019694482e0606a3d6"
   }
 }
