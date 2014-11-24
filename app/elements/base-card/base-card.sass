@@ -1,5 +1,7 @@
 @import 'colors', 'mixins', 'placeholders', 'animations'
 
+$transitionSpeed: .2s
+
 \:host
   display: inline-block
   overflow: hidden
@@ -8,8 +10,7 @@
     width: 1px
     color: #CFCFCF
     radius: 5px
-  &.icon
-    width: 20px !important
+  transition: height $transitionSpeed, width $transitionSpeed
 
 #imageElement
   width: 100%
