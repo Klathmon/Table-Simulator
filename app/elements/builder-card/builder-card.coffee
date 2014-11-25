@@ -1,5 +1,5 @@
 Polymer 'builder-card', Platform.mixin(
-  cardIconPx: 50
+  cardIconPx: 25
   created: ->
     @super()
     return
