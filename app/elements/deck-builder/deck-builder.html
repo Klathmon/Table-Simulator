@@ -1,0 +1,67 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/core-icons/image-icons.html">
+<link rel="import" href="../../bower_components/core-menu/core-submenu.html">
+<link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../../bower_components/core-scaffold/core-scaffold.html">
+<link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
+
+<link rel="import" href="../image-uploader/image-uploader.html">
+<link rel="import" href="../data-storage/data-storage.html">
+<link rel="import" href="../deck-sorter/deck-sorter.html">
+
+
+<polymer-element
+    name="deck-builder">
+  <template>
+    <link rel="stylesheet" href="deck-builder.sass">
+
+    <core-scaffold>
+      <core-header-panel navigation flex mode="seamed">
+        <core-toolbar>Decks</core-toolbar>
+        <core-menu theme="core-light-theme">
+          <template repeat="{{ category in categories }}">
+            <core-submenu label="{{category.name}}" icon="content-copy">
+              <template repeat="{{ deck in category.decks }}">
+                <paper-item data-guid="{{deck.guid}}">
+                  <core-icon icon="image:crop-portrait"></core-icon>
+                  {{deck.name}}
+                </paper-item>
+              </template>
+              <paper-item class="add addDeck">
+                <core-icon icon="add-circle"></core-icon>
+                Add New Deck
+              </paper-item>
+            </core-submenu>
+          </template>
+          <paper-item class="add addCategory">
+            <core-icon icon="add-circle"></core-icon>
+            Add New Category
+          </paper-item>
+        </core-menu>
+      </core-header-panel>
+      <div tool>Deck Builder</div>
+      <div id="deckParentWindow" vertical layout fit>
+        <deck-sorter id="deckSorter" flex></deck-sorter>
+
+        <div class="lowerActions" horizontal layout end>
+          <div flex>
+            <paper-fab
+              class="deleteButton"
+              icon="delete"
+              mini
+              on-tap="{{deleteCollection}}">
+            </paper-fab>
+          </div>
+          <image-uploader on-new-image="{{newImageUploaded}}"></image-uploader>
+        </div>
+      </div>
+    </core-scaffold>
+
+  </template>
+  <!-- build:js deck-builder.js -->
+  <script src="deck-builder.coffee"></script>
+  <!-- endbuild -->
+</polymer-element>
