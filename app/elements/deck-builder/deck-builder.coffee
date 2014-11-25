@@ -1,5 +1,10 @@
 Polymer 'deck-builder',
   ready: ->
+    @currentDeck =
+      guid: "1234"
+      name: "Deck 1"
+      cards: []
+
     @categories = [
       {
         name: "Category 1"

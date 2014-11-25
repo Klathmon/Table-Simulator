@@ -5,8 +5,8 @@
 <link rel="import" href="../../bower_components/core-icons/image-icons.html">
 <link rel="import" href="../../bower_components/core-menu/core-submenu.html">
 <link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
 <link rel="import" href="../../bower_components/core-scaffold/core-scaffold.html">
-<link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
 
 <link rel="import" href="../image-uploader/image-uploader.html">
 <link rel="import" href="../data-storage/data-storage.html">
@@ -42,7 +42,7 @@
           </paper-item>
         </core-menu>
       </core-header-panel>
-      <div tool>Deck Builder</div>
+      <div tool>{{currentDeck.name}}</div>
       <div id="deckParentWindow" vertical layout fit>
         <deck-sorter id="deckSorter" flex></deck-sorter>
 
