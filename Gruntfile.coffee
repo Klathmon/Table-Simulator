@@ -326,7 +326,7 @@ module.exports = (grunt) ->
       options:
         root: BUILD_DIR
         suites: ['elements/*/tests/*.html']
-        testTimeout: 5 * 1000
+        testTimeout: 30 * 1000
       localPersistant:
         options:
           remote: false
@@ -383,7 +383,7 @@ module.exports = (grunt) ->
         options:
           updateType: 'prompt'
           semver: false
-          
+
 
   grunt.registerTask "buildDev", [
       "copy:html"
