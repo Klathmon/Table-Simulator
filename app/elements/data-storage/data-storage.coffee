@@ -22,16 +22,13 @@ Polymer 'data-storage',
     return
 
   createDeck: ->
-    deck = new Deck @,
-    @saveDeck deck
-    return deck
+    return new Deck @
 
   listDecks: ->
     return new Promise (resolve, reject)=>
       decks = []
       localforage.iterate((value, key)=>
         return if key.indexOf(@deckPrefix) is not 0
-        return if key.indexOf(@collection) is not -1
         decks.push
           guid: value.guid
           name: value.name
@@ -64,8 +61,10 @@ Polymer 'data-storage',
       name: deck.name
       cards: deck.cards
     return new Promise (resolve, reject)=>
-      localforage.setItem(@deckPrefix + deck.guid, storageDeck).then =>
-        resolve deck
+      localforage.setItem(@deckPrefix + deck.guid, storageDeck).then ->
+        setTimeout ->
+          resolve deck
+        ,1
         return
       , (err)=>
         reject err
