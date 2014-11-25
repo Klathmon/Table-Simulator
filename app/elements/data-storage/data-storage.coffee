@@ -9,7 +9,7 @@ Polymer 'data-storage',
   deckPrefix: "Deck:"
   ready: ->
     storageName = ''
-    if @teststoragename is ''
+    if @teststoragename is undefined
       storageName = "Table Simulator"
     else
       storageName = @teststoragename
