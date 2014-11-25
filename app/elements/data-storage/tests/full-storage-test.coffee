@@ -8,12 +8,14 @@ window.addEventListener "polymer-ready", ->
     test 'check element exists', ->
       expect(dataStorage.deckPrefix).to.equal "Deck:"
 
-    test 'check deck creation', ->
+    test 'check deck creation', (done)->
       deck = dataStorage.createDeck()
       expect(deck.guid).to.not.equal ''
+      done()
 
     test 'check deck listing', (done)->
       deck = dataStorage.createDeck()
+      deck.name = "Stupid Deck Name"
       dataStorage.saveDeck(deck).then ->
         dataStorage.listDecks().then (decks)->
           expect(decks).to.have.length 1
