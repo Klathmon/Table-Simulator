@@ -18,31 +18,25 @@
   <template>
     <link rel="stylesheet" href="deck-builder.sass">
 
+    <data-storage id="dataStorage"></data-storage>
+
     <core-scaffold>
       <core-header-panel navigation flex mode="seamed">
         <core-toolbar>Decks</core-toolbar>
         <core-menu theme="core-light-theme">
-          <template repeat="{{ category in categories }}">
-            <core-submenu label="{{category.name}}" icon="content-copy">
-              <template repeat="{{ deck in category.decks }}">
-                <paper-item data-guid="{{deck.guid}}">
-                  <core-icon icon="image:crop-portrait"></core-icon>
-                  {{deck.name}}
-                </paper-item>
-              </template>
-              <paper-item class="add addDeck">
-                <core-icon icon="add-circle"></core-icon>
-                Add New Deck
-              </paper-item>
-            </core-submenu>
+          <template repeat="{{ deck in decks }}">
+            <paper-item data-guid="{{deck.guid}}">
+              <core-icon icon="image:crop-portrait"></core-icon>
+              {{deck.name}}
+            </paper-item>
           </template>
-          <paper-item class="add addCategory">
+          <paper-item on-tap="{{addNewDeck}}">
             <core-icon icon="add-circle"></core-icon>
-            Add New Category
+            Add New Deck
           </paper-item>
         </core-menu>
       </core-header-panel>
-      <div tool>{{currentDeck.name}}</div>
+      <div tool>{{currentDeckName}}</div>
       <div id="deckParentWindow" vertical layout fit>
         <deck-sorter id="deckSorter" flex></deck-sorter>
 
