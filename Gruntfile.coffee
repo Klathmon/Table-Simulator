@@ -378,6 +378,12 @@ module.exports = (grunt) ->
             #'OS X 10.9/iPad@7.1'
           ]
 
+    devUpdate:
+      main:
+        options:
+          updateType: 'prompt'
+          semver: false
+          
 
   grunt.registerTask "buildDev", [
       "copy:html"
