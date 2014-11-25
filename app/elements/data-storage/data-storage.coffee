@@ -7,7 +7,6 @@
 # card-removed
 Polymer 'data-storage',
   deckPrefix: "Deck:"
-  collection: "__COLLECTION"
   ready: ->
     storageName = ''
     if @teststoragename is ''
@@ -22,12 +21,8 @@ Polymer 'data-storage',
       description: "Storage of all card info and decks"
     return
 
-  createDeck: (isCollection = false)->
-    deck = null
-    if isCollection is true
-      deck = new Deck @, @collection, @collection
-    else
-      deck = new Deck @,
+  createDeck: ->
+    deck = new Deck @,
     @saveDeck deck
     return deck
 
