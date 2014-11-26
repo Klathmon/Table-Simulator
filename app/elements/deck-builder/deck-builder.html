@@ -26,7 +26,7 @@
         <core-toolbar>Decks</core-toolbar>
         <core-menu theme="core-light-theme">
           <template repeat="{{ deck in decks }}">
-            <paper-item data-guid="{{deck.guid}}">
+            <paper-item data-guid="{{deck.guid}}" on-tap="{{loadDeck}}">
               <core-icon icon="image:crop-portrait"></core-icon>
               {{deck.name}}
             </paper-item>
@@ -37,9 +37,14 @@
           </paper-item>
         </core-menu>
       </core-header-panel>
-      <div tool><paper-input value="{{currentDeckName}}"></paper-input></div>
+      <div tool><paper-input value="{{currentDeck.name}}"></paper-input></div>
       <div id="deckParentWindow" vertical layout fit>
-        <deck-sorter id="deckSorter" flex></deck-sorter>
+
+        <deck-sorter
+            id="deckSorter"
+            on-layout-complete="{{saveCurrentDeck}}"
+            flex>
+        </deck-sorter>
 
         <div class="lowerActions" horizontal layout end>
           <div flex>
@@ -50,7 +55,7 @@
               on-tap="{{deleteCollection}}">
             </paper-fab>
           </div>
-          <image-uploader on-new-image="{{newImageUploaded}}"></image-uploader>
+          <image-uploader on-new-image="{{newImageAdded}}"></image-uploader>
         </div>
       </div>
     </core-scaffold>

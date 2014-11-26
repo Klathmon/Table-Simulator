@@ -13,6 +13,11 @@ Polymer 'deck-sorter', Platform.mixin(
 
     @onMutation @, @contentChanged
     return
+
+  removeAllElements: ->
+    @removeElements @querySelectorAll("builder-card")
+    return
+
   contentChanged: (observer, mutations)->
     addedElements = []
     removedElements = []
