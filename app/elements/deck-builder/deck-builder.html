@@ -49,10 +49,10 @@
         <div class="lowerActions" horizontal layout end>
           <div flex>
             <paper-fab
-              class="deleteButton"
+              id="deleteDeckButton"
               icon="delete"
               mini
-              on-tap="{{deleteCollection}}">
+              on-tap="{{deleteDeck}}">
             </paper-fab>
           </div>
           <image-uploader on-new-image="{{newImageAdded}}"></image-uploader>

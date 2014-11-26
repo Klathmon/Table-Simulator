@@ -1,6 +1,7 @@
 deckBuilder = document.querySelector 'deck-builder'
 img = document.querySelector 'img'
 img.style.display = "none"
+timeoutTime = 500
 window.addEventListener "polymer-ready", ->
   suite '<deck-builder>', ->
     setup (done)->
@@ -23,28 +24,29 @@ window.addEventListener "polymer-ready", ->
         deckPaperItems = deckBuilder.$.deckMenu.querySelectorAll('paper-item').length
         expect(deckPaperItems - 1).to.equal 2
         done()
-      , 100
+      , timeoutTime
 
     test 'check deck renaming works', (done)->
       deckBuilder.addNewDeck()
       deckBuilder.$.deckNameInput.value = "Named Deck"
       deckBuilder.$.deckNameInput.blur()
-      #deckBuilder.$.deckMenu.querySelectorAll('paper-item')[0].click()
       setTimeout =>
         expect(deckBuilder.currentDeck.name).to.equal 'Named Deck'
         done()
-      , 100
+      , timeoutTime
 
     test 'check deck selection works', (done)->
       deckBuilder.addNewDeck()
+      firstDeckGUID = deckBuilder.currentDeck.guid
       deckBuilder.addNewDeck()
       deckBuilder.$.deckNameInput.value = "Named Deck"
       deckBuilder.$.deckNameInput.blur()
       setTimeout =>
-        element = deckBuilder.$.deckMenu.querySelectorAll('paper-item')[0]
+        element = deckBuilder.$.deckMenu.querySelectorAll('paper-item')[1]
+        expect(element.dataset.guid).to.equal firstDeckGUID
         deckBuilder.loadDeck null, null, element
         setTimeout =>
           expect(deckBuilder.currentDeck.name).to.equal 'Unnamed Deck'
           done()
-        , 100
-      , 100
+        , timeoutTime
+      , timeoutTime
