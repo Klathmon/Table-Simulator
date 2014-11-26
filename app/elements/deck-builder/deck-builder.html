@@ -24,7 +24,7 @@
     <core-scaffold>
       <core-header-panel navigation flex mode="seamed">
         <core-toolbar>Decks</core-toolbar>
-        <core-menu theme="core-light-theme">
+        <core-menu id="deckMenu" theme="core-light-theme">
           <template repeat="{{ deck in decks }}">
             <paper-item data-guid="{{deck.guid}}" on-tap="{{loadDeck}}">
               <core-icon icon="image:crop-portrait"></core-icon>
@@ -37,7 +37,7 @@
           </paper-item>
         </core-menu>
       </core-header-panel>
-      <div tool><paper-input value="{{currentDeck.name}}" on-keydown="{{deckNameOnInput}}" on-blur="{{deckNameOnBlur}}"></paper-input></div>
+      <div tool><paper-input id="deckNameInput" value="{{currentDeck.name}}" on-keydown="{{deckNameOnInput}}" on-blur="{{deckNameOnBlur}}"></paper-input></div>
       <div id="deckParentWindow" vertical layout fit>
 
         <deck-sorter
