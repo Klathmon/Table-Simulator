@@ -8,14 +8,8 @@
 Polymer 'data-storage',
   deckPrefix: "Deck:"
   ready: ->
-    storageName = ''
-    if @teststoragename is undefined
-      storageName = "Table Simulator"
-    else
-      storageName = @teststoragename
-
     localforage.config
-      name: storageName
+      name: "Table Simulator"
       driver: localforage.INDEXDDB
       version: "1.0"
       description: "Storage of all card info and decks"
