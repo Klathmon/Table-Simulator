@@ -6,7 +6,9 @@ window.addEventListener "polymer-ready", ->
   suite '<deck-builder>', ->
     setup (done)->
       deckBuilder.$.dataStorage.purgeEverything().then ->
-        done()
+        setTimeout ->
+          done()
+        , 100
 
     test 'check element has layout', ->
       computedStyle = window.getComputedStyle deckBuilder
