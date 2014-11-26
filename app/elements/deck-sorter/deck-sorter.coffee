@@ -13,11 +13,6 @@ Polymer 'deck-sorter', Platform.mixin(
 
     @onMutation @, @contentChanged
     return
-
-  removeAllElements: ->
-    @removeElements @querySelectorAll("builder-card")
-    return
-
   contentChanged: (observer, mutations)->
     addedElements = []
     removedElements = []
@@ -35,8 +30,8 @@ Polymer 'deck-sorter', Platform.mixin(
     for element in addedElements
       @packery.bindDraggabillyEvents element.draggie
       @packery.appended element
-      @packery.layout() if @packery.getItemElements().length is 1
-      @layout()
+    @packery.layout()
+    @layout()
     return
   removeElements: (addedElements)->
     for element in addedElements
