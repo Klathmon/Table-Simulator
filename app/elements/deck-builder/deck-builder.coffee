@@ -10,9 +10,10 @@ Polymer 'deck-builder',
       @currentDeck.cards.push cardElement.imageData
     return
   currentDeckChanged: ->
-    @job 'save-deck', ->
-      @$.dataStorage.saveDeck @currentDeck
-      return
+    if @currentDeck isnt null
+      @job 'save-deck', ->
+        @$.dataStorage.saveDeck @currentDeck
+        return
     return
   updateDeckList: ->
     @$.dataStorage.listDecks().then (decks)=>
@@ -54,7 +55,12 @@ Polymer 'deck-builder',
         @addCardToCurrentDeck cardData
       return
     return
-
+  deleteDeck: ->
+    @$.dataStorage.deleteDeck(@currentDeck).then =>
+      @currentDeck = null
+      @updateDeckList()
+      return
+    return
 
   addCardToCurrentDeck: (cardData)->
     setTimeout =>

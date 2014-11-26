@@ -59,6 +59,10 @@ window.addEventListener "polymer-ready", ->
       deckBuilder.addNewDeck()
       setTimeout =>
         deckBuilder.deleteDeck()
-        expect(deckBuilder.currentDeck).to.be.null()
-        done()
+        setTimeout =>
+          deckPaperItems = deckBuilder.$.deckMenu.querySelectorAll('paper-item').length
+          expect(deckBuilder.currentDeck).to.equal null
+          expect(deckPaperItems).to.equal 1
+          done()
+        , timeoutTime
       , timeoutTime
