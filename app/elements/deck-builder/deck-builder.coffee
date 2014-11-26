@@ -5,6 +5,7 @@ Polymer 'deck-builder',
 
 
   updateCurrentDeckFromSorter: (event)->
+    return if @currentDeck is null
     @currentDeck.cards = []
     for cardElement in event.detail.elements
       @currentDeck.cards.push cardElement.imageData
