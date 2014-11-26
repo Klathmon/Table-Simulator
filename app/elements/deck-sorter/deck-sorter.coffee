@@ -58,12 +58,9 @@ Polymer 'deck-sorter', Platform.mixin(
   layout: ->
     @job 'packery-layout-job', =>
       @packery.layout()
-      @job 'layout-complete', =>
-        @asyncFire 'layout-complete',
-          'elements': @packery.getItemElements()
-        return
-      , 500
+      @asyncFire 'layout-complete',
+        'elements': @packery.getItemElements()
       return
-    , 200
+    , 150
     return
 , draggable)
