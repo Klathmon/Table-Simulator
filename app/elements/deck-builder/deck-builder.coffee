@@ -60,6 +60,7 @@ Polymer 'deck-builder',
   deleteDeck: ->
     @$.dataStorage.deleteDeck(@currentDeck).then =>
       @currentDeck = null
+      @$.deckSorter.innerHTML = ''
       @updateDeckList()
       return
     return

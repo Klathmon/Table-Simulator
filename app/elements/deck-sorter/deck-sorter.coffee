@@ -61,6 +61,6 @@ Polymer 'deck-sorter', Platform.mixin(
       @asyncFire 'layout-complete',
         'elements': @packery.getItemElements()
       return
-    , 150
+    , 200
     return
 , draggable)
