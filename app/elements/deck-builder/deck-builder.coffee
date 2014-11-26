@@ -15,6 +15,16 @@ Polymer 'deck-builder',
       return
     return
 
+  deckNameOnInput:  (event, unknown, element)->
+    element.blur() if event.keyCode == 13
+    return
+  deckNameOnBlur: (event, unknown, element)->
+    @currentDeck.name = element.value
+    @$.dataStorage.saveDeck(@currentDeck).then =>
+      @updateDeckList()
+      return
+    return
+
   updateCurrentDeckFromSorter: (event)->
     @currentDeck.cards = []
     for cardElement in event.detail.elements
@@ -36,7 +46,7 @@ Polymer 'deck-builder',
       @currentDeck = deck
       asyncCounter = 0
       for cardData in @currentDeck.cards
-        @async @addCardToCurrentDeck, [cardData], asyncCounter += (1 / 60)
+        @async @addCardToCurrentDeck, [cardData], asyncCounter += ((1 / 60) * 1000)
       return
     return
 

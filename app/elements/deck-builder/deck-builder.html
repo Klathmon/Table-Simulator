@@ -37,7 +37,7 @@
           </paper-item>
         </core-menu>
       </core-header-panel>
-      <div tool><paper-input value="{{currentDeck.name}}"></paper-input></div>
+      <div tool><paper-input value="{{currentDeck.name}}" on-keydown="{{deckNameOnInput}}" on-blur="{{deckNameOnBlur}}"></paper-input></div>
       <div id="deckParentWindow" vertical layout fit>
 
         <deck-sorter
