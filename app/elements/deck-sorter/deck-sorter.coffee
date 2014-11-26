@@ -51,6 +51,10 @@ Polymer 'deck-sorter', Platform.mixin(
       @packery.layout()
     return
 
+  deleteCard: (event)->
+    @removeElements [event.detail.element]
+    return
+
   layout: ->
     @job 'packery-layout-job', =>
       @packery.layout()

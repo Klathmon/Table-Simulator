@@ -17,11 +17,11 @@
 
     <paper-menu-button id="cardMenu">
       <paper-icon-button icon="menu"></paper-icon-button>
-      <paper-dropdown class="dropdown" halign="left">
+      <paper-dropdown id="dropdownElement" class="dropdown" halign="left" duration="150">
         <core-menu class="menu">
           <paper-item>Copy To...</paper-item>
           <paper-item>Move To...</paper-item>
-          <paper-item>Delete</paper-item>
+          <paper-item on-tap="{{deleteCard}}">Delete</paper-item>
         </core-menu>
       </paper-dropdown>
     </paper-menu-button>

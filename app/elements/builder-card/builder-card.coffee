@@ -13,6 +13,10 @@ Polymer 'builder-card', Platform.mixin(
     @draggie.on 'dragEnd', @killGhostElement.bind @
     return
 
+  deleteCard: (event, unknown, element)->
+    @fire 'card-deleted',
+      element: @
+    return
   createGhostElement: (dragInstance, event, pointer)->
     cardComputedStyle = window.getComputedStyle @
     @cardWidth = cardComputedStyle.getPropertyValue "width"
