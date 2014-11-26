@@ -8,12 +8,14 @@ Polymer 'deck-builder',
     @currentDeck.cards = []
     for cardElement in event.detail.elements
       @currentDeck.cards.push cardElement.imageData
+    @currentDeckChanged()
     return
   currentDeckChanged: ->
     if @currentDeck isnt null
       @job 'save-deck', ->
         @$.dataStorage.saveDeck @currentDeck
         return
+      , 100
     return
   updateDeckList: ->
     @$.dataStorage.listDecks().then (decks)=>
