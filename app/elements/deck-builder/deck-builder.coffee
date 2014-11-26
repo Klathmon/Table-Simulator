@@ -32,7 +32,6 @@ Polymer 'deck-builder',
     return
 
 
-
   addNewDeck: ->
     @currentDeck = @$.dataStorage.createDeck()
     @$.dataStorage.saveDeck(@currentDeck).then =>
