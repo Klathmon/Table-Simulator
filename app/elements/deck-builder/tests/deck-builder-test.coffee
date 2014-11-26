@@ -6,9 +6,7 @@ window.addEventListener "polymer-ready", ->
   suite '<deck-builder>', ->
     setup (done)->
       deckBuilder.$.dataStorage.purgeEverything().then ->
-        setTimeout ->
-          done()
-        , 100
+        done()
 
     test 'check element has layout', ->
       computedStyle = window.getComputedStyle deckBuilder
@@ -44,11 +42,23 @@ window.addEventListener "polymer-ready", ->
       deckBuilder.$.deckNameInput.value = "Named Deck"
       deckBuilder.$.deckNameInput.blur()
       setTimeout =>
-        element = deckBuilder.$.deckMenu.querySelectorAll('paper-item')[1]
+        paperElements = deckBuilder.$.deckMenu.querySelectorAll('paper-item')
+        if paperElements[0].dataset.guid is firstDeckGUID
+          element = paperElements[0]
+        else
+          element = paperElements[1]
         expect(element.dataset.guid).to.equal firstDeckGUID
         deckBuilder.loadDeck null, null, element
         setTimeout =>
           expect(deckBuilder.currentDeck.name).to.equal 'Unnamed Deck'
           done()
         , timeoutTime
+      , timeoutTime
+
+    test 'check deck deletion works', (done)->
+      deckBuilder.addNewDeck()
+      setTimeout =>
+        deckBuilder.deleteDeck()
+        expect(deckBuilder.currentDeck).to.be.null()
+        done()
       , timeoutTime
