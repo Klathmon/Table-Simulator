@@ -19,11 +19,13 @@ window.addEventListener "polymer-ready", ->
 
     test 'check deck listing works', (done)->
       deckBuilder.addNewDeck()
-      deckBuilder.addNewDeck()
       setTimeout =>
-        deckPaperItems = deckBuilder.$.deckMenu.querySelectorAll('paper-item').length
-        expect(deckPaperItems - 1).to.equal 2
-        done()
+        deckBuilder.addNewDeck()
+        setTimeout =>
+          deckPaperItems = deckBuilder.$.deckMenu.querySelectorAll('paper-item').length
+          expect(deckPaperItems - 1).to.equal 2
+          done()
+        , timeoutTime
       , timeoutTime
 
     test 'check deck renaming works', (done)->
