@@ -363,7 +363,7 @@ module.exports = (grunt) ->
             'Windows 8.1/Firefox'
             'Windows 7/Firefox'
             'Linux/Firefox'
-            'OS X 10.10/Firefox'
+            #'OS X 10.10/Firefox'
 
             # Not supported but might work
             #'OS X 10.10/Safari@8'
