@@ -30,8 +30,7 @@ Polymer 'deck-sorter', Platform.mixin(
   addElements: (addedElements)->
     for element in addedElements
       @packery.bindDraggabillyEvents element.draggie
-      @packery.appended element
-    @packery.layout()
+    @packery.appended addedElements
     @layout()
     return
   removeElements: (addedElements)->
