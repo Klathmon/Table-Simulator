@@ -54,9 +54,7 @@ Polymer 'deck-builder',
     @$.deckSorter.innerHTML = ''
     @$.dataStorage.getDeck(guid).then (deck)=>
       @currentDeck = deck
-      for cardData in @currentDeck.cards
-        @addCardToCurrentDeck cardData
-      return
+      @addCardToCurrentDeck @currentDeck.cards
     return
   deleteDeck: ->
     @$.dataStorage.deleteDeck(@currentDeck).then =>
@@ -66,14 +64,22 @@ Polymer 'deck-builder',
       return
     return
 
-  addCardToCurrentDeck: (cardData)->
-    setTimeout =>
-      builderCard = document.createElement 'builder-card'
+  addCardToCurrentDeck: (cardDataArray)->
+    return if cardDataArray is []
+    cardDataArray = [cardDataArray] if typeof cardDataArray isnt 'object'
+    fragment = document.createDocumentFragment()
+    for cardData in cardDataArray
+      builderCard = new BuilderCard()
       builderCard.imageData = cardData
-      @$.deckSorter.appendChild builderCard
-      return
-    , 1
+      fragment.appendChild builderCard
+    @$.deckSorter.appendChild fragment
     return
   newImageAdded: (event)->
-    @addCardToCurrentDeck event.detail.imageData
+    @newCardQueue = [] if @newCardQueue is undefined
+    @newCardQueue.push event.detail.imageData
+    @job 'add-new-image-queue', ->
+      @addCardToCurrentDeck @newCardQueue
+      @newCardQueue = []
+      return
+    , 100
     return
