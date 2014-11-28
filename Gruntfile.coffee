@@ -355,7 +355,7 @@ module.exports = (grunt) ->
             'Windows 8.1/Chrome'
             'Windows 7/Chrome'
             'Linux/Chrome'
-            'OS X 10.10/Chrome'
+            #'OS X 10.10/Chrome'
 
             # Supported as Client
             #'Windows 8.1/Firefox@dev'
@@ -370,7 +370,7 @@ module.exports = (grunt) ->
             #'OS X 10.9/Safari@7'
 
             # Mobile
-            'Linux/Android@4.4'
+            #'Linux/Android@4.4'
             'Linux/Android@4.3'
             #'OS X 10.9/iPhone@8.1'
             #'OS X 10.9/iPad@8.1'
