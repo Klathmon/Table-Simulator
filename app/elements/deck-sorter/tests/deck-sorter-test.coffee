@@ -12,7 +12,7 @@ window.addEventListener "polymer-ready", ->
       imageUploader.removeEventListener 'new-image', newImage
       return
     imageUploader.addEventListener 'new-image', newImage
-    imageUploader.importFile img1.src, 'image/jpg'
+    imageUploader.importFile img1Element.src, 'image/jpg'
 
   suite '<deck-sorter>', ->
     test 'check element exists', ->
