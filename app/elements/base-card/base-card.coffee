@@ -10,7 +10,6 @@ Polymer 'base-card',
     dbox.setAttribute "backdrop", true
     dbox.setAttribute "opened", true
     dbox.setAttribute "closeSelector", "img"
-    dbox.style.width = "310px"
     dbox.shadowRoot.querySelector('#scroller').style.padding = '0'
     img = document.createElement "img"
     img.src = @imageData
