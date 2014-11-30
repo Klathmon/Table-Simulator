@@ -353,7 +353,11 @@ module.exports = (grunt) ->
             'Windows 8.1/Chrome@dev'
             'Windows 8.1/Chrome@beta'
             'Windows 8.1/Chrome'
+            'Windows 7/Chrome@dev'
+            'Windows 7/Chrome@beta'
             'Windows 7/Chrome'
+            'Linux/Chrome@dev'
+            'Linux/Chrome@beta'
             'Linux/Chrome'
             #'OS X 10.10/Chrome'
 
