@@ -23,12 +23,28 @@ Polymer 'deck-builder',
       @decks = decks
       return
     return
+  cardCheckboxChanged: ->
+    checkedElementsLength = @$.deckSorter.querySelectorAll('.checked').length
+    if checkedElementsLength > 0
+      @updateCardButtons true
+    else
+      @updateCardButtons false
+    return
 
 
   updateDeckButtons: (enabled = true)->
     elements = [
       @$.deleteDeckButton
     ]
+    @updateButtons elements, enabled
+    return
+  updateCardButtons: (enabled = true)->
+      elements = [
+        @$.deleteCardsButton
+      ]
+      @updateButtons elements, enabled
+
+  updateButtons: (elements, enabled = true)->
     for element in elements
       if enabled
         element.removeAttribute 'disabled'
@@ -78,6 +94,11 @@ Polymer 'deck-builder',
       return
     return
 
+  deleteSelectedCards: ->
+    checkedCards = @$.deckSorter.querySelectorAll('.checked')
+    for card in checkedCards
+      @$.deckSorter.removeChild card
+    return
   addCardToCurrentDeck: (cardDataArray)->
     return if cardDataArray is []
     cardDataArray = [cardDataArray] if typeof cardDataArray isnt 'object'
