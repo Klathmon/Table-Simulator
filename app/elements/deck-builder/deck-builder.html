@@ -50,12 +50,19 @@
 
         <div class="lowerActions" horizontal layout end>
           <div flex>
-            <paper-fab
+            <paper-button
               id="deleteDeckButton"
-              icon="delete"
-              mini
               on-tap="{{deleteDeck}}">
-            </paper-fab>
+            <core-icon icon="delete"></core-icon>
+            Deck
+            </paper-button>
+            <paper-button
+              id="deleteCardsButton"
+              disabled
+              on-tap="{{deleteSelectedCards}}">
+            <core-icon icon="delete"></core-icon>
+            Cards
+            </paper-button>
           </div>
           <image-uploader on-new-image="{{newImageAdded}}"></image-uploader>
         </div>
