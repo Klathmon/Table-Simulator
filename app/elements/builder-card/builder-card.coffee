@@ -15,6 +15,8 @@ Polymer 'builder-card', Platform.mixin(
       @classList.add "checked"
     else
       @classList.remove "checked"
+    @asyncFire 'checkbox-changed',
+      element: @
     return
 
   deleteCard: (event, unknown, element)->
