@@ -68,7 +68,7 @@ Polymer 'deck-builder',
     @currentDeck = @$.dataStorage.createDeck()
     @$.dataStorage.saveDeck(@currentDeck).then =>
       @updateDeckList()
-      @actualLoadDeck(@currentDeck.guid)
+      @updateDeckButtons true
       return
     return
   loadDeck: (event, unknown, element)->
