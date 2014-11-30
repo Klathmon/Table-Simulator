@@ -1,31 +1,18 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/core-menu/core-menu.html">
-<link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../bower_components/paper-dropdown/paper-dropdown.html">
-<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 
 <link rel="import" href="../base-card/base-card.html">
 
 
 <polymer-element
     name="builder-card"
-    constructor = "BuilderCard"
+    constructor="BuilderCard"
     extends="base-card"
     attributes="imageData">
   <template>
     <link rel="stylesheet" href="builder-card.sass">
 
-    <paper-menu-button id="cardMenu">
-      <paper-icon-button icon="menu"></paper-icon-button>
-      <paper-dropdown id="dropdownElement" class="dropdown" halign="left" duration="150">
-        <core-menu class="menu">
-          <paper-item>Copy To...</paper-item>
-          <paper-item>Move To...</paper-item>
-          <paper-item on-tap="{{deleteCard}}">Delete</paper-item>
-        </core-menu>
-      </paper-dropdown>
-    </paper-menu-button>
+    <paper-checkbox id="checkbox" on-core-change="{{checkboxChanged}}"></paper-checkbox>
 
     <shadow></shadow>
 

@@ -1,8 +1,5 @@
 Polymer 'base-card',
   draggie: {}
-  created: ->
-    @setZindex()
-    return
   mouseDown: ->
     @setZindex()
     return

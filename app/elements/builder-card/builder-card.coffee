@@ -1,8 +1,5 @@
 Polymer 'builder-card', Platform.mixin(
   cardIconPx: 25
-  created: ->
-    @super()
-    return
   ready: ->
     @createDraggabilly()
     return
@@ -11,6 +8,13 @@ Polymer 'builder-card', Platform.mixin(
     @draggie.on 'dragStart', @createGhostElement.bind @
     @draggie.on 'dragMove', @moveGhostElement.bind @
     @draggie.on 'dragEnd', @killGhostElement.bind @
+    return
+
+  checkboxChanged: (event, unknown, element)->
+    if element.$.checkbox.classList.contains "checked"
+      @classList.add "checked"
+    else
+      @classList.remove "checked"
     return
 
   deleteCard: (event, unknown, element)->
