@@ -5,7 +5,7 @@ class TestRunner
     for elementName in @getListItemElements '/elements/'
       path = '/elements/' + elementName + '/tests/'
       for test in @getListItemElements path
-        retVal.push '..' + path + test
+        retVal.push path + test
     return retVal
 
   getListItemElements: (url)->
