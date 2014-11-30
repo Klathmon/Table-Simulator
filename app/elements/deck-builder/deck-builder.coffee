@@ -72,7 +72,7 @@ Polymer 'deck-builder',
       return
     return
   loadDeck: (event, unknown, element)->
-    if typeof @currentDeck is 'undefined'
+    if typeof @currentDeck is 'undefined' or @currentDeck is null
       @actualLoadDeck(element.dataset.guid)
     else
       @$.dataStorage.saveDeck(@currentDeck).then =>
