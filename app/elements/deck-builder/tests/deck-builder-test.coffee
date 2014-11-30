@@ -103,7 +103,7 @@ window.addEventListener "polymer-ready", ->
         , timeoutTime
       , timeoutTime
 
-    test.skip 'check delete card button works', (done)->
+    test 'check delete card button works', (done)->
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
       expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
