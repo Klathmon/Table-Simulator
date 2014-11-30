@@ -25,6 +25,18 @@ Polymer 'deck-builder',
     return
 
 
+  updateDeckButtons: (enabled = true)->
+    elements = [
+      @$.deleteDeckButton
+    ]
+    for element in elements
+      if enabled
+        element.removeAttribute 'disabled'
+      else
+        element.setAttribute 'disabled', true
+    return
+
+
   deckNameOnInput:  (event, unknown, element)->
     element.blur() if event.keyCode == 13
     return
@@ -51,12 +63,14 @@ Polymer 'deck-builder',
         return
     return
   actualLoadDeck: (guid)->
+    @updateDeckButtons true
     @$.deckSorter.innerHTML = ''
     @$.dataStorage.getDeck(guid).then (deck)=>
       @currentDeck = deck
       @addCardToCurrentDeck @currentDeck.cards
     return
   deleteDeck: ->
+    @updateDeckButtons false
     @$.dataStorage.deleteDeck(@currentDeck).then =>
       @currentDeck = null
       @$.deckSorter.innerHTML = ''
