@@ -88,6 +88,7 @@ Polymer 'deck-builder',
     return
   deleteDeck: ->
     @updateDeckButtons false
+    @updateCardButtons false
     @$.dataStorage.deleteDeck(@currentDeck).then =>
       @currentDeck = null
       @$.deckSorter.innerHTML = ''
@@ -99,6 +100,7 @@ Polymer 'deck-builder',
     checkedCards = @$.deckSorter.querySelectorAll('.checked')
     for card in checkedCards
       @$.deckSorter.removeChild card
+    @updateCardButtons false
     return
   addCardToCurrentDeck: (cardDataArray)->
     return if cardDataArray is []
