@@ -87,7 +87,8 @@ window.addEventListener "polymer-ready", ->
 
   suite '<deck-builder> Cards', ->
     setup (done)->
-      deckBuilder.deleteDeck()
+      try
+        deckBuilder.deleteDeck()
       testSetup done
 
     test 'check card buttons are enabled after first card selected', (done)->
@@ -113,8 +114,8 @@ window.addEventListener "polymer-ready", ->
         setTimeout ->
           deckBuilder.deleteSelectedCards()
           setTimeout ->
-            expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.false
             expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card')).to.have.length 1
+            expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.false
           done()
         , timeoutTime
       , timeoutTime
