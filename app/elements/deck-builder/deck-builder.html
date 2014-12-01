@@ -96,8 +96,14 @@
       </div>
     </core-scaffold>
 
-    <paper-action-dialog heading="{{dialogVerb}} To..." transition="paper-dialog-transition-bottom" opened layered=true>
-      <div vertical layout>
+    <paper-action-dialog
+        id="moveCopyDialog"
+        heading="{{dialogVerb}} To..."
+        transition="paper-dialog-transition-bottom"
+        backdrop
+        opened
+        layered>
+      <div id="moveCopyInnerContainer" vertical layout style="min-width: 400px; min-height: 300px">
         <paper-dropdown-menu label="Choose Deck to {{dialogVerb}}...">
           <paper-dropdown class="dropdown" duration=150>
             <core-selector class="menu">
@@ -108,7 +114,7 @@
           </paper-dropdown>
         </paper-dropdown-menu>
 
-        <paper-input type="number" label="Number to {{dialogVerb}}?" floatingLabel></paper-input>
+        <paper-input label="Number to {{dialogVerb}}?" floatingLabel></paper-input>
       </div>
       <paper-button dismissive>Cancel</paper-button>
       <paper-button affirmative>{{dialogVerb}}</paper-button>
