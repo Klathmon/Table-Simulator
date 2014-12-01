@@ -82,10 +82,10 @@ Polymer 'deck-builder',
     return
   deleteDeck: (event, unknown, element)->
     @updateCardButtons false
-    guid = if element.dataset.guid is undefined then @currentDeck.guid else element.dataset.guid
+    guid = if element is undefined then @currentDeck.guid else element.dataset.guid
     @$.dataStorage.deleteDeck(guid).then =>
       @updateDeckList()
-      if element.dataset.guid is @currentDeck.guid
+      if element is undefined or element.dataset.guid is @currentDeck.guid
         @currentDeck = null
         @$.deckSorter.innerHTML = ''
       return

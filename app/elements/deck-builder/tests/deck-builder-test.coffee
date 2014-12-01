@@ -67,27 +67,23 @@ window.addEventListener "polymer-ready", ->
 
     test 'check deck deletion works', (done)->
       deckBuilder.addNewDeck()
-      setTimeout =>
+      setTimeout( ->
+        deckPaperItems = deckBuilder.$.deckMenu.querySelectorAll('paper-item')
+        expect(deckPaperItems).to.have.length 2
         deckBuilder.deleteDeck()
-        setTimeout =>
+        setTimeout(()->
           deckPaperItems = deckBuilder.$.deckMenu.querySelectorAll('paper-item')
           expect(deckBuilder.currentDeck).to.be.null
           expect(deckPaperItems).to.have.length 1
           done()
-        , timeoutTime
-      , timeoutTime
-
-    test 'check deck delete button is disabled until deck selected', (done)->
-      expect(deckBuilder.$.deleteDeckButton.hasAttribute 'disabled').to.be.true
-      deckBuilder.addNewDeck()
-      setTimeout ->
-        expect(deckBuilder.$.deleteDeckButton.hasAttribute 'disabled').to.be.false
-        done()
-      , timeoutTime
+          return
+        , timeoutTime)
+        return
+      , timeoutTime)
 
   suite '<deck-builder> Cards', ->
     setup testSetup
-    
+
     teardown (done)->
       deckBuilder.deleteDeck()
       done()
