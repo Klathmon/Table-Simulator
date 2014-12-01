@@ -1,6 +1,5 @@
 Polymer 'deck-builder',
   ready: ->
-    @dialogVerb = "Move"
     @updateDeckList()
     return
 
@@ -31,13 +30,19 @@ Polymer 'deck-builder',
     else
       @updateCardButtons false
     return
+  dropdownElementSelected: (event, unknown, element)->
+    if event.detail.isSelected
+      @$.dialogAffirmButton.removeAttribute "disabled"
+    else
+      @$.dialogAffirmButton.setAttribute "disabled", true
+    return
 
 
   updateCardButtons: (enabled = true)->
       elements = [
         @$.deleteCardsButton
-        #@$.copyCardsButton
-        #@$.moveCardsButton
+        @$.copyCardsButton
+        @$.moveCardsButton
       ]
       @updateButtons elements, enabled
 
@@ -98,6 +103,14 @@ Polymer 'deck-builder',
     for card in checkedCards
       @$.deckSorter.removeChild card
     @updateCardButtons false
+    return
+  copySelectedCards: ->
+    @dialogVerb = "Copy"
+    @$.moveCopyDialog.opened = true
+    return
+  moveSelectedCards: ->
+    @dialogVerb = "Move"
+    @$.moveCopyDialog.opened = true
     return
   addCardToCurrentDeck: (cardDataArray)->
     return if cardDataArray is []

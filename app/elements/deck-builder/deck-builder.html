@@ -101,23 +101,24 @@
         heading="{{dialogVerb}} To..."
         transition="paper-dialog-transition-bottom"
         backdrop
-        opened
         layered>
       <div id="moveCopyInnerContainer" vertical layout style="min-width: 400px; min-height: 300px">
-        <paper-dropdown-menu label="Choose Deck to {{dialogVerb}}...">
+        <paper-dropdown-menu
+            label="Choose Deck to {{dialogVerb}}..."
+            on-core-select="{{dropdownElementSelected}}">
           <paper-dropdown class="dropdown" duration=150>
-            <core-selector class="menu">
+            <core-menu class="menu">
               <template repeat="{{ deck in decks }}">
                 <paper-item data-guid="{{deck.guid}}">{{deck.name}}</paper-item>
               </template>
-            </core-selector>
+            </core-menu>
           </paper-dropdown>
         </paper-dropdown-menu>
 
-        <paper-input label="Number to {{dialogVerb}}?" floatingLabel></paper-input>
+        <paper-input label="Number of copies to {{dialogVerb}}?" floatingLabel value=1></paper-input>
       </div>
-      <paper-button dismissive>Cancel</paper-button>
-      <paper-button affirmative>{{dialogVerb}}</paper-button>
+      <paper-button raised dismissive>Cancel</paper-button>
+      <paper-button id="dialogAffirmButton" raised disabled affirmative>{{dialogVerb}}</paper-button>
     </paper-action-dialog>
 
 
