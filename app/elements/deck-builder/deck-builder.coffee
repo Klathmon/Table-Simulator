@@ -41,6 +41,8 @@ Polymer 'deck-builder',
   updateCardButtons: (enabled = true)->
       elements = [
         @$.deleteCardsButton
+        @$.copyCardsButton
+        @$.moveCardsButton
       ]
       @updateButtons elements, enabled
 

@@ -10,6 +10,7 @@
 <link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
 <link rel="import" href="../../bower_components/core-scaffold/core-scaffold.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 <link rel="import" href="../image-uploader/image-uploader.html">
 <link rel="import" href="../data-storage/data-storage.html">
@@ -28,10 +29,21 @@
         <core-toolbar>Decks</core-toolbar>
         <core-menu id="deckMenu" theme="core-light-theme">
           <template repeat="{{ deck in decks }}">
-            <paper-item data-guid="{{deck.guid}}" on-tap="{{loadDeck}}">
-              <core-icon icon="image:crop-portrait"></core-icon>
-              {{deck.name}}
-            </paper-item>
+            <div horizontal layout>
+              <paper-item
+                  data-guid="{{deck.guid}}"
+                  on-tap="{{loadDeck}}"
+                  flex>
+                <core-icon icon="image:crop-portrait"></core-icon>
+                {{deck.name}}
+              </paper-item>
+              <paper-icon-button
+                  class="deckDeleteButton"
+                  data-guid="{{deck.guid}}"
+                  on-tap="{{deleteDeck}}"
+                  icon="delete">
+              </paper-icon-button>
+            </div>
           </template>
           <paper-item on-tap="{{addNewDeck}}">
             <core-icon icon="add-circle"></core-icon>
@@ -52,18 +64,32 @@
         <div class="lowerActions" horizontal layout end>
           <div flex>
             <paper-button
-              id="deleteDeckButton"
-              disabled
-              on-tap="{{deleteDeck}}">
-            <core-icon icon="delete"></core-icon>
-            Deck
+                id="deleteDeckButton"
+                disabled
+                on-tap="{{deleteDeck}}">
+              <core-icon icon="delete"></core-icon>
+              Deck
             </paper-button>
             <paper-button
-              id="deleteCardsButton"
-              disabled
-              on-tap="{{deleteSelectedCards}}">
-            <core-icon icon="delete"></core-icon>
-            Cards
+                id="deleteCardsButton"
+                disabled
+                on-tap="{{deleteSelectedCards}}">
+              <core-icon icon="delete"></core-icon>
+              Delete
+            </paper-button>
+            <paper-button
+                id="copyCardsButton"
+                disabled
+                on-tap="{{copySelectedCards}}">
+              <core-icon icon="content-copy"></core-icon>
+              Copy To...
+            </paper-button>
+            <paper-button
+                id="moveCardsButton"
+                disabled
+                on-tap="{{moveSelectedCards}}">
+              <core-icon icon="folder-open"></core-icon>
+              Move To...
             </paper-button>
           </div>
           <image-uploader id="imageUploader" on-new-image="{{newImageAdded}}"></image-uploader>
