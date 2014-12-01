@@ -1,5 +1,6 @@
 Polymer 'deck-builder',
   ready: ->
+    @dialogVerb = "Move"
     @updateDeckList()
     return
 
