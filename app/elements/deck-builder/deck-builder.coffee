@@ -35,8 +35,8 @@ Polymer 'deck-builder',
   updateCardButtons: (enabled = true)->
       elements = [
         @$.deleteCardsButton
-        @$.copyCardsButton
-        @$.moveCardsButton
+        #@$.copyCardsButton
+        #@$.moveCardsButton
       ]
       @updateButtons elements, enabled
 
@@ -61,6 +61,7 @@ Polymer 'deck-builder',
 
 
   addNewDeck: ->
+    @$.deckSorter.innerHTML = ''
     @currentDeck = @$.dataStorage.createDeck()
     @$.dataStorage.saveDeck(@currentDeck).then =>
       @updateDeckList()
