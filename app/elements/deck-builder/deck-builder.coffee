@@ -5,7 +5,7 @@ Polymer 'deck-builder',
 
 
   updateCurrentDeckFromSorter: (event)->
-    return if @currentDeck is null
+    return if @currentDeck is null or @currentDeck is undefined
     @currentDeck.cards = []
     for cardElement in event.detail.elements
       @currentDeck.cards.push cardElement.imageData
@@ -32,12 +32,6 @@ Polymer 'deck-builder',
     return
 
 
-  updateDeckButtons: (enabled = true)->
-    elements = [
-      @$.deleteDeckButton
-    ]
-    @updateButtons elements, enabled
-    return
   updateCardButtons: (enabled = true)->
       elements = [
         @$.deleteCardsButton
@@ -70,7 +64,6 @@ Polymer 'deck-builder',
     @currentDeck = @$.dataStorage.createDeck()
     @$.dataStorage.saveDeck(@currentDeck).then =>
       @updateDeckList()
-      @updateDeckButtons true
       return
     return
   loadDeck: (event, unknown, element)->
@@ -82,19 +75,19 @@ Polymer 'deck-builder',
         return
     return
   actualLoadDeck: (guid)->
-    @updateDeckButtons true
     @$.deckSorter.innerHTML = ''
     @$.dataStorage.getDeck(guid).then (deck)=>
       @currentDeck = deck
       @addCardToCurrentDeck @currentDeck.cards
     return
-  deleteDeck: ->
-    @updateDeckButtons false
+  deleteDeck: (event, unknown, element)->
     @updateCardButtons false
-    @$.dataStorage.deleteDeck(@currentDeck).then =>
-      @currentDeck = null
-      @$.deckSorter.innerHTML = ''
+    guid = if element.dataset.guid is undefined then @currentDeck.guid else element.dataset.guid
+    @$.dataStorage.deleteDeck(guid).then =>
       @updateDeckList()
+      if element.dataset.guid is @currentDeck.guid
+        @currentDeck = null
+        @$.deckSorter.innerHTML = ''
       return
     return
 
