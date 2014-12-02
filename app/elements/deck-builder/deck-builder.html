@@ -105,9 +105,9 @@
       <div id="moveCopyInnerContainer" vertical layout style="min-width: 400px; min-height: 300px">
         <paper-dropdown-menu
             label="Choose Deck to {{dialogVerb}}..."
-            on-core-select="{{dropdownElementSelected}}">
+            on-core-select="{{onDropdownElementSelected}}">
           <paper-dropdown class="dropdown" duration=150>
-            <core-menu class="menu">
+            <core-menu class="menu" valueattr="data-guid" selected="{{deckToMoveCopyTo}}">
               <template repeat="{{ deck in decks }}">
                 <paper-item data-guid="{{deck.guid}}">{{deck.name}}</paper-item>
               </template>
@@ -115,10 +115,10 @@
           </paper-dropdown>
         </paper-dropdown-menu>
 
-        <paper-input label="Number of copies to {{dialogVerb}}?" floatingLabel value=1></paper-input>
+        <paper-input label="Number of copies to {{dialogVerb}}?" floatingLabel value="{{numberToMoveCopy}}"></paper-input>
       </div>
       <paper-button raised dismissive>Cancel</paper-button>
-      <paper-button id="dialogAffirmButton" raised disabled affirmative>{{dialogVerb}}</paper-button>
+      <paper-button id="dialogAffirmButton" raised disabled affirmative on-tap="{{moveCopyCards}}">{{dialogVerb}}</paper-button>
     </paper-action-dialog>
 
 

@@ -30,7 +30,7 @@ Polymer 'deck-builder',
     else
       @updateCardButtons false
     return
-  dropdownElementSelected: (event, unknown, element)->
+  onDropdownElementSelected: (event, unknown, element)->
     if event.detail.isSelected
       @$.dialogAffirmButton.removeAttribute "disabled"
     else
@@ -106,11 +106,32 @@ Polymer 'deck-builder',
     return
   copySelectedCards: ->
     @dialogVerb = "Copy"
+    @numberToMoveCopy = 1
     @$.moveCopyDialog.opened = true
     return
   moveSelectedCards: ->
     @dialogVerb = "Move"
+    @numberToMoveCopy = 1
     @$.moveCopyDialog.opened = true
+    return
+  moveCopyCards: ->
+    checkedCards = @$.deckSorter.querySelectorAll('.checked')
+    cardsToAdd = []
+    for card in checkedCards
+      for i in [0...@numberToMoveCopy]
+        cardsToAdd.push card.imageData
+
+    if @deckToMoveCopyTo is @currentDeck.guid
+      addCardToCurrentDeck checkedCards
+    else
+      @$.dataStorage.getDeck(@deckToMoveCopyTo).then (deck)=>
+        for cardData in cardsToAdd
+          deck.cards.push cardData
+        @$.dataStorage.saveDeck(deck)
+
+    if @dialogVerb is "Move"
+      for element in checkedCards
+        @$.deckSorter.removeChild element
     return
   addCardToCurrentDeck: (cardDataArray)->
     return if cardDataArray is []
