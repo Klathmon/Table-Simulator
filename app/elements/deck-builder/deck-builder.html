@@ -117,7 +117,7 @@
 
         <paper-input label="Number of copies to {{dialogVerb}}?" floatingLabel value="{{numberToMoveCopy}}"></paper-input>
       </div>
-      <paper-button raised dismissive>Cancel</paper-button>
+      <paper-button id="dialogDismissButton" raised dismissive>Cancel</paper-button>
       <paper-button id="dialogAffirmButton" raised disabled affirmative on-tap="{{moveCopyCards}}">{{dialogVerb}}</paper-button>
     </paper-action-dialog>
 

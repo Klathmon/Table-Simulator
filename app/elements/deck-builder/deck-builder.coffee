@@ -132,6 +132,11 @@ Polymer 'deck-builder',
     if @dialogVerb is "Move"
       for element in checkedCards
         @$.deckSorter.removeChild element
+
+
+    for element in @$.deckSorter.querySelectorAll('builder-card.checked')
+      element.$.checkbox.setAttribute 'checked', false
+
     return
   addCardToCurrentDeck: (cardDataArray)->
     return if cardDataArray is []

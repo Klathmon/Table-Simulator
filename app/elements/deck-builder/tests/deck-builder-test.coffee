@@ -33,7 +33,7 @@ window.addEventListener "polymer-ready", ->
           deckPaperItems = deckBuilder.$.deckMenu.querySelectorAll('paper-item')
           expect(deckPaperItems).to.have.length 3
           done()
-        , timeoutTime
+        , (timeoutTime * 2)
       , timeoutTime
 
     test 'check deck renaming works', (done)->
@@ -92,11 +92,14 @@ window.addEventListener "polymer-ready", ->
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
       expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
-      #deckBuilder.$.deckSorter.querySelector('builder-card').$.checkbox.setAttribute 'checked', true
+      expect(deckBuilder.$.moveCardsButton.hasAttribute 'disabled').to.be.true
+      expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.true
       setTimeout ->
         deckBuilder.$.deckSorter.querySelector('builder-card').$.checkbox.setAttribute 'checked', true
         setTimeout ->
           expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.false
+          expect(deckBuilder.$.moveCardsButton.hasAttribute 'disabled').to.be.false
+          expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.false
           done()
         , timeoutTime
       , timeoutTime
@@ -105,15 +108,66 @@ window.addEventListener "polymer-ready", ->
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
       addCardToDeckSorter img2
-      expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
       setTimeout ->
         deckBuilder.$.deckSorter.querySelectorAll('builder-card')[0].$.checkbox.setAttribute 'checked', true
         setTimeout ->
           expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.false
           deckBuilder.deleteSelectedCards()
-          setTimeout ->
-            expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card')).to.have.length 1
-            expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
+          expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card')).to.have.length 1
+          expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
           done()
         , timeoutTime
       , timeoutTime
+
+    test 'check copy button opens dialog', (done)->
+      deckBuilder.addNewDeck()
+      addCardToDeckSorter img1
+      addCardToDeckSorter img2
+      setTimeout ->
+        deckBuilder.$.deckSorter.querySelectorAll('builder-card')[0].$.checkbox.setAttribute 'checked', true
+        deckBuilder.copySelectedCards()
+        setTimeout ->
+          expect(deckBuilder.$.moveCopyDialog.opened).to.be.true
+          deckBuilder.$.dialogDismissButton.click()
+          done()
+        , timeoutTime
+      , timeoutTime
+
+    test 'check move button opens dialog', (done)->
+      deckBuilder.addNewDeck()
+      addCardToDeckSorter img1
+      addCardToDeckSorter img2
+      setTimeout ->
+        deckBuilder.$.deckSorter.querySelectorAll('builder-card')[0].$.checkbox.setAttribute 'checked', true
+        deckBuilder.moveSelectedCards()
+        setTimeout ->
+          expect(deckBuilder.$.moveCopyDialog.opened).to.be.true
+          deckBuilder.$.moveCopyDialog.opened = false
+          done()
+        , timeoutTime
+      , timeoutTime
+
+    test 'check making 2 copies of a card works', (done)->
+      deckBuilder.addNewDeck()
+      deck1guid = deckBuilder.currentDeck.guid
+      deckBuilder.addNewDeck()
+      addCardToDeckSorter img1
+      addCardToDeckSorter img2
+      setTimeout(->
+        deckBuilder.$.deckSorter.querySelectorAll('builder-card')[0].$.checkbox.setAttribute 'checked', true
+        setTimeout( ->
+          deckBuilder.dialogVerb = "Copy"
+          deckBuilder.numberToMoveCopy = 2
+          deckBuilder.deckToMoveCopyTo = deck1guid
+          deckBuilder.moveCopyCards()
+          setTimeout(->
+            expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card.checked')).to.have.length 0
+            expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.true
+            deckBuilder.$.dataStorage.getDeck(deck1guid).then (deck)->
+              expect(deck.cards).to.have.length 2
+              done()
+              return
+          , timeoutTime)
+        , timeoutTime)
+
+      , timeoutTime)
