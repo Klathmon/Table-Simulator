@@ -42,6 +42,7 @@ Polymer 'deck-builder',
       elements = [
         @$.deleteCardsButton
         @$.copyCardsButton
+        @$.selectNoneButton
       ]
       @updateButtons elements, enabled
 
@@ -97,8 +98,16 @@ Polymer 'deck-builder',
       return
     return
 
+  clearSelectedCards: ->
+    for element in @$.deckSorter.querySelectorAll 'builder-card.checked'
+      element.$.checkbox.setAttribute 'checked', false
+    return
+  selectAllCards: ->
+    for element in @$.deckSorter.querySelectorAll 'builder-card'
+      element.$.checkbox.setAttribute 'checked', true
+    return
   deleteSelectedCards: ->
-    checkedCards = @$.deckSorter.querySelectorAll('.checked')
+    checkedCards = @$.deckSorter.querySelectorAll '.checked'
     for card in checkedCards
       @$.deckSorter.removeChild card
     @updateCardButtons false
@@ -109,7 +118,7 @@ Polymer 'deck-builder',
     @$.copyDialog.opened = true
     return
   copySelectedCards: ->
-    checkedCards = @$.deckSorter.querySelectorAll('.checked')
+    checkedCards = @$.deckSorter.querySelectorAll '.checked'
     cardsToAdd = []
     for card in checkedCards
       for i in [0...@numberToCopy]

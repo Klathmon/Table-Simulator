@@ -82,6 +82,19 @@
               <core-icon icon="content-copy"></core-icon>
               Copy To...
             </paper-button>
+            <paper-button
+                id="selectAllButton"
+                on-tap="{{selectAllCards}}">
+              <core-icon icon="done-all"></core-icon>
+              Select All
+            </paper-button>
+            <paper-button
+                id="selectNoneButton"
+                disabled
+                on-tap="{{clearSelectedCards}}">
+              <core-icon icon="clear"></core-icon>
+              Clear Selection
+            </paper-button>
           </div>
           <image-uploader id="imageUploader" on-new-image="{{newImageAdded}}"></image-uploader>
         </div>
