@@ -160,7 +160,7 @@ window.addEventListener "polymer-ready", ->
               done()
           , timeoutTime
         , timeoutTime
-      , timeoutTime
+      , (timeoutTime * 2)
 
     test 'check copying 2 copies of a card to the current deck works', (done)->
       deckBuilder.addNewDeck()
@@ -179,4 +179,4 @@ window.addEventListener "polymer-ready", ->
             done()
           , timeoutTime
         , timeoutTime
-      , timeoutTime
+      , (timeoutTime * 2)
