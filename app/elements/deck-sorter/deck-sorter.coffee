@@ -1,4 +1,4 @@
-Polymer 'deck-sorter', Platform.mixin(
+Polymer 'deck-sorter',
   packery: null
   domReady: ->
     @packery = new Packery @,
@@ -39,17 +39,6 @@ Polymer 'deck-sorter', Platform.mixin(
       @layout()
     return
 
-  # return the element to it's start position if it's outside the starting deck-sorter
-  dragStopped: (event, object)->
-    element = document.elementFromPoint object.xPos, object.yPos
-    boundingRect = @getBoundingClientRect()
-    x = object.xPos
-    y = object.yPos
-    if x < boundingRect.left or x > boundingRect.right or y < boundingRect.top or y > boundingRect.bottom
-      @packery.fit object.element, object.startLeft, object.startRight
-      @packery.layout()
-    return
-
   deleteCard: (event)->
     @removeElements [event.detail.element]
     return
@@ -62,4 +51,3 @@ Polymer 'deck-sorter', Platform.mixin(
       return
     , 200
     return
-, draggable)
