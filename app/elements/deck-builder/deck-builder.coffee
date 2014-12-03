@@ -42,7 +42,6 @@ Polymer 'deck-builder',
       elements = [
         @$.deleteCardsButton
         @$.copyCardsButton
-        @$.moveCardsButton
       ]
       @updateButtons elements, enabled
 
@@ -104,39 +103,31 @@ Polymer 'deck-builder',
       @$.deckSorter.removeChild card
     @updateCardButtons false
     return
+  openCopyDialog: ->
+    @numberToCopy = 1
+    @deckToCopyTo = null
+    @$.copyDialog.opened = true
+    return
   copySelectedCards: ->
-    @dialogVerb = "Copy"
-    @numberToMoveCopy = 1
-    @$.moveCopyDialog.opened = true
-    return
-  moveSelectedCards: ->
-    @dialogVerb = "Move"
-    @numberToMoveCopy = 1
-    @$.moveCopyDialog.opened = true
-    return
-  moveCopyCards: ->
     checkedCards = @$.deckSorter.querySelectorAll('.checked')
     cardsToAdd = []
     for card in checkedCards
-      for i in [0...@numberToMoveCopy]
+      for i in [0...@numberToCopy]
         cardsToAdd.push card.imageData
 
-    if @deckToMoveCopyTo is @currentDeck.guid
-      addCardToCurrentDeck checkedCards
+    if @deckToCopyTo is @currentDeck.guid
+      @addCardToCurrentDeck cardsToAdd
     else
-      @$.dataStorage.getDeck(@deckToMoveCopyTo).then (deck)=>
+      @$.dataStorage.getDeck(@deckToCopyTo).then (deck)=>
         for cardData in cardsToAdd
           deck.cards.push cardData
         @$.dataStorage.saveDeck(deck)
 
-    if @dialogVerb is "Move"
-      for element in checkedCards
-        @$.deckSorter.removeChild element
-
-
+    # Reset everything back to defaults
     for element in @$.deckSorter.querySelectorAll('builder-card.checked')
       element.$.checkbox.setAttribute 'checked', false
-
+    @numberToCopy = 1
+    @deckToCopyTo = null
     return
   addCardToCurrentDeck: (cardDataArray)->
     return if cardDataArray is []

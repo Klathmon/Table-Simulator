@@ -8,7 +8,14 @@ addCardToDeckSorter = (img1Element)->
 testSetup = (done)->
   deckBuilder.$.dataStorage.purgeEverything().then ->
     done()
-
+eventFire = (element, type)->
+  if element.fireEvent
+    (element.fireEvent('on' + type))
+  else
+    evObj = document.createEvent('Events')
+    evObj.initEvent(type, true, false)
+    element.dispatchEvent evObj
+  return
 window.addEventListener "polymer-ready", ->
   suite '<deck-builder> Smoke', ->
     setup testSetup
@@ -92,13 +99,11 @@ window.addEventListener "polymer-ready", ->
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
       expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
-      expect(deckBuilder.$.moveCardsButton.hasAttribute 'disabled').to.be.true
       expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.true
       setTimeout ->
         deckBuilder.$.deckSorter.querySelector('builder-card').$.checkbox.setAttribute 'checked', true
         setTimeout ->
           expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.false
-          expect(deckBuilder.$.moveCardsButton.hasAttribute 'disabled').to.be.false
           expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.false
           done()
         , timeoutTime
@@ -125,49 +130,53 @@ window.addEventListener "polymer-ready", ->
       addCardToDeckSorter img2
       setTimeout ->
         deckBuilder.$.deckSorter.querySelectorAll('builder-card')[0].$.checkbox.setAttribute 'checked', true
-        deckBuilder.copySelectedCards()
         setTimeout ->
-          expect(deckBuilder.$.moveCopyDialog.opened).to.be.true
-          deckBuilder.$.dialogDismissButton.click()
-          done()
+          eventFire deckBuilder.$.copyCardsButton, 'tap'
+          setTimeout ->
+            expect(deckBuilder.$.copyDialog.opened).to.be.true
+            deckBuilder.$.dialogDismissButton.click()
+            done()
+          , timeoutTime
         , timeoutTime
       , timeoutTime
 
-    test 'check move button opens dialog', (done)->
-      deckBuilder.addNewDeck()
-      addCardToDeckSorter img1
-      addCardToDeckSorter img2
-      setTimeout ->
-        deckBuilder.$.deckSorter.querySelectorAll('builder-card')[0].$.checkbox.setAttribute 'checked', true
-        deckBuilder.moveSelectedCards()
-        setTimeout ->
-          expect(deckBuilder.$.moveCopyDialog.opened).to.be.true
-          deckBuilder.$.moveCopyDialog.opened = false
-          done()
-        , timeoutTime
-      , timeoutTime
-
-    test 'check making 2 copies of a card works', (done)->
+    test 'check copying 2 copies of a card to another deck works', (done)->
       deckBuilder.addNewDeck()
       deck1guid = deckBuilder.currentDeck.guid
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
       addCardToDeckSorter img2
-      setTimeout(->
+      setTimeout ->
         deckBuilder.$.deckSorter.querySelectorAll('builder-card')[0].$.checkbox.setAttribute 'checked', true
-        setTimeout( ->
-          deckBuilder.dialogVerb = "Copy"
-          deckBuilder.numberToMoveCopy = 2
-          deckBuilder.deckToMoveCopyTo = deck1guid
-          deckBuilder.moveCopyCards()
-          setTimeout(->
+        setTimeout ->
+          deckBuilder.numberToCopy = 2
+          deckBuilder.deckToCopyTo = deck1guid
+          deckBuilder.copySelectedCards()
+          setTimeout ->
             expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card.checked')).to.have.length 0
             expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.true
             deckBuilder.$.dataStorage.getDeck(deck1guid).then (deck)->
               expect(deck.cards).to.have.length 2
               done()
-              return
-          , timeoutTime)
-        , timeoutTime)
+          , timeoutTime
+        , timeoutTime
+      , timeoutTime
 
-      , timeoutTime)
+    test 'check copying 2 copies of a card to the current deck works', (done)->
+      deckBuilder.addNewDeck()
+      addCardToDeckSorter img1
+      addCardToDeckSorter img2
+      setTimeout ->
+        deckBuilder.$.deckSorter.querySelectorAll('builder-card')[0].$.checkbox.setAttribute 'checked', true
+        setTimeout ->
+          deckBuilder.numberToCopy = 2
+          deckBuilder.deckToCopyTo = deckBuilder.currentDeck.guid
+          deckBuilder.copySelectedCards()
+          setTimeout ->
+            expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card.checked')).to.have.length 0
+            expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.true
+            expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card')).to.have.length 4
+            done()
+          , timeoutTime
+        , timeoutTime
+      , timeoutTime

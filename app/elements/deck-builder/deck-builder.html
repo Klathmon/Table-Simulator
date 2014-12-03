@@ -78,16 +78,9 @@
             <paper-button
                 id="copyCardsButton"
                 disabled
-                on-tap="{{copySelectedCards}}">
+                on-tap="{{openCopyDialog}}">
               <core-icon icon="content-copy"></core-icon>
               Copy To...
-            </paper-button>
-            <paper-button
-                id="moveCardsButton"
-                disabled
-                on-tap="{{moveSelectedCards}}">
-              <core-icon icon="folder-open"></core-icon>
-              Move To...
             </paper-button>
           </div>
           <image-uploader id="imageUploader" on-new-image="{{newImageAdded}}"></image-uploader>
@@ -97,17 +90,17 @@
     </core-scaffold>
 
     <paper-action-dialog
-        id="moveCopyDialog"
-        heading="{{dialogVerb}} To..."
+        id="copyDialog"
+        heading="Copy To..."
         transition="paper-dialog-transition-bottom"
         backdrop
         layered>
       <div id="moveCopyInnerContainer" vertical layout style="min-width: 400px; min-height: 300px">
         <paper-dropdown-menu
-            label="Choose Deck to {{dialogVerb}}..."
+            label="Choose Deck to Copy cards into..."
             on-core-select="{{onDropdownElementSelected}}">
           <paper-dropdown class="dropdown" duration=150>
-            <core-menu class="menu" valueattr="data-guid" selected="{{deckToMoveCopyTo}}">
+            <core-menu class="menu" valueattr="data-guid" selected="{{deckToCopyTo}}">
               <template repeat="{{ deck in decks }}">
                 <paper-item data-guid="{{deck.guid}}">{{deck.name}}</paper-item>
               </template>
@@ -115,10 +108,10 @@
           </paper-dropdown>
         </paper-dropdown-menu>
 
-        <paper-input label="Number of copies to {{dialogVerb}}?" floatingLabel value="{{numberToMoveCopy}}"></paper-input>
+        <paper-input label="Number of copies to make?" floatingLabel value="{{numberToCopy}}"></paper-input>
       </div>
       <paper-button id="dialogDismissButton" raised dismissive>Cancel</paper-button>
-      <paper-button id="dialogAffirmButton" raised disabled affirmative on-tap="{{moveCopyCards}}">{{dialogVerb}}</paper-button>
+      <paper-button id="dialogAffirmButton" raised disabled affirmative on-tap="{{copySelectedCards}}">Copy</paper-button>
     </paper-action-dialog>
 
 
