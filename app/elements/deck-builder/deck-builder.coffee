@@ -3,7 +3,6 @@ Polymer 'deck-builder',
     @updateDeckList()
     return
 
-
   updateCurrentDeckFromSorter: (event)->
     return if @currentDeck is null or @currentDeck is undefined
     @currentDeck.cards = []
