@@ -35,7 +35,26 @@ Polymer 'deck-builder',
     else
       @$.dialogAffirmButton.setAttribute "disabled", true
     return
-
+  dropCardIntoAnotherDeck: (event, detail, element)->
+    menuRect = @$.deckMenu.getBoundingClientRect()
+    x = detail.xPos
+    y = detail.yPos
+    if x >= menuRect.left and
+        x <= menuRect.right and
+        y >= menuRect.top and
+        y <= menuRect.bottom
+      for div in @$.deckMenu.querySelectorAll 'div'
+        itemRect = div.getBoundingClientRect()
+        if x >= itemRect.left and
+            x <= itemRect.right and
+            y >= itemRect.top and
+            y <= itemRect.bottom
+          guid = div.querySelector('paper-item').dataset.guid
+          @$.dataStorage.getDeck(guid).then (deck)=>
+            deck.cards.push detail.element.imageData
+            @$.dataStorage.saveDeck(deck)
+          break
+    return
 
   updateCardButtons: (enabled = true)->
       elements = [

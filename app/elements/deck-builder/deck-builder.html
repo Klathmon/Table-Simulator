@@ -61,6 +61,7 @@
 
         <deck-sorter
             id="deckSorter"
+            on-drag-end="{{dropCardIntoAnotherDeck}}"
             on-layout-complete="{{updateCurrentDeckFromSorter}}"
             on-checkbox-changed="{{cardCheckboxChanged}}"
             flex>
