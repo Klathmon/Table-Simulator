@@ -1,23 +1,4 @@
-@import 'colors', 'mixins', 'placeholders', 'animations'
-
-$transitionSpeed: .2s
-
-\:host
-  display: inline-block
-  overflow: hidden
-  border:
-    style: solid
-    width: 1px
-    color: #CFCFCF
-    radius: 5px
-  transition: height $transitionSpeed, width $transitionSpeed
-
 #imageElement
+  vertical-align: bottom
   width: 100%
   height: auto
-  &.zoomed
-    position: fixed
-    top: 5%
-    left: 5%
-    width: 90%
-    height: 90%
