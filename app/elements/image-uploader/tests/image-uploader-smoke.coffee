@@ -1,7 +1,5 @@
-
 imageUploader = document.querySelector 'image-uploader'
 img = document.querySelector 'img'
-img.style.display = "none"
 window.addEventListener "polymer-ready", ->
   suite '<image-uploader>', ->
 
