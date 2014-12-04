@@ -1,13 +1,6 @@
-#
-# Events:
-# deck-added
-# deck-deleted
-# deck-renamed
-# card-added
-# card-removed
 Polymer 'data-storage',
   deckPrefix: "Deck:"
-  ready: ->
+  created: ->
     localforage.config
       name: "Table Simulator"
       driver: localforage.INDEXDDB
@@ -16,7 +9,7 @@ Polymer 'data-storage',
     return
 
   createDeck: ->
-    return new Deck @
+    return new Deck()
 
   listDecks: ->
     return new Promise (resolve, reject)=>
@@ -41,7 +34,7 @@ Polymer 'data-storage',
         if deck is null
           reject "Deck not found"
         else
-          deck = new Deck @, deck.guid, deck.name, deck.cards
+          deck = new Deck deck.guid, deck.name, deck.cards
           resolve deck
         return
       , (err)=>

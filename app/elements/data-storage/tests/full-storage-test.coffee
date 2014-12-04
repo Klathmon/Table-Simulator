@@ -13,6 +13,16 @@ window.addEventListener "polymer-ready", ->
       expect(deck.guid).to.not.equal ''
       done()
 
+    test 'check deck saving', (done)->
+      deck = dataStorage.createDeck()
+      dataStorage.saveDeck(deck).then ->
+        deck.addCard 'pretendThisIsCardData'
+        deck.addCard 'pretendThisIsCardData2'
+        dataStorage.saveDeck(deck).then ->
+          dataStorage.getDeck(deck.guid).then (newDeck)->
+            expect(newDeck.cards).to.have.length 2
+            done()
+
     test 'check deck listing', (done)->
       deck = dataStorage.createDeck()
       deck.name = "Stupid Deck Name"
@@ -28,15 +38,3 @@ window.addEventListener "polymer-ready", ->
           dataStorage.listDecks().then (decks)->
             expect(decks.length).to.equal 0
             done()
-
-    test 'check autosave on change', (done)->
-      deck = dataStorage.createDeck()
-      dataStorage.saveDeck(deck).then ->
-        deck.addCard 'pretendThisIsCardData'
-        deck.addCard 'pretendThisIsCardData2'
-        #give it some time to perform microtasks...
-        setTimeout =>
-          dataStorage.getDeck(deck.guid).then (newDeck)->
-            expect(newDeck.cards).to.have.length 2
-            done()
-        , 10
