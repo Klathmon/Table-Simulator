@@ -1,13 +1,11 @@
 @import 'colors', 'mixins', 'placeholders'
 
-$paddingPercentage: 3%
+$paddingSize: 10px
 
 \:host
   overflow-y: auto
   z-index: 0
-  padding: $paddingPercentage
-  builder-card
-    width: 100px
+  padding: $paddingSize
 
 content::content .spacer
   display: block
@@ -15,5 +13,12 @@ content::content .spacer
   position: absolute
   top: -500px
   left: -500px
-  width: $paddingPercentage
-  height: $paddingPercentage
+  width: $paddingSize
+  height: $paddingSize
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px)
+  \:host
+    padding-left: 50px
+    padding-right: 50px
+  content::content builder-card
+    width: 80px
