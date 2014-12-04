@@ -1,10 +1,11 @@
 Polymer 'deck-sorter',
+  cardElement: "builder-card"
   packery: null
   domReady: ->
     @packery = new Packery @,
-      itemSelector: "builder-card"
-      columnWidth: "builder-card"
-      rowHeight: "builder-card"
+      itemSelector: @cardElement
+      columnWidth: @cardElement
+      rowHeight: @cardElement
       gutter: 8
 
     @packery.on 'dragItemPositioned', =>
@@ -37,10 +38,6 @@ Polymer 'deck-sorter',
     for element in addedElements
       @packery.remove element
       @layout()
-    return
-
-  deleteCard: (event)->
-    @removeElements [event.detail.element]
     return
 
   layout: ->

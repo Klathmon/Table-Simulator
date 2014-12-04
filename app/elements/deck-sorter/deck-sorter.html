@@ -2,15 +2,13 @@
 <link rel="import" href="../builder-card/builder-card.html">
 
 
-<polymer-element name="deck-sorter">
+<polymer-element
+    name="deck-sorter"
+    constructor="DeckSorter">
   <template>
     <link rel="stylesheet" href="deck-sorter.sass">
 
-    <content
-        on-drag-start="{{dragStarted}}"
-        on-drag-end="{{dragStopped}}"
-        on-card-deleted="{{deleteCard}}">
-    </content>
+    <content></content>
 
   </template>
   <!-- build:js deck-sorter.js -->
