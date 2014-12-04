@@ -65,7 +65,7 @@ Polymer 'deck-builder',
 
 
   addNewDeck: ->
-    @$.deckSorter.innerHTML = ''
+    @$.deckSorter.removeElements @$.deckSorter.querySelectorAll("builder-card")
     @currentDeck = @$.dataStorage.createDeck()
     @$.dataStorage.saveDeck(@currentDeck).then =>
       @updateDeckList()
@@ -80,7 +80,7 @@ Polymer 'deck-builder',
         return
     return
   actualLoadDeck: (guid)->
-    @$.deckSorter.innerHTML = ''
+    @$.deckSorter.removeElements @$.deckSorter.querySelectorAll("builder-card")
     @$.dataStorage.getDeck(guid).then (deck)=>
       @currentDeck = deck
       @addCardToCurrentDeck @currentDeck.cards
@@ -106,8 +106,7 @@ Polymer 'deck-builder',
     return
   deleteSelectedCards: ->
     checkedCards = @$.deckSorter.querySelectorAll '.checked'
-    for card in checkedCards
-      @$.deckSorter.removeChild card
+    @$.deckSorter.removeElements checkedCards
     @updateCardButtons false
     return
   openCopyDialog: ->

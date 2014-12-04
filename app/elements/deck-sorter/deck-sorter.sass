@@ -1,7 +1,19 @@
 @import 'colors', 'mixins', 'placeholders'
 
+$paddingPercentage: 3%
+
 \:host
   overflow-y: auto
   z-index: 0
+  padding: $paddingPercentage
   builder-card
     width: 100px
+
+content::content .spacer
+  display: block
+  visibility: hidden
+  position: absolute
+  top: -500px
+  left: -500px
+  width: $paddingPercentage
+  height: $paddingPercentage

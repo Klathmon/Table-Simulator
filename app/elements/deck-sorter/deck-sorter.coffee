@@ -2,11 +2,15 @@ Polymer 'deck-sorter',
   cardElement: "builder-card"
   packery: null
   domReady: ->
+    spacer = document.createElement "div"
+    spacer.classList.add "spacer"
+    @appendChild spacer
+
     @packery = new Packery @,
       itemSelector: @cardElement
       columnWidth: @cardElement
       rowHeight: @cardElement
-      gutter: 8
+      gutter: spacer
 
     @packery.on 'dragItemPositioned', =>
       @layout()
@@ -19,8 +23,12 @@ Polymer 'deck-sorter',
     addedElements = []
     removedElements = []
     for mutation in mutations
-      addedElements.push addedNode for addedNode in mutation.addedNodes
-      removedElements.push removedNode for removedNode in mutation.removedNodes
+      for addedNode in mutation.addedNodes
+        continue if addedNode.tagName isnt undefined and addedNode.tagName.toLowerCase() isnt @cardElement
+        addedElements.push addedNode
+      for removedNode in mutation.removedNodes
+        continue if removedNode.tagName isnt undefined and removedNode.tagName.toLowerCase() isnt @cardElement
+        removedElements.push removedNode
 
     @addElements addedElements
     @removeElements removedElements
