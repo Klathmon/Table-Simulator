@@ -27,11 +27,10 @@ Polymer 'image-uploader',
         clearInterval importInterval
       else
         if !file.type.match(@imageType)
-          alert "Not an image!"
+          alert '"' + file.name + '" is not an image, skipping...'
           #TODO: replace this with a fancy dialogue
         else
           @importFile window.URL.createObjectURL(file), file.type
-
       return
     , 1
     return
