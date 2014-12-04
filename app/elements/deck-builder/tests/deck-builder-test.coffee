@@ -1,7 +1,7 @@
 deckBuilder = document.querySelector 'deck-builder'
 img1 = document.querySelector '#img1'
 img2 = document.querySelector '#img2'
-timeoutTime = 200
+timeoutTime = 250
 addCardToDeckSorter = (img1Element)->
   deckBuilder.$.imageUploader.importFile img1Element.src, 'image/jpg'
 
