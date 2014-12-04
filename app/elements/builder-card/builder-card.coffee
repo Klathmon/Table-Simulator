@@ -1,4 +1,4 @@
-Polymer 'builder-card',
+Polymer 'builder-card', Platform.mixin(
   ready: ->
     @draggie = new Draggabilly @
     return
@@ -10,3 +10,4 @@ Polymer 'builder-card',
     @asyncFire 'checkbox-changed',
       element: @
     return
+, zoomCard)

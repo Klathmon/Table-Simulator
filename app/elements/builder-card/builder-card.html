@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
 
 <link rel="import" href="../base-card/base-card.html">
 
@@ -7,7 +9,8 @@
     name="builder-card"
     constructor="BuilderCard"
     extends="base-card"
-    attributes="imageData parentElement">
+    attributes="imageData parentElement"
+    on-dblclick="{{zoomCard}}">
   <template>
     <link rel="stylesheet" href="builder-card.sass">
 
@@ -17,7 +20,9 @@
 
   </template>
   <!-- build:js builder-card.js -->
+  <script src="../../scripts/globals.coffee"></script>
   <script src="../../bower_components/draggabilly/dist/draggabilly.pkgd.js"></script>
+  <script src="../../scripts/zoomCard.coffee"></script>
   <script src="builder-card.coffee"></script>
   <!-- endbuild -->
 </polymer-element>

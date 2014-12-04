@@ -1,8 +1,15 @@
-
 builderCard = document.querySelector 'builder-card'
 img = document.querySelector 'img'
 builderCard.imageData = img.src
-img.style.display = "none"
+
+eventFire = (element, type)->
+  if element.fireEvent
+    (element.fireEvent('on' + type))
+  else
+    evObj = document.createEvent('Events')
+    evObj.initEvent(type, true, false)
+    element.dispatchEvent evObj
+  return
 window.addEventListener "polymer-ready", ->
   suite '<builder-card>', ->
 
@@ -16,3 +23,13 @@ window.addEventListener "polymer-ready", ->
 
     test 'check draggabilly created', ->
       expect(builderCard.draggie).to.be.an.instanceof Draggabilly
+
+    test 'check zoom works', (done)->
+      eventFire builderCard, "dblclick"
+      setTimeout ->
+        dialogBox = document.querySelector 'core-overlay-layer overlay-host'
+        computedStyle = window.getComputedStyle dialogBox
+        expect(computedStyle.getPropertyValue 'width').to.be.above '10'
+        expect(computedStyle.getPropertyValue 'height').to.be.above '10'
+        done()
+      ,500

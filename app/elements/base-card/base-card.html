@@ -5,9 +5,8 @@
 <polymer-element
     name="base-card"
     attributes="imageData"
-    on-touchstart="{{mouseDown}}"
-    on-mousedown="{{mouseDown}}"
-    on-dblclick="{{zoomCard}}">
+    on-touchstart="{{setZindex}}"
+    on-mousedown="{{setZindex}}">
   <template>
     <link rel="stylesheet" href="base-card.sass">
 
