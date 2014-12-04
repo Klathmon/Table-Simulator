@@ -118,9 +118,11 @@ window.addEventListener "polymer-ready", ->
         setTimeout ->
           expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.false
           deckBuilder.deleteSelectedCards()
-          expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card')).to.have.length 1
-          expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
-          done()
+          setTimeout ->
+            expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card')).to.have.length 1
+            expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
+            done()
+          , (timeoutTime * 2)
         , timeoutTime
       , timeoutTime
 
