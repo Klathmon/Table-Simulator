@@ -1,9 +1,16 @@
-@import 'colors', 'mixins', 'placeholders', 'animations'
+@import 'mixins'
 
 $transitionSpeed: .2s
 
 \:host
-  //Stuff goes here
+  @include reset-font
+  @include roboto-font
+
+#lowerActions
+  transition: height $transitionSpeed
+  .hidden
+    height: 0px
+
 .deckDeleteButton
   margin-top: 7px
 

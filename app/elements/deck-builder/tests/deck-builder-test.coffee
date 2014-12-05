@@ -122,9 +122,9 @@ window.addEventListener "polymer-ready", ->
             expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card')).to.have.length 1
             expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
             done()
-          , (timeoutTime * 2)
+          , timeoutTime * 2
         , timeoutTime
-      , timeoutTime
+      , timeoutTime * 2
 
     test 'check copy button opens dialog', (done)->
       deckBuilder.addNewDeck()
