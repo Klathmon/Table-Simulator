@@ -12,3 +12,13 @@ window.addEventListener "polymer-ready", ->
       computedStyle = window.getComputedStyle baseCard
       expect(computedStyle.getPropertyValue 'width').to.be.above '10'
       expect(computedStyle.getPropertyValue 'height').to.be.above '10'
+
+
+  suite '<base-card> Benchmarks', ->
+      startTime = performance.now()
+      baseCard2 = new BaseCard()
+      baseCard2.imageData = img.src
+      document.body.appendChild baseCard2
+      Polymer.flush()
+      endTime = performance.now()
+      test('BaseCard took ' + parseFloat(endTime - startTime).toFixed(2) + 'ms to create')
