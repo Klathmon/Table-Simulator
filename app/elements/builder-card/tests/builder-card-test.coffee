@@ -25,11 +25,23 @@ window.addEventListener "polymer-ready", ->
       expect(builderCard.draggie).to.be.an.instanceof Draggabilly
 
     test 'check zoom works', (done)->
+      builderCard.addEventListener 'zoomed-card-added', ->
+        flush ->
+          dialogBox = document.querySelector('core-overlay-layer overlay-host').shadowRoot.querySelector 'paper-dialog'
+          dialogBox.addEventListener 'core-overlay-open-completed', ->
+            computedStyle = window.getComputedStyle dialogBox
+            expect(computedStyle.getPropertyValue 'width').to.be.above '10'
+            expect(computedStyle.getPropertyValue 'height').to.be.above '10'
+            done()
+
       eventFire builderCard, "dblclick"
-      setTimeout ->
-        dialogBox = document.querySelector 'core-overlay-layer overlay-host'
-        computedStyle = window.getComputedStyle dialogBox
-        expect(computedStyle.getPropertyValue 'width').to.be.above '10'
-        expect(computedStyle.getPropertyValue 'height').to.be.above '10'
-        done()
-      ,500
+
+
+  suite '<builder-card> Benchmarks', ->
+    test 'Create 10 BuilderCards', (done)->
+      for x in [0...10]
+        builderCard2 = new BuilderCard()
+        builderCard2.imageData = img.src
+        document.body.appendChild builderCard2
+        Polymer.flush()
+      done()

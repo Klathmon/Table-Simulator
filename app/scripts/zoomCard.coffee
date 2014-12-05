@@ -19,6 +19,8 @@ zoomCard =
     # fixes a bug where the dialog would be wrongly sized and positioned randomly
     @async ->
       dbox.setAttribute "opened", true
+      @fire 'zoomed-card-added'
+
     return
 
   createZoomDialogContents: ->
