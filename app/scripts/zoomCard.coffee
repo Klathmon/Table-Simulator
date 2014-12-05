@@ -22,7 +22,7 @@ zoomCard =
     return
 
   createZoomDialogContents: ->
-    card = document.createElement "base-card"
+    card = new BaseCard()
     card.imageData = @imageData
     card.style.width = "100%"
     card.style.height = "auto"
