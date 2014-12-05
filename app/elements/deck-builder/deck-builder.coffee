@@ -1,4 +1,9 @@
 Polymer 'deck-builder',
+  addCardInterval: null
+  firstCard: true
+  created: ->
+    @cardDataArray = []
+    return
   ready: ->
     @updateDeckList()
     return
@@ -71,9 +76,14 @@ Polymer 'deck-builder',
     return
 
   # Prepares the sorter for a new deck (unhides the lower actions, etc...)
-  prepSorterForNewDeck: ->
+  prepSorterForNewDeck: (hide = false)->
+    clearInterval @addCardInterval
+    @cardDataArray = []
     @$.deckSorter.removeElements @$.deckSorter.querySelectorAll("builder-card")
-    @$.lowerActions.classList.remove "hidden"
+    if hide is true
+      @$.lowerActions.classList.add "hidden"
+    else
+      @$.lowerActions.classList.remove "hidden"
     return
   # This is just a stub method to convert the event to the real function call
   loadDeck: (event, detail, element)->
@@ -103,8 +113,7 @@ Polymer 'deck-builder',
       if element is undefined or element.dataset.guid is @currentDeck.guid
         @currentDeck = null
         @updateCardButtons false
-        @$.deckSorter.removeElements @$.deckSorter.querySelectorAll("builder-card")
-        @$.lowerActions.classList.add "hidden"
+        @prepSorterForNewDeck true
       return
     return
 
@@ -155,15 +164,24 @@ Polymer 'deck-builder',
     return
   # Creates a BuiderCard and appends it to the Sorter
   # can accept a single card, or an array of cards
-  addCardToCurrentDeck: (cardDataArray)->
-    return if cardDataArray is []
-    cardDataArray = [cardDataArray] if typeof cardDataArray isnt 'object'
-    fragment = document.createDocumentFragment()
-    for cardData in cardDataArray
-      builderCard = new BuilderCard()
-      builderCard.imageData = cardData
-      fragment.appendChild builderCard
-    @$.deckSorter.appendChild fragment
+  addCardToCurrentDeck: (cardDataArrayTemp)->
+    return if cardDataArrayTemp is []
+    cardDataArrayTemp = [cardDataArrayTemp] if typeof cardDataArrayTemp isnt 'object'
+    for cardDataTemp in cardDataArrayTemp
+      @cardDataArray.push cardDataTemp
+
+    @addCardInterval = setInterval =>
+      cardData = @cardDataArray.pop()
+      if typeof cardData is "undefined"
+        clearInterval @addCardInterval
+      else
+        builderCard = new BuilderCard()
+        builderCard.imageData = cardData
+        @$.deckSorter.appendChild builderCard
+        if @cardDataArray.length % 20 is 0
+          @$.deckSorter.packery.layout()
+      return
+    , 10
     return
   # Fired from the image-uploader.
   # adds the given cards to the sorter (in a job)
