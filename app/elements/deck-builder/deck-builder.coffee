@@ -29,6 +29,7 @@ Polymer 'deck-builder',
   updateDeckList: ->
     @$.dataStorage.listDecks().then (decks)=>
       @decks = decks
+      @fire 'decklist-updated'
       return
     return
   # Called when a checkbox is checked/unchecked in the DeckSorter
