@@ -79,6 +79,7 @@ Polymer 'deck-builder',
   prepSorterForNewDeck: (hide = false)->
     clearInterval @addCardInterval
     @cardDataArray = []
+    @updateCardButtons false
     @$.deckSorter.removeElements @$.deckSorter.querySelectorAll("builder-card")
     if hide is true
       @$.lowerActions.classList.add "hidden"
@@ -112,7 +113,6 @@ Polymer 'deck-builder',
       @updateDeckList()
       if element is undefined or element.dataset.guid is @currentDeck.guid
         @currentDeck = null
-        @updateCardButtons false
         @prepSorterForNewDeck true
       return
     return
