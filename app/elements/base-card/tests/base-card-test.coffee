@@ -14,11 +14,12 @@ window.addEventListener "polymer-ready", ->
       expect(computedStyle.getPropertyValue 'height').to.be.above '10'
 
 
+
   suite '<base-card> Benchmarks', ->
-      startTime = performance.now()
-      baseCard2 = new BaseCard()
-      baseCard2.imageData = img.src
-      document.body.appendChild baseCard2
-      Polymer.flush()
-      endTime = performance.now()
-      test('BaseCard took ' + parseFloat(endTime - startTime).toFixed(2) + 'ms to create')
+    test 'Create 10 BaseCards', (done)->
+      for x in [0...10]
+        baseCard2 = new BaseCard()
+        baseCard2.imageData = img.src
+        document.body.appendChild baseCard2
+        Polymer.flush()
+      done()
