@@ -1,15 +1,19 @@
 @import 'mixins'
 
-$transitionSpeed: .2s
+$transitionSpeed: .5s
 
 \:host
   @include reset-font
   @include roboto-font
 
+#deckParentWindow
+  overflow: hidden
+
 #lowerActions
-  transition: height $transitionSpeed
-  .hidden
-    height: 0px
+  overflow: hidden
+  transition: all $transitionSpeed
+  &.hidden
+    transform: translate(0px, 300px)
 
 .deckDeleteButton
   margin-top: 7px
