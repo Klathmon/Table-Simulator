@@ -225,7 +225,45 @@ window.addEventListener "polymer-ready", ->
       addCardToDeckSorter img2
       return
 
-    test.skip 'check copying 2 copies of a card to another deck works', (done)->
+    test 'check copying 2 copies of a card to another deck works', (done)->
+      eventCount = 0
+      eventCount2 = 0
+      eventCount3 = 0
+      tempEvent3 = ->
+        eventCount3++
+        if eventCount3 is 1
+          deckBuilder.removeEventListener 'deck-saved', tempEvent3
+          animationFrameFlush ->
+            expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card.checked')).to.have.length 0
+            expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.true
+            deckBuilder.$.dataStorage.getDeck(deck1guid).then (deck)->
+              expect(deck.cards).to.have.length 2
+              done()
+        return
+      tempEvent2 = ->
+        eventCount2++
+        if eventCount2 is 1
+          deckBuilder.removeEventListener 'checkbox-changed', tempEvent2
+          animationFrameFlush ->
+            deckBuilder.addEventListener 'deck-saved', tempEvent3
+            deckBuilder.numberToCopy = 2
+            deckBuilder.deckToCopyTo = deck1guid
+            deckBuilder.copySelectedCards()
+      tempEvent = ->
+        eventCount++
+        if eventCount is 6
+          deckBuilder.removeEventListener 'deck-saved', tempEvent
+          animationFrameFlush ->
+            deckBuilder.addEventListener 'checkbox-changed', tempEvent2
+            deckBuilder.$.deckSorter.querySelector('builder-card').$.checkbox.setAttribute 'checked', true
+      deckBuilder.addEventListener 'deck-saved', tempEvent
+      deckBuilder.addNewDeck()
+      deck1guid = deckBuilder.currentDeck.guid
+      deckBuilder.addNewDeck()
+      addCardToDeckSorter img1
+      addCardToDeckSorter img2
+      return
+
       deckBuilder.addNewDeck()
       deck1guid = deckBuilder.currentDeck.guid
       deckBuilder.addNewDeck()
