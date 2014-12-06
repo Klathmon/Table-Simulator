@@ -126,21 +126,63 @@ window.addEventListener "polymer-ready", ->
       deckBuilder.deleteDeck()
       done()
 
-    test.skip 'check card buttons are enabled after first card selected', (done)->
-      deckBuilder.addNewDeck()
-      addCardToDeckSorter img1
+    test 'check card buttons are enabled after first card selected', (done)->
+      eventCount = 0
+      eventCount2 = 0
+      tempEvent2 = ->
+        eventCount2++
+        if eventCount2 is 1
+          deckBuilder.removeEventListener 'checkbox-changed', tempEvent2
+          animationFrameFlush ->
+            expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.false
+            expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.false
+            done()
+      tempEvent = ->
+        eventCount++
+        if eventCount is 3
+          deckBuilder.removeEventListener 'deck-saved', tempEvent
+          deckBuilder.addEventListener 'checkbox-changed', tempEvent2
+          deckBuilder.$.deckSorter.querySelector('builder-card').$.checkbox.setAttribute 'checked', true
+
+      deckBuilder.addEventListener 'deck-saved', tempEvent
       expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
       expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.true
-      setTimeout ->
-        deckBuilder.$.deckSorter.querySelector('builder-card').$.checkbox.setAttribute 'checked', true
-        setTimeout ->
-          expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.false
-          expect(deckBuilder.$.copyCardsButton.hasAttribute 'disabled').to.be.false
-          done()
-        , timeoutTime
-      , timeoutTime
+      deckBuilder.addNewDeck()
+      addCardToDeckSorter img1
 
-    test.skip 'check delete card button works', (done)->
+    test 'check delete card button works', (done)->
+      eventCount = 0
+      eventCount2 = 0
+      eventCount3 = 0
+      tempEvent3 = ->
+        eventCount3++
+        if eventCount3 is 8
+          deckBuilder.removeEventListener 'layout-complete', tempEvent3
+          animationFrameFlush ->
+            expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card')).to.have.length 1
+            expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
+            done()
+      tempEvent2 = ->
+        eventCount2++
+        if eventCount2 is 1
+          deckBuilder.removeEventListener 'checkbox-changed', tempEvent2
+          animationFrameFlush ->
+            deckBuilder.addEventListener 'layout-complete', tempEvent3
+            expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.false
+            deckBuilder.deleteSelectedCards()
+      tempEvent = ->
+        eventCount++
+        if eventCount is 5
+          deckBuilder.removeEventListener 'deck-saved', tempEvent
+          animationFrameFlush ->
+            deckBuilder.addEventListener 'checkbox-changed', tempEvent2
+            deckBuilder.$.deckSorter.querySelector('builder-card').$.checkbox.setAttribute 'checked', true
+      deckBuilder.addEventListener 'deck-saved', tempEvent
+      deckBuilder.addNewDeck()
+      addCardToDeckSorter img1
+      addCardToDeckSorter img2
+      return
+
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
       addCardToDeckSorter img2
