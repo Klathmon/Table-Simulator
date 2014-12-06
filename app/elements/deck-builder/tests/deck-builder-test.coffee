@@ -2,12 +2,13 @@ deckBuilder = document.querySelector 'deck-builder'
 img1 = document.querySelector '#img1'
 img2 = document.querySelector '#img2'
 timeoutTime = 250
-addCardToDeckSorter = (img1Element)->
-  deckBuilder.$.imageUploader.importFile img1Element.src, 'image/jpg'
+addCardToDeckSorter = (imgElement)->
+  deckBuilder.$.imageUploader.importFile imgElement.src, 'image/jpg'
 
 testSetup = (done)->
   deckBuilder.$.dataStorage.purgeEverything().then ->
     done()
+
 eventFire = (element, type)->
   if element.fireEvent
     (element.fireEvent('on' + type))
@@ -16,6 +17,7 @@ eventFire = (element, type)->
     evObj.initEvent(type, true, false)
     element.dispatchEvent evObj
   return
+
 window.addEventListener "polymer-ready", ->
   suite '<deck-builder> Smoke', ->
     setup testSetup
@@ -28,67 +30,94 @@ window.addEventListener "polymer-ready", ->
   suite '<deck-builder> Decks', ->
     setup testSetup
 
-    test 'check add deck works', ->
+    test 'check add deck works', (done)->
       deckBuilder.addNewDeck()
-      expect(deckBuilder.currentDeck.name).to.equal 'Unnamed Deck'
+      flush ->
+        expect(deckBuilder.currentDeck.name).to.equal 'Unnamed Deck'
+        done()
 
     test 'check deck listing works', (done)->
+      tempEvent = ->
+        if eventCount < 1
+          eventCount++
+        else
+          animationFrameFlush ->
+            deckBuilder.removeEventListener 'decklist-updated', tempEvent
+            expect(deckBuilder.$.deckMenu.querySelectorAll('paper-item')).to.have.length 3
+            done()
+      eventCount = 0
+      deckBuilder.addEventListener 'decklist-updated', tempEvent
       deckBuilder.addNewDeck()
-      setTimeout =>
-        deckBuilder.addNewDeck()
-        setTimeout =>
-          deckPaperItems = deckBuilder.$.deckMenu.querySelectorAll('paper-item')
-          expect(deckPaperItems).to.have.length 3
-          done()
-        , (timeoutTime * 2)
-      , timeoutTime
+      deckBuilder.addNewDeck()
 
     test 'check deck renaming works', (done)->
+      tempEvent = ->
+        flush ->
+          deckBuilder.removeEventListener 'decklist-updated', tempEvent
+          expect(deckBuilder.currentDeck.name).to.equal 'Named Deck'
+          done()
       deckBuilder.addNewDeck()
       deckBuilder.$.deckNameInput.value = "Named Deck"
+      deckBuilder.addEventListener 'decklist-updated', tempEvent
       deckBuilder.$.deckNameInput.blur()
-      setTimeout =>
-        expect(deckBuilder.currentDeck.name).to.equal 'Named Deck'
-        done()
-      , timeoutTime
 
     test 'check deck selection works', (done)->
+      tempEvent2 = ->
+        flush ->
+          deckBuilder.removeEventListener 'deck-loaded', tempEvent2
+          expect(deckBuilder.currentDeck.name).to.equal 'Unnamed Deck'
+          done()
+      tempEvent = ->
+        flush ->
+          deckBuilder.removeEventListener 'decklist-updated', tempEvent
+          paperElements = deckBuilder.$.deckMenu.querySelectorAll('paper-item')
+          if paperElements[0].dataset.guid is firstDeckGUID
+            element = paperElements[0]
+          else
+            element = paperElements[1]
+          expect(element.dataset.guid).to.equal firstDeckGUID
+          deckBuilder.addEventListener 'deck-loaded', tempEvent2
+          deckBuilder.loadDeck null, null, element
+
       deckBuilder.addNewDeck()
       firstDeckGUID = deckBuilder.currentDeck.guid
       deckBuilder.addNewDeck()
       deckBuilder.$.deckNameInput.value = "Named Deck"
+      deckBuilder.addEventListener 'decklist-updated', tempEvent
       deckBuilder.$.deckNameInput.blur()
-      setTimeout =>
-        paperElements = deckBuilder.$.deckMenu.querySelectorAll('paper-item')
-        if paperElements[0].dataset.guid is firstDeckGUID
-          element = paperElements[0]
-        else
-          element = paperElements[1]
-        expect(element.dataset.guid).to.equal firstDeckGUID
-        deckBuilder.loadDeck null, null, element
-        setTimeout =>
-          expect(deckBuilder.currentDeck.name).to.equal 'Unnamed Deck'
-          done()
-        , timeoutTime
-      , timeoutTime
 
     test 'check deck deletion works', (done)->
-      deckBuilder.addNewDeck()
-      setTimeout( ->
-        deckPaperItems = deckBuilder.$.deckMenu.querySelectorAll('paper-item')
-        expect(deckPaperItems).to.have.length 2
-        deckBuilder.deleteDeck()
-        setTimeout(()->
-          deckPaperItems = deckBuilder.$.deckMenu.querySelectorAll('paper-item')
+      tempEvent3 = ->
+        if eventCount2 < 4
+          eventCount2++
+        else
+          animationFrameFlush ->
+            deckBuilder.$.deckSorter.removeEventListener 'layout-complete', tempEvent3
+            expect(deckBuilder.$.deckSorter.querySelectorAll 'builder-card').to.have.length 0
+            done()
+      tempEvent2 = ->
+        animationFrameFlush ->
+          deckBuilder.removeEventListener 'decklist-updated', tempEvent2
           expect(deckBuilder.currentDeck).to.be.null
-          expect(deckPaperItems).to.have.length 1
-          done()
-          return
-        , timeoutTime)
-        return
-      , timeoutTime)
+          expect(deckBuilder.$.deckMenu.querySelectorAll('paper-item')).to.have.length 1
+          deckBuilder.$.deckSorter.addEventListener 'layout-complete', tempEvent3
+      tempEvent = ->
+        if eventCount < 1
+          eventCount++
+        else
+          animationFrameFlush ->
+            deckBuilder.removeEventListener 'deck-saved', tempEvent
+            expect(deckBuilder.currentDeck).to.not.be.null
+            expect(deckBuilder.$.deckMenu.querySelectorAll('paper-item')).to.have.length 2
+            deckBuilder.addEventListener 'decklist-updated', tempEvent2
+            deckBuilder.deleteDeck()
+      eventCount = 0
+      eventCount2 = 0
+      deckBuilder.addEventListener 'deck-saved', tempEvent
+      deckBuilder.addNewDeck()
+      addCardToDeckSorter img1
 
-  suite '<deck-builder> Cards', ->
+  suite.skip '<deck-builder> Cards', ->
     setup testSetup
 
     teardown (done)->

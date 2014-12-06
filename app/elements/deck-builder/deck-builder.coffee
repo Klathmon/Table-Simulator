@@ -21,7 +21,8 @@ Polymer 'deck-builder',
   currentDeckChanged: ->
     if @currentDeck isnt null
       @job 'save-deck', ->
-        @$.dataStorage.saveDeck @currentDeck
+        @$.dataStorage.saveDeck(@currentDeck).then =>
+          @fire 'deck-saved'
         return
       , 100
     return
@@ -105,6 +106,7 @@ Polymer 'deck-builder',
     @$.dataStorage.getDeck(guid).then (deck)=>
       @currentDeck = deck
       @addCardToCurrentDeck @currentDeck.cards
+      @fire 'deck-loaded'
     return
   # Deletes the given deck
   # if it is the current deck, then it clears out the sorter
@@ -112,7 +114,7 @@ Polymer 'deck-builder',
     guid = if element is undefined then @currentDeck.guid else element.dataset.guid
     @$.dataStorage.deleteDeck(guid).then =>
       @updateDeckList()
-      if element is undefined or element.dataset.guid is @currentDeck.guid
+      if guid is @currentDeck.guid
         @currentDeck = null
         @prepSorterForNewDeck true
       return
