@@ -183,37 +183,47 @@ window.addEventListener "polymer-ready", ->
       addCardToDeckSorter img2
       return
 
-      deckBuilder.addNewDeck()
-      addCardToDeckSorter img1
-      addCardToDeckSorter img2
-      setTimeout ->
-        deckBuilder.$.deckSorter.querySelectorAll('builder-card')[0].$.checkbox.setAttribute 'checked', true
-        setTimeout ->
-          expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.false
-          deckBuilder.deleteSelectedCards()
-          setTimeout ->
-            expect(deckBuilder.$.deckSorter.querySelectorAll('builder-card')).to.have.length 1
-            expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
+    test 'check copy button opens dialog', (done)->
+      eventCount = 0
+      eventCount2 = 0
+      eventCount3 = 0
+      eventCount4 = 0
+      tempEvent4 = ->
+        eventCount4++
+        if eventCount4 is 1
+          deckBuilder.removeEventListener 'core-overlay-close-completed', tempEvent4
+          animationFrameFlush ->
+            expect(deckBuilder.$.copyDialog.opened).to.be.false
             done()
-          , timeoutTime * 2
-        , timeoutTime
-      , timeoutTime * 2
-
-    test.skip 'check copy button opens dialog', (done)->
-      deckBuilder.addNewDeck()
-      addCardToDeckSorter img1
-      addCardToDeckSorter img2
-      setTimeout ->
-        deckBuilder.$.deckSorter.querySelectorAll('builder-card')[0].$.checkbox.setAttribute 'checked', true
-        setTimeout ->
-          eventFire deckBuilder.$.copyCardsButton, 'tap'
-          setTimeout ->
+      tempEvent3 = ->
+        eventCount3++
+        if eventCount3 is 1
+          deckBuilder.removeEventListener 'core-overlay-open-completed', tempEvent3
+          animationFrameFlush ->
+            deckBuilder.addEventListener 'core-overlay-close-completed', tempEvent4
             expect(deckBuilder.$.copyDialog.opened).to.be.true
             deckBuilder.$.dialogDismissButton.click()
             done()
-          , timeoutTime
-        , timeoutTime
-      , timeoutTime
+      tempEvent2 = ->
+        eventCount2++
+        if eventCount2 is 1
+          deckBuilder.removeEventListener 'checkbox-changed', tempEvent2
+          animationFrameFlush ->
+            deckBuilder.addEventListener 'core-overlay-open-completed', tempEvent3
+            eventFire deckBuilder.$.copyCardsButton, 'tap'
+            done()
+      tempEvent = ->
+        eventCount++
+        if eventCount is 5
+          deckBuilder.removeEventListener 'deck-saved', tempEvent
+          animationFrameFlush ->
+            deckBuilder.addEventListener 'checkbox-changed', tempEvent2
+            deckBuilder.$.deckSorter.querySelector('builder-card').$.checkbox.setAttribute 'checked', true
+      deckBuilder.addEventListener 'deck-saved', tempEvent
+      deckBuilder.addNewDeck()
+      addCardToDeckSorter img1
+      addCardToDeckSorter img2
+      return
 
     test.skip 'check copying 2 copies of a card to another deck works', (done)->
       deckBuilder.addNewDeck()
