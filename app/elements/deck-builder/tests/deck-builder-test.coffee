@@ -32,30 +32,32 @@ window.addEventListener "polymer-ready", ->
 
     test 'check add deck works', (done)->
       deckBuilder.addNewDeck()
-      flush ->
+      animationFrameFlush ->
         expect(deckBuilder.currentDeck.name).to.equal 'Unnamed Deck'
         done()
 
     test 'check deck listing works', (done)->
+      eventCount = 0
       tempEvent = ->
-        if eventCount < 1
-          eventCount++
-        else
+        eventCount++
+        if eventCount is 2
+          deckBuilder.removeEventListener 'decklist-updated', tempEvent
           animationFrameFlush ->
-            deckBuilder.removeEventListener 'decklist-updated', tempEvent
             expect(deckBuilder.$.deckMenu.querySelectorAll('paper-item')).to.have.length 3
             done()
-      eventCount = 0
       deckBuilder.addEventListener 'decklist-updated', tempEvent
       deckBuilder.addNewDeck()
       deckBuilder.addNewDeck()
 
     test 'check deck renaming works', (done)->
+      eventCount = 0
       tempEvent = ->
-        flush ->
+        eventCount++
+        if eventCount is 1
           deckBuilder.removeEventListener 'decklist-updated', tempEvent
-          expect(deckBuilder.currentDeck.name).to.equal 'Named Deck'
-          done()
+          animationFrameFlush ->
+            expect(deckBuilder.currentDeck.name).to.equal 'Named Deck'
+            done()
       deckBuilder.addNewDeck()
       deckBuilder.$.deckNameInput.value = "Named Deck"
       deckBuilder.addEventListener 'decklist-updated', tempEvent
@@ -63,13 +65,13 @@ window.addEventListener "polymer-ready", ->
 
     test 'check deck selection works', (done)->
       tempEvent2 = ->
-        flush ->
-          deckBuilder.removeEventListener 'deck-loaded', tempEvent2
+        deckBuilder.removeEventListener 'deck-loaded', tempEvent2
+        animationFrameFlush ->
           expect(deckBuilder.currentDeck.name).to.equal 'Unnamed Deck'
           done()
       tempEvent = ->
-        flush ->
-          deckBuilder.removeEventListener 'decklist-updated', tempEvent
+        deckBuilder.removeEventListener 'decklist-updated', tempEvent
+        animationFrameFlush ->
           paperElements = deckBuilder.$.deckMenu.querySelectorAll('paper-item')
           if paperElements[0].dataset.guid is firstDeckGUID
             element = paperElements[0]
@@ -87,44 +89,44 @@ window.addEventListener "polymer-ready", ->
       deckBuilder.$.deckNameInput.blur()
 
     test 'check deck deletion works', (done)->
+      eventCount = 0
+      eventCount2 = 0
+      eventCount3 = 0
       tempEvent3 = ->
-        if eventCount2 < 4
-          eventCount2++
-        else
+        eventCount3++
+        if eventCount3 is 5
+          deckBuilder.removeEventListener 'layout-complete', tempEvent3
           animationFrameFlush ->
-            deckBuilder.$.deckSorter.removeEventListener 'layout-complete', tempEvent3
             expect(deckBuilder.$.deckSorter.querySelectorAll 'builder-card').to.have.length 0
             done()
       tempEvent2 = ->
-        animationFrameFlush ->
-          deckBuilder.removeEventListener 'decklist-updated', tempEvent2
+        eventCount2++
+        if eventCount2 is 1
+          deckBuilder.removeEventListener 'deck-deleted', tempEvent2
+          deckBuilder.addEventListener 'layout-complete', tempEvent3
           expect(deckBuilder.currentDeck).to.be.null
           expect(deckBuilder.$.deckMenu.querySelectorAll('paper-item')).to.have.length 1
-          deckBuilder.$.deckSorter.addEventListener 'layout-complete', tempEvent3
       tempEvent = ->
-        if eventCount < 1
-          eventCount++
-        else
-          animationFrameFlush ->
-            deckBuilder.removeEventListener 'deck-saved', tempEvent
-            expect(deckBuilder.currentDeck).to.not.be.null
-            expect(deckBuilder.$.deckMenu.querySelectorAll('paper-item')).to.have.length 2
-            deckBuilder.addEventListener 'decklist-updated', tempEvent2
-            deckBuilder.deleteDeck()
-      eventCount = 0
-      eventCount2 = 0
+        eventCount++
+        if eventCount is 3
+          deckBuilder.removeEventListener 'deck-saved', tempEvent
+          deckBuilder.addEventListener 'deck-deleted', tempEvent2
+          expect(deckBuilder.currentDeck).to.not.be.null
+          expect(deckBuilder.$.deckMenu.querySelectorAll('paper-item')).to.have.length 2
+          deckBuilder.deleteDeck()
+
       deckBuilder.addEventListener 'deck-saved', tempEvent
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
 
-  suite.skip '<deck-builder> Cards', ->
+  suite '<deck-builder> Cards', ->
     setup testSetup
 
     teardown (done)->
       deckBuilder.deleteDeck()
       done()
 
-    test 'check card buttons are enabled after first card selected', (done)->
+    test.skip 'check card buttons are enabled after first card selected', (done)->
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
       expect(deckBuilder.$.deleteCardsButton.hasAttribute 'disabled').to.be.true
@@ -138,7 +140,7 @@ window.addEventListener "polymer-ready", ->
         , timeoutTime
       , timeoutTime
 
-    test 'check delete card button works', (done)->
+    test.skip 'check delete card button works', (done)->
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
       addCardToDeckSorter img2
@@ -155,7 +157,7 @@ window.addEventListener "polymer-ready", ->
         , timeoutTime
       , timeoutTime * 2
 
-    test 'check copy button opens dialog', (done)->
+    test.skip 'check copy button opens dialog', (done)->
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
       addCardToDeckSorter img2
@@ -171,7 +173,7 @@ window.addEventListener "polymer-ready", ->
         , timeoutTime
       , timeoutTime
 
-    test 'check copying 2 copies of a card to another deck works', (done)->
+    test.skip 'check copying 2 copies of a card to another deck works', (done)->
       deckBuilder.addNewDeck()
       deck1guid = deckBuilder.currentDeck.guid
       deckBuilder.addNewDeck()
@@ -193,7 +195,7 @@ window.addEventListener "polymer-ready", ->
         , timeoutTime
       , (timeoutTime * 2)
 
-    test 'check copying 2 copies of a card to the current deck works', (done)->
+    test.skip 'check copying 2 copies of a card to the current deck works', (done)->
       deckBuilder.addNewDeck()
       addCardToDeckSorter img1
       addCardToDeckSorter img2

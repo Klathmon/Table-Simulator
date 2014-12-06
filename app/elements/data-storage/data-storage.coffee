@@ -48,8 +48,9 @@ Polymer 'data-storage',
       name: deck.name
       cards: deck.cards
     return new Promise (resolve, reject)=>
-      localforage.setItem(@deckPrefix + deck.guid, storageDeck).then ->
-        setTimeout ->
+      localforage.setItem(@deckPrefix + deck.guid, storageDeck).then =>
+        setTimeout =>
+          @asyncFire 'deck-saved'
           resolve deck
         ,1
         return

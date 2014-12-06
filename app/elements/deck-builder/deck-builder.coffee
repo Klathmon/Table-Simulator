@@ -21,16 +21,14 @@ Polymer 'deck-builder',
   currentDeckChanged: ->
     if @currentDeck isnt null
       @job 'save-deck', ->
-        @$.dataStorage.saveDeck(@currentDeck).then =>
-          @fire 'deck-saved'
-        return
+        @$.dataStorage.saveDeck(@currentDeck)
       , 100
     return
   # Updates the decklist in the sidebar and in the dialog windows
   updateDeckList: ->
     @$.dataStorage.listDecks().then (decks)=>
       @decks = decks
-      @fire 'decklist-updated'
+      @asyncFire 'decklist-updated'
       return
     return
   # Called when a checkbox is checked/unchecked in the DeckSorter
@@ -106,7 +104,7 @@ Polymer 'deck-builder',
     @$.dataStorage.getDeck(guid).then (deck)=>
       @currentDeck = deck
       @addCardToCurrentDeck @currentDeck.cards
-      @fire 'deck-loaded'
+      @asyncFire 'deck-loaded'
     return
   # Deletes the given deck
   # if it is the current deck, then it clears out the sorter
@@ -117,6 +115,7 @@ Polymer 'deck-builder',
       if guid is @currentDeck.guid
         @currentDeck = null
         @prepSorterForNewDeck true
+        @asyncFire 'deck-deleted'
       return
     return
 
