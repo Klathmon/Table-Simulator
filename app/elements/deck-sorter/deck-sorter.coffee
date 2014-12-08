@@ -51,6 +51,7 @@ Polymer 'deck-sorter',
   layout: ->
     @job 'packery-layout-job', =>
       layoutCompleteFunction = =>
+        @packery.off 'layoutComplete', layoutCompleteFunction
         @asyncFire 'layout-complete',
           'elements': @packery.getItemElements()
         return

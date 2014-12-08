@@ -71,6 +71,7 @@ Polymer 'deck-builder',
   deckNameOnBlur: (event, detail, element)->
     @currentDeck.name = element.value
     @$.dataStorage.saveDeck(@currentDeck).then =>
+      @asyncFire 'deck-renamed'
       @updateDeckList()
       return
     return
