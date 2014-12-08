@@ -10,38 +10,38 @@ eventFire = (element, type)->
     evObj.initEvent(type, true, false)
     element.dispatchEvent evObj
   return
-window.addEventListener "polymer-ready", ->
-  suite '<builder-card>', ->
 
-    test 'check element exists', ->
-      expect(builderCard.imageData).to.equal img.src
+suite '<builder-card>', ->
 
-    test 'check element has layout', ->
-      computedStyle = window.getComputedStyle builderCard
-      expect(computedStyle.getPropertyValue 'width').to.be.above '10'
-      expect(computedStyle.getPropertyValue 'height').to.be.above '10'
+  test 'check element exists', ->
+    expect(builderCard.imageData).to.equal img.src
 
-    test 'check draggabilly created', ->
-      expect(builderCard.draggie).to.be.an.instanceof Draggabilly
+  test 'check element has layout', ->
+    computedStyle = window.getComputedStyle builderCard
+    expect(computedStyle.getPropertyValue 'width').to.be.above '10'
+    expect(computedStyle.getPropertyValue 'height').to.be.above '10'
 
-    test 'check zoom works', (done)->
-      builderCard.addEventListener 'zoomed-card-added', ->
-        flush ->
-          dialogBox = document.querySelector('core-overlay-layer overlay-host').shadowRoot.querySelector 'paper-dialog'
-          dialogBox.addEventListener 'core-overlay-open-completed', ->
-            computedStyle = window.getComputedStyle dialogBox
-            expect(computedStyle.getPropertyValue 'width').to.be.above '10'
-            expect(computedStyle.getPropertyValue 'height').to.be.above '10'
-            done()
+  test 'check draggabilly created', ->
+    expect(builderCard.draggie).to.be.an.instanceof Draggabilly
 
-      eventFire builderCard, "dblclick"
+  test 'check zoom works', (done)->
+    builderCard.addEventListener 'zoomed-card-added', ->
+      flush ->
+        dialogBox = document.querySelector('core-overlay-layer overlay-host').shadowRoot.querySelector 'paper-dialog'
+        dialogBox.addEventListener 'core-overlay-open-completed', ->
+          computedStyle = window.getComputedStyle dialogBox
+          expect(computedStyle.getPropertyValue 'width').to.be.above '10'
+          expect(computedStyle.getPropertyValue 'height').to.be.above '10'
+          done()
+
+    eventFire builderCard, "dblclick"
 
 
-  suite '<builder-card> Benchmarks', ->
-    test 'Create 10 BuilderCards', (done)->
-      for x in [0...10]
-        builderCard2 = new BuilderCard()
-        builderCard2.imageData = img.src
-        document.body.appendChild builderCard2
-        Polymer.flush()
-      done()
+suite '<builder-card> Benchmarks', ->
+  test 'Create 10 BuilderCards', (done)->
+    for x in [0...10]
+      builderCard2 = new BuilderCard()
+      builderCard2.imageData = img.src
+      document.body.appendChild builderCard2
+      Polymer.flush()
+    done()
