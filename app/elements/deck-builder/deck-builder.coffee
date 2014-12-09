@@ -116,7 +116,6 @@ Polymer 'deck-builder',
       if guid is @currentDeck.guid
         @currentDeck = null
         @prepSorterForNewDeck true
-        @asyncFire 'deck-deleted'
       return
     return
 
