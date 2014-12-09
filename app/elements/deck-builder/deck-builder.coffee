@@ -3,9 +3,24 @@ Polymer 'deck-builder',
   firstCard: true
   created: ->
     @cardDataArray = []
+    @currentDeck = null
     return
   ready: ->
     @updateDeckList()
+    return
+
+  # This closes the deck builder (after saving the current deck)
+  closeDeckBuilder: ->
+    removeThisElement = =>
+      @parentNode.removeChild @
+      return
+
+    if @currentDeck isnt null
+      @$.dataStorage.saveDeck(@currentDeck).then =>
+        removeThisElement()
+        return
+    else
+      removeThisElement()
     return
 
   # This adds cards which are added to the deckSorter and adds them to the

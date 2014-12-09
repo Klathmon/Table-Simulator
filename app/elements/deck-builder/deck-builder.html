@@ -23,7 +23,8 @@
 
 
 <polymer-element
-    name="deck-builder">
+    name="deck-builder"
+    constructor="DeckBuilder">
   <template>
     <link rel="stylesheet" href="deck-builder.sass">
 
@@ -56,7 +57,23 @@
           </paper-item>
         </core-menu>
       </core-header-panel>
-      <div tool><paper-input id="deckNameInput" value="{{currentDeck.name}}" on-keydown="{{deckNameOnInput}}" on-blur="{{deckNameOnBlur}}"></paper-input></div>
+      <div tool fit horizontal layout>
+        <div flex>
+          <paper-input
+              id="deckNameInput"
+              value="{{currentDeck.name}}"
+              on-keydown="{{deckNameOnInput}}"
+              on-blur="{{deckNameOnBlur}}">
+          </paper-input>
+        </div>
+        <paper-button
+        id="closeDeckBuilderButton"
+        on-tap="{{closeDeckBuilder}}"
+        raised>
+        Close Deck Builder
+        <core-icon icon="close"></core-icon>
+      </paper-button>
+      </div>
       <div id="deckParentWindow" vertical layout fit>
 
         <deck-sorter
