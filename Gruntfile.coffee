@@ -351,19 +351,19 @@ module.exports = (grunt) ->
           browsers: [
             # 100% Supported
             'Windows 8.1/Chrome@dev'
-            'Windows 8.1/Chrome@beta'
+            #'Windows 8.1/Chrome@beta'
             #'Windows 8.1/Chrome'
             #'Windows 7/Chrome'
             #'Linux/Chrome'
             #'OS X 10.10/Chrome'
 
             # Supported as Client
-            'Windows 8.1/Firefox@dev'
+            #'Windows 8.1/Firefox@dev'
             'Windows 8.1/Firefox@beta'
-            'Windows 8.1/Firefox'
-            'Windows 7/Firefox'
-            'Linux/Firefox'
-            'OS X 10.10/Firefox'
+            #'Windows 8.1/Firefox'
+            #'Windows 7/Firefox'
+            #'Linux/Firefox'
+            #'OS X 10.10/Firefox'
 
             # Not supported but might work
             #'OS X 10.10/Safari@8'
