@@ -166,24 +166,15 @@ Polymer 'deck-builder',
     return
   # Creates a BuiderCard and appends it to the Sorter
   # can accept a single card, or an array of cards
-  addCardToCurrentDeck: (cardDataArrayTemp)->
-    return if cardDataArrayTemp is []
-    cardDataArrayTemp = [cardDataArrayTemp] if typeof cardDataArrayTemp isnt 'object'
-    for cardDataTemp in cardDataArrayTemp
-      @cardDataArray.push cardDataTemp
-
-    @addCardInterval = setInterval =>
-      cardData = @cardDataArray.pop()
-      if typeof cardData is "undefined"
-        clearInterval @addCardInterval
-      else
+  addCardToCurrentDeck: (cardDataArray)->
+    return if cardDataArray is []
+    cardDataArray = [cardDataArray] if typeof cardDataArray isnt 'object'
+    for cardData in cardDataArray
         builderCard = new BuilderCard()
         builderCard.imageData = cardData
         @$.deckSorter.appendChild builderCard
         if @cardDataArray.length % 20 is 0
           @$.deckSorter.packery.layout()
-      return
-    , 10
     return
   # Fired from the image-uploader.
   # adds the given cards to the sorter (in a job)
