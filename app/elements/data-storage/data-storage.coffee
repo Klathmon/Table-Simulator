@@ -50,7 +50,8 @@ Polymer 'data-storage',
     return new Promise (resolve, reject)=>
       localforage.setItem(@deckPrefix + deck.guid, storageDeck).then =>
         setTimeout =>
-          @asyncFire 'deck-saved'
+          @asyncFire 'deck-saved',
+            guid: deck.guid
           resolve deck
         ,1
         return
@@ -62,7 +63,9 @@ Polymer 'data-storage',
   deleteDeck: (deck)->
     deckGUID = if typeof deck is 'string' then deck else deck.guid
     return new Promise (resolve, reject)=>
-      localforage.removeItem(@deckPrefix + deckGUID, resolve)
+      localforage.removeItem(@deckPrefix + deckGUID, resolve).then =>
+        @asyncFire 'deck-deleted',
+          guid: deckGUID
       return
 
   purgeEverything: ()->
