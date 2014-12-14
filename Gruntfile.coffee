@@ -325,15 +325,15 @@ module.exports = (grunt) ->
     'wct-test':
       options:
         root: BUILD_DIR
-        suites: ['elements/*/tests/*.html']
-        testTimeout: 30 * 1000
+        #suites: ['elements/*/tests/*.html']
+        suites: ['testing/runner.html']
+        testTimeout: 90 * 1000
       localPersistant:
         options:
           remote: false
           persistent: true
           browsers: [
             'chrome'
-            'canary'
             'firefox'
           ]
       local:
@@ -341,7 +341,6 @@ module.exports = (grunt) ->
           remote: false
           browsers: [
             'chrome'
-            'canary'
             'firefox'
           ]
       remote:
@@ -351,31 +350,30 @@ module.exports = (grunt) ->
           browsers: [
             # 100% Supported
             'Windows 8.1/Chrome@dev'
-            #'Windows 8.1/Chrome@beta'
-            #'Windows 8.1/Chrome'
-            #'Windows 7/Chrome'
-            #'Linux/Chrome'
-            #'OS X 10.10/Chrome'
+            'Windows 8.1/Chrome@beta'
+            'Windows 8.1/Chrome@39'
+            'Windows 8/Chrome@39'
+            'Windows 7/Chrome@39'
+            'OS X 10.10/Chrome@39'
+            'Linux/Chrome@39'
 
             # Supported as Client
             #'Windows 8.1/Firefox@dev'
             'Windows 8.1/Firefox@beta'
-            #'Windows 8.1/Firefox'
-            #'Windows 7/Firefox'
-            #'Linux/Firefox'
-            #'OS X 10.10/Firefox'
+            'Windows 8.1/Firefox@34'
+            'Windows 8/Firefox@34'
+            'Windows 7/Firefox@34'
+            'OS X 10.10/Firefox@34'
+            'Linux/Firefox@34'
 
             # Not supported but might work
             #'OS X 10.10/Safari@8'
-            #'OS X 10.9/Safari@7'
 
             # Mobile
             #'Linux/Android@4.4'
             #'Linux/Android@4.3'
             #'OS X 10.9/iPhone@8.1'
             #'OS X 10.9/iPad@8.1'
-            #'OS X 10.9/iPhone@7.1'
-            #'OS X 10.9/iPad@7.1'
           ]
 
     devUpdate:

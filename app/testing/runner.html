@@ -6,12 +6,20 @@
   <script src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
   <script src="../bower_components/web-component-tester/browser.js"></script>
   <script src="runner.coffee"></script>
+  <link rel="import" href="../base-card.html">
 </head>
 <body>
   <script>
     var runner = new TestRunner();
 
-    WCT.loadSuites(runner.testElements());
+    //WCT.loadSuites(runner.testElements());
+    WCT.loadSuites([
+      '/elements/base-card/tests/base-card-test.html',
+      '/elements/builder-card/tests/builder-card-test.html',
+      '/elements/image-uploader/tests/image-uploader-test.html',
+      '/elements/data-storage/tests/data-storage-test.html',
+      '/elements/deck-sorter/tests/deck-sorter-test.html',
+    ]);
   </script>
 </body>
 </html>
