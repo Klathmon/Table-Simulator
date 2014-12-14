@@ -1,0 +1,42 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../data-storage/data-storage.html">
+
+<polymer-element
+    name="deck-listing"
+    constructor="DeckListing">
+  <template>
+    <link rel="stylesheet" href="deck-listing.sass">
+
+    <data-storage id="dataStorage"></data-storage>
+
+    <core-toolbar>Decks</core-toolbar>
+    <core-menu id="deckMenu" theme="core-light-theme">
+      <template repeat="{{ deck in decks }}">
+        <div horizontal layout>
+          <paper-item
+              data-guid="{{deck.guid}}"
+              on-tap="{{selectDeck}}"
+              flex>
+              <core-icon icon="image:crop-portrait"></core-icon>
+              {{deck.name}}
+          </paper-item>
+          <paper-icon-button
+              class="deckDeleteButton"
+              data-guid="{{deck.guid}}"
+              on-tap="{{deleteDeck}}"
+              icon="delete">
+          </paper-icon-button>
+        </div>
+      </template>
+      <paper-item on-tap="{{addNewDeck}}" id="addCardButton">
+        <core-icon icon="add-circle"></core-icon>
+        Add New Deck
+      </paper-item>
+    </core-menu>
+
+  </template>
+  <!-- build:js deck-listing.js -->
+  <script src="deck-listing.coffee"></script>
+  <!-- endbuild -->
+</polymer-element>
