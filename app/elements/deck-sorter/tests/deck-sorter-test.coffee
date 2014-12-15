@@ -26,13 +26,16 @@ suite '<deck-sorter>', ->
     addCardToDeckSorter img1
 
   test 'check removing card works', (done)->
+    eventCounter = 0
     eventL = (event)->
-      expect(event.detail.elements).to.have.length 1
-      deckSorter.removeEventListener 'layout-complete', eventL
-      oldCard = document.querySelector 'deck-sorter builder-card'
-      oldCard.parentNode.removeChild oldCard
-      done()
+      eventCounter++
+      if eventCounter is 1
+        oldCard = document.querySelector 'deck-sorter builder-card'
+        oldCard.parentNode.removeChild oldCard
+        return
+      else if eventCounter is 2
+        expect(event.detail.elements).to.have.length 1
+        deckSorter.removeEventListener 'layout-complete', eventL
+        done()
     deckSorter.addEventListener 'layout-complete', eventL
-    oldCard = document.querySelector 'deck-sorter builder-card'
-    oldCard.parentNode.removeChild oldCard
     addCardToDeckSorter img2
