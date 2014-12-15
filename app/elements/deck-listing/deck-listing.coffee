@@ -9,10 +9,13 @@ Polymer 'deck-listing',
 
   # Updates the decklist in the sidebar
   updateDeckList: ->
-    @$.dataStorage.listDecks().then (decks)=>
-      @decks = decks
-      @asyncFire 'decklist-updated'
+    @job 'update-deck-listing', ->
+      @$.dataStorage.listDecks().then (decks)=>
+        @decks = decks
+        @asyncFire 'deck-list-updated'
+        return
       return
+    , 50
     return
 
   addNewDeck: ->
@@ -29,7 +32,6 @@ Polymer 'deck-listing',
     return
 
   deleteDeck: (event, detail, element)->
-    console.log 'Deleting deck...'
     @$.dataStorage.deleteDeck(element.dataset.guid).then =>
       @updateDeckList()
       return
