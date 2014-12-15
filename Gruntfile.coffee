@@ -328,13 +328,20 @@ module.exports = (grunt) ->
         #suites: ['elements/*/tests/*.html']
         suites: ['testing/runner.html']
         testTimeout: 90 * 1000
-      localPersistant:
+      localRemote:
         options:
-          remote: false
-          persistent: true
+          remote: true
+          ttyOutput: false
+          browserOptions:
+            name: "Table Simulator Local"
+            tags: ["manual-build"]
           browsers: [
-            'chrome'
-            'firefox'
+            'Windows 7/Chrome@39'
+            'OS X 10.10/Chrome@39'
+            'Linux/Chrome@39'
+            'Windows 7/Firefox@34'
+            'OS X 10.10/Firefox@34'
+            'Linux/Firefox@34'
           ]
       local:
         options:
@@ -348,8 +355,9 @@ module.exports = (grunt) ->
           remote: true
           ttyOutput: false
           browserOptions:
-            name: "Table Simulator"
+            name: "Travis Job " + process.env.TRAVIS_JOB_NUMBER
             build: process.env.TRAVIS_BUILD_NUMBER
+            tags: "travis"
             "custom-data":
               branch: process.env.TRAVIS_BRANCH
               commit: process.env.TRAVIS_COMMIT
