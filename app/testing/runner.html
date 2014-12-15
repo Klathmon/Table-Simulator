@@ -9,7 +9,17 @@
 </head>
 <body>
   <script>
-    var runner = new TestRunner();
+    setTimeout(function(){
+      interval = setInterval(function(){
+        element = document.querySelector('#mocha');
+        element.scrollTop = element.scrollHeight;
+      }, 200);
+      setTimeout(function(){
+        clearInterval(interval);
+      }, 9000)
+    }, 1000)
+
+    //var runner = new TestRunner();
 
     //WCT.loadSuites(runner.testElements());
     WCT.loadSuites([
