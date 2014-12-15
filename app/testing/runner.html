@@ -9,6 +9,48 @@
 </head>
 <body>
   <script>
+
+/*
+    (function() {
+
+      WCT.reporters.Sauce = Sauce;
+
+      function Sauce(runner) {
+        Mocha.reporters.Base.call(this, runner);
+
+        runner.on('fail', function(test, error) {
+          this.failure = true
+        }.bind(this));
+
+        runner.on('end', function() {
+          console.log("Tests are done!");
+          if(this.failure){
+            console.log("Something failed!");
+          }else{
+            console.log("Everything Passed!");
+          }
+        }.bind(this));
+      }
+    })();
+
+
+
+    (function() {
+      var thing1 = determineReporters;
+
+      determineReporters = function(socket, parent){
+        var reporters = thing1(socket, parent);
+        reporters.push(WCT.reporters.Sauce);
+        return reporters;
+      }
+    })();
+
+
+    //debugger;
+
+*/
+
+
     setTimeout(function(){
       interval = setInterval(function(){
         element = document.querySelector('#mocha');
