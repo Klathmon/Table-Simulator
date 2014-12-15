@@ -347,6 +347,13 @@ module.exports = (grunt) ->
         options:
           remote: true
           ttyOutput: false
+          browserOptions:
+            name: "Table Simulator"
+            build: process.env.TRAVIS_BUILD_NUMBER
+            "custom-data":
+              branch: process.env.TRAVIS_BRANCH
+              commit: process.env.TRAVIS_COMMIT
+              job: process.env.TRAVIS_JOB_NUMBER
           browsers: [
             # 100% Supported
             'Windows 8.1/Chrome@dev'
