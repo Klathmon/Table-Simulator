@@ -340,8 +340,8 @@ module.exports = (grunt) ->
         options:
           remote: false
           browsers: [
-            'chrome'
-            'firefox'
+            #'chrome'
+            #'firefox'
           ]
       remote:
         options:
