@@ -352,6 +352,7 @@ module.exports = (grunt) ->
           ]
       remote:
         options:
+          #verbose: true
           remote: true
           ttyOutput: false
           browserOptions:
@@ -361,7 +362,8 @@ module.exports = (grunt) ->
             "custom-data":
               branch: process.env.TRAVIS_BRANCH
               commit: process.env.TRAVIS_COMMIT
-              job: process.env.TRAVIS_JOB_NUMBER
+            "video-upload-on-pass": false
+            "screen-resolution": "1280x1024"
           browsers: [
             # 100% Supported
             'Windows 8.1/Chrome@dev'
