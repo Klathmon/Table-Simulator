@@ -359,11 +359,10 @@ module.exports = (grunt) ->
             name: "Travis Job " + process.env.TRAVIS_JOB_NUMBER
             build: process.env.TRAVIS_BUILD_NUMBER
             tags: "travis"
+            "video-upload-on-pass": false
             "custom-data":
               branch: process.env.TRAVIS_BRANCH
               commit: process.env.TRAVIS_COMMIT
-            "video-upload-on-pass": false
-            "screen-resolution": "1280x1024"
           browsers: [
             # 100% Supported
             'Windows 8.1/Chrome@dev'
