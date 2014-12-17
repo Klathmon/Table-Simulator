@@ -12,6 +12,6 @@
     "localforage": "#master"
   },
   "devDependencies": {
-    "web-component-tester": "Klathmon/web-component-tester#force-port-9000"
+    "web-component-tester": "Klathmon/web-component-tester#master"
   }
 }
