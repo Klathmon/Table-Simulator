@@ -12,6 +12,6 @@
     "localforage": "#master"
   },
   "devDependencies": {
-    "web-component-tester": "Polymer/web-component-tester#~2.0.1"
+    "web-component-tester": "Klathmon/web-component-tester#master"
   }
 }

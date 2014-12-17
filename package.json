@@ -23,7 +23,8 @@
     "grunt-vulcanize": "^0.5.0",
     "jit-grunt": "^0.9.0",
     "time-grunt": "^1.0.0",
-    "web-component-tester": "git+https://github.com/Klathmon/web-component-tester#master"
+    "web-component-tester": "Klathmon/web-component-tester#master",
+    "web-component-tester-istanbul": "^0.7.0"
   },
   "engines": {
     "node": ">=0.10.0"

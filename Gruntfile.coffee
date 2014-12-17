@@ -234,6 +234,7 @@ module.exports = (grunt) ->
           RELEASE_DIR
           BUILD_DIR
           TEMP_DIR
+          "coverage"
         ]
       uninstall:
         [
@@ -242,6 +243,7 @@ module.exports = (grunt) ->
           TEMP_DIR
           APP_DIR + "/bower_components"
           "node_modules"
+          "coverage"
         ]
       postRelease:
         [
@@ -328,23 +330,10 @@ module.exports = (grunt) ->
         #suites: ['elements/*/tests/*.html']
         suites: ['testing/runner.html']
         testTimeout: 90 * 1000
-      localRemote:
-        options:
-          remote: true
-          ttyOutput: false
-          browserOptions:
-            name: "Table Simulator Local"
-            tags: ["manual-build"]
-          browsers: [
-            'Windows 7/Chrome@39'
-            'OS X 10.10/Chrome@39'
-            'Linux/Chrome@39'
-            'Windows 7/Firefox@34'
-            'OS X 10.10/Firefox@34'
-            'Linux/Firefox@34'
-          ]
+        #verbose: true
       local:
         options:
+          #persistent: true
           remote: false
           browsers: [
             'chrome'
@@ -352,7 +341,6 @@ module.exports = (grunt) ->
           ]
       remote:
         options:
-          #verbose: true
           remote: true
           ttyOutput: false
           browserOptions:
@@ -391,12 +379,6 @@ module.exports = (grunt) ->
             #'OS X 10.9/iPhone@8.1'
             #'OS X 10.9/iPad@8.1'
           ]
-
-    devUpdate:
-      main:
-        options:
-          updateType: 'prompt'
-          semver: false
 
 
   grunt.registerTask "buildDev", [
@@ -438,7 +420,6 @@ module.exports = (grunt) ->
       "copy:bower"
       "buildDev"
       "wct-test:local"
-      "clean:build"
     ]
 
   grunt.registerTask "testLocalPersistant", [
