@@ -164,7 +164,6 @@ module.exports = (grunt) ->
           ext: '.js'
         ]
 
-
     autoprefixer:
       options:
         browsers: [
@@ -229,21 +228,6 @@ module.exports = (grunt) ->
         files:
           'build/index.html': BUILD_DIR + '/app.html'
 
-    htmlmin:
-      # A bug is currently preventing this from working on large html files.
-      release:
-        options:
-          removeComments: true
-          collapseWhitespace: true
-          conservativeCollapse: true
-          collapseBooleanAttributes: true
-          removeAttributeQuotes: true
-          removeScriptTypeAttributes: true
-          removeStyleLinkTypeAttributes: true
-          minifyCSS: true
-        files:
-          'release/index.html': BUILD_DIR + '/index.html'
-
     rename:
       dev:
         src: BUILD_DIR + '/app.html'
@@ -251,7 +235,6 @@ module.exports = (grunt) ->
       release:
         src: BUILD_DIR + '/index.html'
         dest: RELEASE_DIR + '/index.html'
-
 
     clean:
       build:
@@ -353,7 +336,6 @@ module.exports = (grunt) ->
     'wct-test':
       options:
         root: BUILD_DIR
-        #suites: ['elements/*/tests/*.html']
         suites: ['testing/runner.html']
         testTimeout: 90 * 1000
         #verbose: true
@@ -366,6 +348,37 @@ module.exports = (grunt) ->
             'firefox'
           ]
       remote:
+        options:
+          remote: true
+          browserOptions:
+            name: 'Manual Build'
+            tags: 'manual'
+            'video-upload-on-pass': true
+          browsers: [
+            # 100% Supported
+            'Windows 8.1/Chrome@39'
+            'Windows 8/Chrome@39'
+            'Windows 7/Chrome@39'
+            'OS X 10.10/Chrome@39'
+            'Linux/Chrome@39'
+
+            # Supported as Client
+            'Windows 8.1/Firefox@34'
+            'Windows 8/Firefox@34'
+            'Windows 7/Firefox@34'
+            'OS X 10.10/Firefox@34'
+            'Linux/Firefox@34'
+
+            # Not supported but might work
+            'OS X 10.10/Safari@8'
+
+            # Mobile
+            'Linux/Android@4.4'
+            #'Linux/Android@4.3'
+            'OS X 10.9/iPhone@8.1'
+            'OS X 10.9/iPad@8.1'
+          ]
+      remoteTravis:
         options:
           remote: true
           ttyOutput: false
@@ -406,7 +419,13 @@ module.exports = (grunt) ->
             #'OS X 10.9/iPad@8.1'
           ]
 
+    devUpdate:
+      main:
+        options:
+          updateType: 'prompt'
+          semver: false
 
+  
   grunt.registerTask 'buildDev', [
       'coffeelint:app'
       'copy:html'
@@ -449,19 +468,18 @@ module.exports = (grunt) ->
       'wct-test:local'
     ]
 
-  grunt.registerTask 'testLocalPersistant', [
-      'clean:build'
-      'copy:bower'
-      'buildDev'
-      'wct-test:localPersistant'
-      'clean:build'
-    ]
-
   grunt.registerTask 'testRemote', [
       'clean:build'
       'copy:bower'
       'buildDev'
       'wct-test:remote'
+    ]
+
+  grunt.registerTask 'testTravis', [
+      'clean:build'
+      'copy:bower'
+      'buildDev'
+      'wct-test:remoteTravis'
       'clean:build'
     ]
 
