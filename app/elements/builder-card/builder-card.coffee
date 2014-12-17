@@ -10,4 +10,4 @@ Polymer 'builder-card', Platform.mixin(
     @asyncFire 'checkbox-changed',
       element: @
     return
-, zoomCard)
+, window.zoomCard)

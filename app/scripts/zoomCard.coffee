@@ -1,7 +1,7 @@
 # Requires 'paper-dialog', 'paper-dialog-transition-center', and 'base-card'
 # to be imported in the element that uses this
 # This also requires the globals.coffee script to be included somewhere
-zoomCard =
+window.zoomCard =
   zoomCard: ->
     dbox = document.createElement 'paper-dialog'
     dbox.setAttribute 'transition', 'paper-dialog-transition-center'

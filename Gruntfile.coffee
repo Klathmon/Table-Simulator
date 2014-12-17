@@ -46,7 +46,14 @@ module.exports = (grunt) ->
           src: [
             '**'
           ]
-          dest: RELEASE_DIR
+          dest: RELEASE_DIR + '/'
+        ]
+      fixusemin:
+        files: [
+          expand: true
+          cwd: TEMP_DIR + '/concat/'
+          src: '**'
+          dest: BUILD_DIR
         ]
 
     dom_munger:
@@ -68,7 +75,7 @@ module.exports = (grunt) ->
               href = $(this).attr('href')
               href = href.replace('.sass', '.css')
               href = href.replace('.scss', '.css')
-              $(this).attr('href', )
+              $(this).attr('href', href)
               return
             return
         src: [
@@ -224,7 +231,7 @@ module.exports = (grunt) ->
         options:
           csp: false
           inline: true
-          strip: true
+          strip: false
         files:
           'build/index.html': BUILD_DIR + '/app.html'
 
@@ -425,7 +432,7 @@ module.exports = (grunt) ->
           updateType: 'prompt'
           semver: false
 
-  
+
   grunt.registerTask 'buildDev', [
       'coffeelint:app'
       'copy:html'
@@ -439,6 +446,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'buildRelease', [
       'clean:build'
+      'coffeelint:app'
       'copy:html'
       'copy:bower'
       'dom_munger:coffee2js'
@@ -448,8 +456,8 @@ module.exports = (grunt) ->
       'autoprefixer:release'
       'useminPrepare'
       'concat:generated'
-      'uglify:generated'
       'usemin'
+      'copy:fixusemin'
       'vulcanize:release'
       'rename:release'
     ]
