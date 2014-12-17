@@ -1,12 +1,8 @@
 Polymer 'image-uploader',
   imageType: /image.*/
-  imageWidth: ''
-  imageHeight: ''
+  imageWidth: window.imageStorageSize.width
+  imageHeight: window.imageStorageSize.height
   addIcon: 'add'
-  create: ->
-    @imageWidth = window.imageStorageSize.width
-    @imageHeight = window.imageStorageSize.height
-    return
   importCardHover: ->
     @$.importCardButton.classList.toggle 'hovering'
     @addIcon = 'create'
