@@ -4,6 +4,9 @@ suite '<data-storage>', ->
     dataStorage.purgeEverything().then ->
       done()
       return
+    , (err)->
+      done(err)
+      return
     return
 
   test 'check element exists', ->
@@ -26,7 +29,16 @@ suite '<data-storage>', ->
           expect(newDeck.cards).to.have.length 2
           done()
           return
+        , (err)->
+          done(err)
+          return
         return
+      , (err)->
+        done(err)
+        return
+      return
+    , (err)->
+      done(err)
       return
     return
 
@@ -38,6 +50,12 @@ suite '<data-storage>', ->
         expect(decks).to.have.length 1
         done()
         return
+      , (err)->
+        done(err)
+        return
+      return
+    , (err)->
+      done(err)
       return
     return
 
@@ -49,7 +67,16 @@ suite '<data-storage>', ->
           expect(decks.length).to.equal 0
           done()
           return
+        , (err)->
+          done(err)
+          return
         return
+      , (err)->
+        done(err)
+        return
+      return
+    , (err)->
+      done(err)
       return
     return
   return
