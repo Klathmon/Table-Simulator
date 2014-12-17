@@ -29,6 +29,7 @@ Polymer 'deck-listing',
   selectDeck: (event, detail, element)->
     @$.dataStorage.getDeck(element.dataset.guid).then (deck)=>
       @fire 'deck-selected', deck
+      return
     return
 
   deleteDeck: (event, detail, element)->

@@ -1,9 +1,9 @@
 Polymer 'deck-sorter',
-  cardElement: "builder-card"
+  cardElement: 'builder-card'
   packery: null
   domReady: ->
-    spacer = document.createElement "div"
-    spacer.classList.add "spacer"
+    spacer = document.createElement 'div'
+    spacer.classList.add 'spacer'
     @appendChild spacer
 
     @packery = new Packery @,
@@ -24,10 +24,14 @@ Polymer 'deck-sorter',
     removedElements = []
     for mutation in mutations
       for addedNode in mutation.addedNodes
-        continue if addedNode.tagName isnt undefined and addedNode.tagName.toLowerCase() isnt @cardElement
+        if addedNode.tagName isnt undefined
+          if addedNode.tagName.toLowerCase() isnt @cardElement
+            continue
         addedElements.push addedNode
       for removedNode in mutation.removedNodes
-        continue if removedNode.tagName isnt undefined and removedNode.tagName.toLowerCase() isnt @cardElement
+        if removedNode.tagName isnt undefined
+          if removedNode.tagName.toLowerCase() isnt @cardElement
+            continue
         removedElements.push removedNode
 
     @addElements addedElements

@@ -12,18 +12,22 @@ addCardToDeckSorter = (img1Element)->
     return
   imageUploader.addEventListener 'new-image', newImage
   imageUploader.importFile img1Element.src, 'image/jpg'
+  return
 
 suite '<deck-sorter>', ->
   test 'check element exists', ->
     expect(deckSorter.packery).to.be.instanceof Packery
+    return
 
   test 'check adding card works', (done)->
     eventL = (event)->
       expect(event.detail.elements).to.have.length 1
       deckSorter.removeEventListener 'layout-complete', eventL
       done()
+      return
     deckSorter.addEventListener 'layout-complete', eventL
     addCardToDeckSorter img1
+    return
 
   test 'check removing card works', (done)->
     eventCounter = 0
@@ -39,3 +43,5 @@ suite '<deck-sorter>', ->
         done()
     deckSorter.addEventListener 'layout-complete', eventL
     addCardToDeckSorter img2
+    return
+  return

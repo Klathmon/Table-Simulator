@@ -2,14 +2,14 @@ Polymer 'image-uploader',
   imageType: /image.*/
   imageWidth: window.imageStorageSize.width
   imageHeight: window.imageStorageSize.height
-  addIcon: "add"
+  addIcon: 'add'
   importCardHover: ->
-    @$.importCardButton.classList.toggle "hovering"
-    @addIcon = "create"
+    @$.importCardButton.classList.toggle 'hovering'
+    @addIcon = 'create'
     return
   importCardHoverOut: ->
-    @$.importCardButton.classList.toggle "hovering"
-    @addIcon = "add"
+    @$.importCardButton.classList.toggle 'hovering'
+    @addIcon = 'add'
     return
   importCardClicked: ->
     @$.trueFileInput.click()
@@ -26,7 +26,7 @@ Polymer 'image-uploader',
       if typeof file is 'undefined'
         clearInterval importInterval
       else
-        if !file.type.match(@imageType)
+        if not file.type.match(@imageType)
           alert '"' + file.name + '" is not an image, skipping...'
           #TODO: replace this with a fancy dialogue
         else
@@ -36,13 +36,13 @@ Polymer 'image-uploader',
     return
   importFile: (fileData, fileType)->
     img = new Image()
-    canvas = document.createElement "canvas"
+    canvas = document.createElement 'canvas'
     ctx = canvas.getContext '2d'
     canvas.width = @imageWidth
     canvas.height = @imageHeight
 
     img.src = fileData
-    listener = img.addEventListener "load", =>
+    listener = img.addEventListener 'load', =>
       ctx.drawImage img, 0, 0, @imageWidth, @imageHeight
       imageData = canvas.toDataURL fileType
       @asyncFire 'new-image',

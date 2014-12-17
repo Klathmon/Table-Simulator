@@ -3,10 +3,10 @@ Polymer 'builder-card', Platform.mixin(
     @draggie = new Draggabilly @
     return
   checkboxChanged: (event, detail, element)->
-    if element.$.checkbox.classList.contains "checked"
-      @classList.add "checked"
+    if element.$.checkbox.classList.contains 'checked'
+      @classList.add 'checked'
     else
-      @classList.remove "checked"
+      @classList.remove 'checked'
     @asyncFire 'checkbox-changed',
       element: @
     return

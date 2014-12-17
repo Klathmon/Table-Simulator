@@ -1,11 +1,11 @@
 Polymer 'data-storage',
-  deckPrefix: "Deck:"
+  deckPrefix: 'Deck:'
   created: ->
     localforage.config
-      name: "Table Simulator"
+      name: 'Table Simulator'
       driver: localforage.INDEXDDB
-      version: "1.0"
-      description: "Storage of all card info and decks"
+      version: '1.0'
+      description: 'Storage of all card info and decks'
     return
 
   createDeck: ->
@@ -20,24 +20,24 @@ Polymer 'data-storage',
           guid: value.guid
           name: value.name
         return
-      ).then =>
+      ).then ->
         resolve decks
         return
-      , (err)=>
+      , (err)->
         reject err
         return
       return
 
   getDeck: (guid)->
     return new Promise (resolve, reject)=>
-      localforage.getItem(@deckPrefix + guid).then (deck)=>
+      localforage.getItem(@deckPrefix + guid).then (deck)->
         if deck is null
-          reject "Deck not found"
+          reject 'Deck not found'
         else
           deck = new Deck deck.guid, deck.name, deck.cards
           resolve deck
         return
-      , (err)=>
+      , (err)->
         reject err
         return
       return
@@ -53,9 +53,10 @@ Polymer 'data-storage',
           @asyncFire 'deck-saved',
             guid: deck.guid
           resolve deck
+          return
         ,1
         return
-      , (err)=>
+      , (err)->
         reject err
         return
       return
@@ -66,6 +67,7 @@ Polymer 'data-storage',
       localforage.removeItem(@deckPrefix + deckGUID, resolve).then =>
         @asyncFire 'deck-deleted',
           guid: deckGUID
+        return
       return
 
   purgeEverything: ()->

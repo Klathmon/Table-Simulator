@@ -16,7 +16,7 @@ Polymer 'deck-builder',
       return
 
     if @currentDeck isnt null
-      @$.dataStorage.saveDeck(@currentDeck).then =>
+      @$.dataStorage.saveDeck(@currentDeck).then ->
         removeThisElement()
         return
     else
@@ -37,6 +37,7 @@ Polymer 'deck-builder',
     if @currentDeck isnt null
       @job 'save-deck', ->
         @$.dataStorage.saveDeck(@currentDeck)
+        return
       , 100
     return
   # Updates the decklist in the sidebar and in the dialog windows
@@ -56,31 +57,31 @@ Polymer 'deck-builder',
       @updateCardButtons false
     return
   # Called when the user selects something from the modal dropdown
-  # enables the "Copy" button
+  # enables the 'Copy' button
   onDropdownElementSelected: (event, detail, element)->
     if event.detail.isSelected
-      @$.dialogAffirmButton.removeAttribute "disabled"
+      @$.dialogAffirmButton.removeAttribute 'disabled'
     else
-      @$.dialogAffirmButton.setAttribute "disabled", true
+      @$.dialogAffirmButton.setAttribute 'disabled', true
     return
 
   # Enables or disables the buttons which rely on checked cards
   updateCardButtons: (enabled = true)->
-      elements = [
-        @$.deleteCardsButton
-        @$.copyCardsButton
-        @$.selectNoneButton
-      ]
-      for element in elements
-        if enabled
-          element.removeAttribute 'disabled'
-        else
-          element.setAttribute 'disabled', true
-      return
+    elements = [
+      @$.deleteCardsButton
+      @$.copyCardsButton
+      @$.selectNoneButton
+    ]
+    for element in elements
+      if enabled
+        element.removeAttribute 'disabled'
+      else
+        element.setAttribute 'disabled', true
+    return
 
   # Blurs the deckName input if the enter key is pressed
   deckNameOnInput:  (event, detail, element)->
-    element.blur() if event.keyCode == 13
+    element.blur() if event.keyCode is 13
     return
   # Saves the deck name when the deckName input is blured
   deckNameOnBlur: (event, detail, element)->
@@ -96,11 +97,11 @@ Polymer 'deck-builder',
     clearInterval @addCardInterval
     @cardDataArray = []
     @updateCardButtons false
-    @$.deckSorter.removeElements @$.deckSorter.querySelectorAll("builder-card")
+    @$.deckSorter.removeElements @$.deckSorter.querySelectorAll('builder-card')
     if hide is true
-      @$.lowerActions.classList.add "hidden"
+      @$.lowerActions.classList.add 'hidden'
     else
-      @$.lowerActions.classList.remove "hidden"
+      @$.lowerActions.classList.remove 'hidden'
     return
   # This is just a stub method to convert the event to the real function call
   loadDeck: (event, detail, element)->
@@ -121,11 +122,16 @@ Polymer 'deck-builder',
       @currentDeck = deck
       @addCardToCurrentDeck @currentDeck.cards
       @asyncFire 'deck-loaded'
+      return
     return
   # Deletes the given deck
   # if it is the current deck, then it clears out the sorter
   deleteDeck: (event, detail, element)->
-    guid = if element is undefined then @currentDeck.guid else element.dataset.guid
+    if element is undefined
+      guid = @currentDeck.guid
+    else
+      guid = element.dataset.guid
+
     @$.dataStorage.deleteDeck(guid).then =>
       @updateDeckList()
       if guid is @currentDeck.guid
@@ -185,11 +191,11 @@ Polymer 'deck-builder',
     return if cardDataArray is []
     cardDataArray = [cardDataArray] if typeof cardDataArray isnt 'object'
     for cardData in cardDataArray
-        builderCard = new BuilderCard()
-        builderCard.imageData = cardData
-        @$.deckSorter.appendChild builderCard
-        if @cardDataArray.length % 20 is 0
-          @$.deckSorter.packery.layout()
+      builderCard = new BuilderCard()
+      builderCard.imageData = cardData
+      @$.deckSorter.appendChild builderCard
+      if @cardDataArray.length % 20 is 0
+        @$.deckSorter.packery.layout()
     return
   # Fired from the image-uploader.
   # adds the given cards to the sorter (in a job)

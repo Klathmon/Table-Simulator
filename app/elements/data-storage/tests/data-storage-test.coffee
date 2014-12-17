@@ -3,14 +3,18 @@ suite '<data-storage>', ->
   setup (done)->
     dataStorage.purgeEverything().then ->
       done()
+      return
+    return
 
   test 'check element exists', ->
-    expect(dataStorage.deckPrefix).to.equal "Deck:"
+    expect(dataStorage.deckPrefix).to.equal 'Deck:'
+    return
 
   test 'check deck creation', (done)->
     deck = dataStorage.createDeck()
     expect(deck.guid).to.not.equal ''
     done()
+    return
 
   test 'check deck saving', (done)->
     deck = dataStorage.createDeck()
@@ -21,14 +25,21 @@ suite '<data-storage>', ->
         dataStorage.getDeck(deck.guid).then (newDeck)->
           expect(newDeck.cards).to.have.length 2
           done()
+          return
+        return
+      return
+    return
 
   test 'check deck listing', (done)->
     deck = dataStorage.createDeck()
-    deck.name = "Stupid Deck Name"
+    deck.name = 'Stupid Deck Name'
     dataStorage.saveDeck(deck).then ->
       dataStorage.listDecks().then (decks)->
         expect(decks).to.have.length 1
         done()
+        return
+      return
+    return
 
   test 'check deck removal', (done)->
     deck = dataStorage.createDeck()
@@ -37,3 +48,8 @@ suite '<data-storage>', ->
         dataStorage.listDecks().then (decks)->
           expect(decks.length).to.equal 0
           done()
+          return
+        return
+      return
+    return
+  return

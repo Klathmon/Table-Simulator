@@ -1,18 +1,19 @@
-RELEASE_DIR = "release"
-BUILD_DIR = "build"
-TEMP_DIR = ".tmp"
-APP_DIR = "app"
+RELEASE_DIR = 'release'
+BUILD_DIR = 'build'
+TEMP_DIR = '.tmp'
+APP_DIR = 'app'
 
 mountFolder = (connect, dir) ->
-  connect.static require("path").resolve(dir)
+  connect.static require('path').resolve(dir)
+  return
 
 module.exports = (grunt) ->
 
-  require("time-grunt") grunt
-  require("jit-grunt") grunt,
-    useminPrepare: "grunt-usemin"
-    gitpush: "grunt-git"
-    'wct-test': "web-component-tester"
+  require('time-grunt') grunt
+  require('jit-grunt') grunt,
+    useminPrepare: 'grunt-usemin'
+    gitpush: 'grunt-git'
+    'wct-test': 'web-component-tester'
 
   grunt.initConfig
 
@@ -22,28 +23,28 @@ module.exports = (grunt) ->
           expand: true
           cwd: APP_DIR
           src: [
-            "app.html"
-            "elements/**/*.html"
-            "testing/**/*.html"
+            'app.html'
+            'elements/**/*.html'
+            'testing/**/*.html'
           ]
           dest: BUILD_DIR
-          ext: ".html"
+          ext: '.html'
         ]
       bower:
         files: [
           expand: true
           cwd: APP_DIR
           src: [
-            "bower_components/**"
+            'bower_components/**'
           ]
           dest: BUILD_DIR
         ]
       ghpages:
         files: [
           expand: true
-          cwd: "ghpages"
+          cwd: 'ghpages'
           src: [
-            "**"
+            '**'
           ]
           dest: RELEASE_DIR
         ]
@@ -53,57 +54,64 @@ module.exports = (grunt) ->
         options:
           callback: ($)->
             $("script[src!='']").each ->
-              $(this).attr("src", $(this).attr("src").replace(".coffee", ".js"))
+              $(this).attr('src', $(this).attr('src').replace('.coffee', '.js'))
+              return
+            return
         src: [
-          BUILD_DIR + "/**/*.html"
-          "!" + BUILD_DIR + "/bower_components/**/*.html"
+          BUILD_DIR + '/**/*.html'
+          '!' + BUILD_DIR + '/bower_components/**/*.html'
         ]
       sass2css:
         options:
           callback: ($)->
             $("link[rel='stylesheet']").each ->
-              $(this).attr("href", $(this).attr("href").replace(".sass", ".css").replace(".scss", ".css"))
+              href = $(this).attr('href')
+              href = href.replace('.sass', '.css')
+              href = href.replace('.scss', '.css')
+              $(this).attr('href', )
+              return
+            return
         src: [
-          BUILD_DIR + "/**/*.html"
-          "!" + BUILD_DIR + "/bower_components/**/*.html"
+          BUILD_DIR + '/**/*.html'
+          '!' + BUILD_DIR + '/bower_components/**/*.html'
         ]
 
     sass:
       options:
         cacheLocation: TEMP_DIR
-        loadPath: [APP_DIR + "/styles/partials"]
+        loadPath: [APP_DIR + '/styles/partials']
 
       dev:
         options:
-          sourcemap: "file"
-          style: "expanded"
+          sourcemap: 'file'
+          style: 'expanded'
           update: true
         files: [
           expand: true
           cwd: APP_DIR
           src: [
-            "styles/**/*.{sass,scss}"
-            "elements/**/*.{scss,sass}"
-            "testing/**/*.{scss,sass}"
+            'styles/**/*.{sass,scss}'
+            'elements/**/*.{scss,sass}'
+            'testing/**/*.{scss,sass}'
           ]
           dest: BUILD_DIR
-          ext: ".css"
+          ext: '.css'
         ]
 
       release:
         options:
-          sourcemap: "none"
-          style: "compressed"
+          sourcemap: 'none'
+          style: 'compressed'
         files: [
           expand: true
           cwd: APP_DIR
           src: [
-            "styles/**/*.{sass,scss}"
-            "elements/**/*.{scss,sass}"
-            "testing/**/*.{scss,sass}"
+            'styles/**/*.{sass,scss}'
+            'elements/**/*.{scss,sass}'
+            'testing/**/*.{scss,sass}'
           ]
           dest: BUILD_DIR
-          ext: ".css"
+          ext: '.css'
         ]
 
     coffee:
@@ -117,12 +125,12 @@ module.exports = (grunt) ->
           expand: true
           cwd: APP_DIR
           src: [
-            "scripts/**/*.coffee"
-            "elements/**/*.coffee"
-            "testing/**/*.coffee"
+            'scripts/**/*.coffee'
+            'elements/**/*.coffee'
+            'testing/**/*.coffee'
           ]
           dest: BUILD_DIR
-          ext: ".js"
+          ext: '.js'
         ]
 
       release:
@@ -132,22 +140,39 @@ module.exports = (grunt) ->
           expand: true
           cwd: APP_DIR
           src: [
-            "scripts/**/*.coffee"
-            "elements/**/*.coffee"
-            "testing/**/*.coffee"
+            'scripts/**/*.coffee'
+            'elements/**/*.coffee'
+            'testing/**/*.coffee'
           ]
           dest: BUILD_DIR
-          ext: ".js"
+          ext: '.js'
         ]
+
+    coffeelint:
+      options:
+        configFile: 'coffeelint.json'
+      app:
+        files: [
+          expand: true
+          cwd: APP_DIR
+          src: [
+            'scripts/**/*.coffee'
+            'elements/**/*.coffee'
+            'testing/**/*.coffee'
+          ]
+          dest: BUILD_DIR
+          ext: '.js'
+        ]
+
 
     autoprefixer:
       options:
         browsers: [
-          "last 1 versions"
-        #  "Chrome"
-        #  "ChromeAndroid"
-        #  "Firefox"
-        #  "FirefoxAndroid"
+          'last 1 versions'
+        #  'Chrome'
+        #  'ChromeAndroid'
+        #  'Firefox'
+        #  'FirefoxAndroid'
         ]
 
       dev:
@@ -157,7 +182,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: BUILD_DIR
-          src: "**/*.css"
+          src: '**/*.css'
           dest: BUILD_DIR
         ]
 
@@ -168,21 +193,21 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: BUILD_DIR
-          src: "**/*.css"
+          src: '**/*.css'
           dest: BUILD_DIR
         ]
 
     useminPrepare:
-      html: BUILD_DIR + "/**/*.html"
+      html: BUILD_DIR + '/**/*.html'
       options:
         staging: TEMP_DIR
         dest: BUILD_DIR
 
     uglify:
       options:
-        report: "gzip"
+        report: 'gzip'
         preserveComments: false
-        banner: ""
+        banner: ''
         compress:
           unsafe: true
         beautify:
@@ -191,8 +216,8 @@ module.exports = (grunt) ->
 
     usemin:
       html: [
-        BUILD_DIR + "/**/*.html"
-        "!" + BUILD_DIR + "/bower_components/**/*.html"
+        BUILD_DIR + '/**/*.html'
+        '!' + BUILD_DIR + '/bower_components/**/*.html'
         ]
 
     vulcanize:
@@ -217,15 +242,15 @@ module.exports = (grunt) ->
           removeStyleLinkTypeAttributes: true
           minifyCSS: true
         files:
-          'release/index.html': BUILD_DIR + "/index.html"
+          'release/index.html': BUILD_DIR + '/index.html'
 
     rename:
       dev:
-        src: BUILD_DIR + "/app.html"
-        dest: BUILD_DIR + "/index.html"
+        src: BUILD_DIR + '/app.html'
+        dest: BUILD_DIR + '/index.html'
       release:
-        src: BUILD_DIR + "/index.html"
-        dest: RELEASE_DIR + "/index.html"
+        src: BUILD_DIR + '/index.html'
+        dest: RELEASE_DIR + '/index.html'
 
 
     clean:
@@ -234,16 +259,16 @@ module.exports = (grunt) ->
           RELEASE_DIR
           BUILD_DIR
           TEMP_DIR
-          "coverage"
+          'coverage'
         ]
       uninstall:
         [
           RELEASE_DIR
           BUILD_DIR
           TEMP_DIR
-          APP_DIR + "/bower_components"
-          "node_modules"
-          "coverage"
+          APP_DIR + '/bower_components'
+          'node_modules'
+          'coverage'
         ]
       postRelease:
         [
@@ -260,63 +285,64 @@ module.exports = (grunt) ->
 
       html:
         files: [
-          APP_DIR + "/app.html"
-          APP_DIR + "/elements/**/*.html"
-          APP_DIR + "/testing/**/*.html"
+          APP_DIR + '/app.html'
+          APP_DIR + '/elements/**/*.html'
+          APP_DIR + '/testing/**/*.html'
         ]
         tasks: [
-          "copy:html"
-          "dom_munger:coffee2js"
-          "dom_munger:sass2css"
-          "rename:dev"
+          'copy:html'
+          'dom_munger:coffee2js'
+          'dom_munger:sass2css'
+          'rename:dev'
         ]
       sass:
         files: [
-          APP_DIR + "/styles/**/*.{sass,scss}"
-          APP_DIR + "/elements/**/*.{scss,sass}"
-          APP_DIR + "/testing/**/*.{scss,sass}"
+          APP_DIR + '/styles/**/*.{sass,scss}'
+          APP_DIR + '/elements/**/*.{scss,sass}'
+          APP_DIR + '/testing/**/*.{scss,sass}'
         ]
         tasks: [
-          "sass:dev"
-          "autoprefixer:dev"
+          'sass:dev'
+          'autoprefixer:dev'
         ]
       coffee:
         files: [
-          APP_DIR + "/scripts/**/*.coffee"
-          APP_DIR + "/elements/**/*.coffee"
-          APP_DIR + "/testing/**/*.coffee"
+          APP_DIR + '/scripts/**/*.coffee'
+          APP_DIR + '/elements/**/*.coffee'
+          APP_DIR + '/testing/**/*.coffee'
         ]
         tasks: [
-          "coffee:dev"
+          'coffeelint:app'
+          'coffee:dev'
         ]
 
     connect:
       dev:
         options:
           port: 9000
-          hostname: "*"
+          hostname: '*'
           base: [
             BUILD_DIR
             APP_DIR
-            ""
+            ''
           ]
           directory: APP_DIR
           livereload: true
       release:
-          options:
-            port: 9000
-            hostname: "*"
-            keepalive: true
-            base: [
-              RELEASE_DIR
-            ]
+        options:
+          port: 9000
+          hostname: '*'
+          keepalive: true
+          base: [
+            RELEASE_DIR
+          ]
 
     git_deploy:
       release:
         options:
-          url: "git@github.com:Klathmon/Table-Simulator.git"
-          branch: "gh-pages"
-          message: "autocommit"
+          url: 'git@github.com:Klathmon/Table-Simulator.git'
+          branch: 'gh-pages'
+          message: 'autocommit'
         src: RELEASE_DIR
 
     gitpush:
@@ -344,11 +370,11 @@ module.exports = (grunt) ->
           remote: true
           ttyOutput: false
           browserOptions:
-            name: "Travis Job " + process.env.TRAVIS_JOB_NUMBER
+            name: 'Travis Job ' + process.env.TRAVIS_JOB_NUMBER
             build: process.env.TRAVIS_BUILD_NUMBER
-            tags: "travis"
-            "video-upload-on-pass": false
-            "custom-data":
+            tags: 'travis'
+            'video-upload-on-pass': false
+            'custom-data':
               branch: process.env.TRAVIS_BRANCH
               commit: process.env.TRAVIS_COMMIT
           browsers: [
@@ -381,75 +407,78 @@ module.exports = (grunt) ->
           ]
 
 
-  grunt.registerTask "buildDev", [
-      "copy:html"
-      "dom_munger:coffee2js"
-      "dom_munger:sass2css"
-      "sass:dev"
-      "coffee:dev"
-      "autoprefixer:dev"
-      "rename:dev"
+  grunt.registerTask 'buildDev', [
+      'coffeelint:app'
+      'copy:html'
+      'dom_munger:coffee2js'
+      'dom_munger:sass2css'
+      'sass:dev'
+      'coffee:dev'
+      'autoprefixer:dev'
+      'rename:dev'
     ]
 
-  grunt.registerTask "buildRelease", [
-      "clean:build"
-      "copy:html"
-      "copy:bower"
-      "dom_munger:coffee2js"
-      "dom_munger:sass2css"
-      "sass:release"
-      "coffee:release"
-      "autoprefixer:release"
-      "useminPrepare"
-      "concat:generated"
-      "uglify:generated"
-      "usemin"
-      "vulcanize:release"
-      "rename:release"
+  grunt.registerTask 'buildRelease', [
+      'clean:build'
+      'copy:html'
+      'copy:bower'
+      'dom_munger:coffee2js'
+      'dom_munger:sass2css'
+      'sass:release'
+      'coffee:release'
+      'autoprefixer:release'
+      'useminPrepare'
+      'concat:generated'
+      'uglify:generated'
+      'usemin'
+      'vulcanize:release'
+      'rename:release'
     ]
 
-  grunt.registerTask "serveDev", [
-      "clean:build"
-      "buildDev"
-      "connect:dev"
-      "watch"
+  grunt.registerTask 'serveDev', [
+      'clean:build'
+      'buildDev'
+      'connect:dev'
+      'watch'
     ]
 
-  grunt.registerTask "testLocal", [
-      "clean:build"
-      "copy:bower"
-      "buildDev"
-      "wct-test:local"
+  grunt.registerTask 'testLocal', [
+      'clean:build'
+      'copy:bower'
+      'buildDev'
+      'wct-test:local'
     ]
 
-  grunt.registerTask "testLocalPersistant", [
-      "clean:build"
-      "copy:bower"
-      "buildDev"
-      "wct-test:localPersistant"
-      "clean:build"
+  grunt.registerTask 'testLocalPersistant', [
+      'clean:build'
+      'copy:bower'
+      'buildDev'
+      'wct-test:localPersistant'
+      'clean:build'
     ]
 
-  grunt.registerTask "testRemote", [
-      "clean:build"
-      "copy:bower"
-      "buildDev"
-      "wct-test:remote"
-      "clean:build"
+  grunt.registerTask 'testRemote', [
+      'clean:build'
+      'copy:bower'
+      'buildDev'
+      'wct-test:remote'
+      'clean:build'
     ]
 
-  grunt.registerTask "serveRelease", [
-      "buildRelease"
-      "connect:release"
+  grunt.registerTask 'serveRelease', [
+      'buildRelease'
+      'connect:release'
     ]
 
-  grunt.registerTask "deployRelease", [
-      "buildRelease"
-      "copy:ghpages"
-      "git_deploy:release"
+  grunt.registerTask 'deployRelease', [
+      'buildRelease'
+      'copy:ghpages'
+      'git_deploy:release'
     ]
 
-  grunt.registerTask "pushAndDeploy", [
-      "gitpush:build"
-      "deployRelease"
+  grunt.registerTask 'pushAndDeploy', [
+      'gitpush:build'
+      'deployRelease'
     ]
+
+  return

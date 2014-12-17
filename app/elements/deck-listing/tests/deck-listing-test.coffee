@@ -13,6 +13,7 @@ suite '<deck-listing>', ->
   addedDeckGUID = ''
   suiteSetup (done)->
     localforage.clear(done)
+    return
 
   test 'check element has layout', ->
     computedStyle = window.getComputedStyle deckListing
@@ -25,6 +26,7 @@ suite '<deck-listing>', ->
       deckListing.removeEventListener 'deck-created', eventThing
       expect(deck.guid).to.not.equal ''
       done()
+      return
 
     deckListing.addEventListener 'deck-created', eventThing
     deckListing.addNewDeck()
@@ -35,9 +37,13 @@ suite '<deck-listing>', ->
       deckListing.removeEventListener 'deck-list-updated', eventThing
       animationFrameFlush ->
         setTimeout ->
-          expect(deckListing.$.deckMenu.querySelectorAll('paper-item')).to.have.length 3
+          paperItem = deckListing.$.deckMenu.querySelectorAll('paper-item')
+          expect(paperItem).to.have.length 3
           done()
+          return
         , 200
+        return
+      return
 
     deckListing.addEventListener 'deck-list-updated', eventThing
     deckListing.addNewDeck()
@@ -48,6 +54,7 @@ suite '<deck-listing>', ->
       deckListing.removeEventListener 'deck-selected', eventThing2
       expect(event.detail.guid).to.equal addedDeckGUID
       done()
+      return
 
     eventThing1 = (event)->
       deckListing.removeEventListener 'deck-created', eventThing1
@@ -57,6 +64,7 @@ suite '<deck-listing>', ->
           guid: addedDeckGUID
       deckListing.addEventListener 'deck-selected', eventThing2
       deckListing.selectDeck null, null, element
+      return
 
     deckListing.addEventListener 'deck-created', eventThing1
     deckListing.addNewDeck()
@@ -67,9 +75,13 @@ suite '<deck-listing>', ->
       deckListing.removeEventListener 'deck-list-updated', eventThing
       animationFrameFlush ->
         setTimeout ->
-          expect(deckListing.$.deckMenu.querySelectorAll('paper-item')).to.have.length 3
+          paperItem = deckListing.$.deckMenu.querySelectorAll('paper-item')
+          expect(paperItem).to.have.length 3
           done()
+          return
         , 200
+        return
+      return
 
     deckListing.addEventListener 'deck-list-updated', eventThing
     element =
@@ -77,3 +89,4 @@ suite '<deck-listing>', ->
         guid: addedDeckGUID
     deckListing.deleteDeck null, null, element
     return
+  return
