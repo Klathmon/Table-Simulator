@@ -430,6 +430,11 @@ module.exports = (grunt) ->
             #'OS X 10.9/iPad@8.1'
           ]
 
+    coveralls:
+      options:
+        src: 'coverage/lcov.info'
+        force: false
+
     devUpdate:
       main:
         options:
@@ -485,6 +490,7 @@ module.exports = (grunt) ->
       'copy:bower'
       'buildDev'
       'wct-test:remote'
+      'coveralls'
     ]
 
   grunt.registerTask 'testTravis', [
@@ -492,6 +498,7 @@ module.exports = (grunt) ->
       'copy:bower'
       'buildDev'
       'wct-test:remoteTravis'
+      'coveralls'
       'clean:build'
     ]
 

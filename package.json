@@ -22,6 +22,7 @@
     "grunt-contrib-sass": "^0.8.1",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-coveralls": "^1.0.0",
     "grunt-dev-update": "^1.0.1",
     "grunt-dom-munger": "^3.4.0",
     "grunt-git": "^0.3.1",
@@ -31,7 +32,7 @@
     "grunt-vulcanize": "^0.6.0",
     "jit-grunt": "^0.9.0",
     "time-grunt": "^1.0.0",
-    "web-component-tester": "Klathmon/web-component-tester#master",
+    "web-component-tester": "Klathmon/web-component-tester#work-with-istanbul",
     "web-component-tester-istanbul": "^0.7.0"
   },
   "engines": {

@@ -4,7 +4,7 @@ module.exports = {
 
       dir: "./coverage",
 
-      reporters: ["text-summary", "lcov"],
+      reporters: ["lcov"],
 
       include: [
       "/**/*.js",
