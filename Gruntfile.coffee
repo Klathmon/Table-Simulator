@@ -406,16 +406,12 @@ module.exports = (grunt) ->
               commit: process.env.TRAVIS_COMMIT
           browsers: [
             # 100% Supported
-            'Windows 8.1/Chrome@dev'
-            'Windows 8.1/Chrome@beta'
             'Windows 8.1/Chrome@39'
             'Windows 7/Chrome@39'
             'OS X 10.10/Chrome@39'
             'Linux/Chrome@39'
 
             # Supported as Client
-            #'Windows 8.1/Firefox@dev'
-            'Windows 8.1/Firefox@beta'
             'Windows 8.1/Firefox@34'
             'Windows 7/Firefox@34'
             'OS X 10.10/Firefox@34'
