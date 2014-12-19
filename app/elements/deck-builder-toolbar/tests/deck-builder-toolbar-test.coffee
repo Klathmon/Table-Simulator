@@ -69,7 +69,7 @@ suite '<deck-builder-toolbar>', ->
       animationFrameFlush ->
         dbt.selectAll()
         dbt.updateButtons().then ->
-          animationFrameFlush ->
+          animationFrameFlush -> animationFrameFlush ->
             attrAll = dbt.$.selectAllButton.hasAttribute('disabled')
             expect(attrAll).to.be.true
 
@@ -93,13 +93,15 @@ suite '<deck-builder-toolbar>', ->
     eventThing = ->
       dbt.removeEventListener 'deck-saved', eventThing
       dbt.updateButtons().then ->
-        expect(dbt.selectedCards).to.have.length 0
-        dbt.$.dataStorage.getDeck(deckGUID).then (deck)->
-          expect(deck.cards).to.have.length 0
-          done()
-          return
-        , (err)->
-          done(err)
+        animationFrameFlush ->
+          expect(dbt.selectedCards).to.have.length 0
+          dbt.$.dataStorage.getDeck(deckGUID).then (deck)->
+            expect(deck.cards).to.have.length 0
+            done()
+            return
+          , (err)->
+            done(err)
+            return
           return
         return
       , (err)->
