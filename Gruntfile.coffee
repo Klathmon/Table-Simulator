@@ -380,12 +380,9 @@ module.exports = (grunt) ->
             'OS X 10.10/Safari@8'
             'Windows 8.1/Internet Explorer@11'
             'Windows 7/Internet Explorer@11'
-            'Windows 8/Internet Explorer@10'
-            'Windows 7/Internet Explorer@10'
 
             # Mobile
             'Linux/Android@4.4'
-            'Linux/Android@4.3'
             'OS X 10.9/iPhone@8.1'
             'OS X 10.9/iPad@8.1'
           ]
