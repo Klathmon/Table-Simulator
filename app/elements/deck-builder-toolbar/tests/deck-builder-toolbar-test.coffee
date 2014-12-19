@@ -13,6 +13,12 @@ suite '<deck-builder-toolbar>', ->
       dbt.$.dataStorage.saveDeck(deck).then ->
         done()
         return
+      , (err)->
+        done(err)
+        return
+      return
+    , (err)->
+      done(err)
       return
     return
 
@@ -37,6 +43,9 @@ suite '<deck-builder-toolbar>', ->
         done()
         return
       return
+    , (err)->
+      done(err)
+      return
     return
 
   test 'check clear selected works', (done)->
@@ -49,6 +58,9 @@ suite '<deck-builder-toolbar>', ->
           done()
           return
         return
+      return
+    , (err)->
+      done(err)
       return
     return
 
@@ -68,6 +80,40 @@ suite '<deck-builder-toolbar>', ->
             return
           return
         return
+      , (err)->
+        done(err)
+        return
+      return
+    , (err)->
+      done(err)
+      return
+    return
+
+  test 'check delete selected works', (done)->
+    eventThing = ->
+      dbt.removeEventListener 'deck-saved', eventThing
+      dbt.updateButtons().then ->
+        expect(dbt.selectedCards).to.have.length 0
+        dbt.$.dataStorage.getDeck(deckGUID).then (deck)->
+          expect(deck.cards).to.have.length 0
+          done()
+          return
+        , (err)->
+          done(err)
+          return
+        return
+      , (err)->
+        done(err)
+        return
+      return
+
+    dbt.selectAll()
+    dbt.updateButtons().then ->
+      dbt.addEventListener 'deck-saved', eventThing
+      dbt.deleteSelected()
+      return
+    , (err)->
+      done(err)
       return
     return
 

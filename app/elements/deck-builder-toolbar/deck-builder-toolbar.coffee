@@ -53,3 +53,13 @@ Polymer 'deck-builder-toolbar',
       @updateButtons()
       return
     return
+
+  deleteSelected: ->
+    @$.dataStorage.getDeck(@deckGUID).then (deck)=>
+      for card in @selectedCards
+        deck.deleteCard card
+      @$.dataStorage.saveDeck(deck).then =>
+        @clearSelected()
+        return
+      return
+    return
