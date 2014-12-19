@@ -366,6 +366,7 @@ module.exports = (grunt) ->
             'Windows 8.1/Chrome@39'
             'Windows 8/Chrome@39'
             'Windows 7/Chrome@39'
+            'Windows 7/Chrome@39'
             'OS X 10.10/Chrome@39'
             'Linux/Chrome@39'
 
@@ -378,6 +379,7 @@ module.exports = (grunt) ->
 
             # Not supported but might work
             'OS X 10.10/Safari@8'
+            'OS X 10.9/Safari@7'
             'Windows 8.1/Internet Explorer@11'
             'Windows 7/Internet Explorer@11'
 
@@ -385,6 +387,10 @@ module.exports = (grunt) ->
             'Linux/Android@4.4'
             'OS X 10.9/iPhone@8.1'
             'OS X 10.9/iPad@8.1'
+            'OS X 10.9/iPhone@8.0'
+            'OS X 10.9/iPad@8.0'
+            'OS X 10.9/iPhone@7.1'
+            'OS X 10.9/iPad@7.1'
           ]
       remoteTravis:
         options:
@@ -418,13 +424,13 @@ module.exports = (grunt) ->
             'Linux/Firefox@34'
 
             # Not supported but might work
-            #'OS X 10.10/Safari@8'
+            'OS X 10.10/Safari@8'
+            'OS X 10.9/Safari@7'
 
             # Mobile
             'Linux/Android@4.4'
-            #'Linux/Android@4.3'
-            #'OS X 10.9/iPhone@8.1'
-            #'OS X 10.9/iPad@8.1'
+            'OS X 10.9/iPhone@8.1'
+            'OS X 10.9/iPad@8.1'
           ]
 
     coveralls:
@@ -488,7 +494,6 @@ module.exports = (grunt) ->
       'copy:bower'
       'buildDev'
       'wct-test:remote'
-      'coveralls:build'
     ]
 
   grunt.registerTask 'testTravis', [
