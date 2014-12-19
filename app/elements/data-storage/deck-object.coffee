@@ -10,7 +10,7 @@ class Deck
 
     @guid = guid
     @name = name
-    @cards = cards
+    @cards = if cards is null then [] else cards
     return
 
   addCard: (cardData)->

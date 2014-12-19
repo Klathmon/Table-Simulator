@@ -1,9 +1,13 @@
 Polymer 'data-storage',
   deckPrefix: 'Deck:'
   created: ->
+    isSafari = typeof openDatabase isnt 'undefined' and
+      /Safari/.test(navigator.userAgent) and
+      not /Chrome/.test(navigator.userAgent)
+
     localforage.config
       name: 'Table Simulator'
-      driver: localforage.INDEXDDB
+      driver: if isSafari then localforage.WEBSQL else localforage.INDEXDDB
       version: '1.0'
       description: 'Storage of all card info and decks'
     return
@@ -46,7 +50,7 @@ Polymer 'data-storage',
     storageDeck =
       guid: deck.guid
       name: deck.name
-      cards: deck.cards
+      cards: if deck.cards is [] then null else deck.cards
     return new Promise (resolve, reject)=>
       localforage.setItem(@deckPrefix + deck.guid, storageDeck).then =>
         setTimeout =>
