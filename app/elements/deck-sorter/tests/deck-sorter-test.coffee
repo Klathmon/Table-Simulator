@@ -29,7 +29,18 @@ suite '<deck-sorter>', ->
     addCardToDeckSorter img1
     return
 
-  test 'check removing card works', (done)->
+  test 'check removing card works(fast)', (done)->
+    eventL = (event)->
+      deckSorter.removeEventListener 'layout-complete', eventL
+      expect(event.detail.elements).to.have.length 0
+      done()
+      return
+    deckSorter.addEventListener 'layout-complete', eventL
+    oldCard = document.querySelector 'deck-sorter builder-card'
+    oldCard.parentNode.removeChild oldCard
+    return
+
+  test.skip 'check removing card works (slow)', (done)->
     eventCounter = 0
     eventL = (event)->
       eventCounter++
@@ -44,4 +55,5 @@ suite '<deck-sorter>', ->
     deckSorter.addEventListener 'layout-complete', eventL
     addCardToDeckSorter img2
     return
+
   return
