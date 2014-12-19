@@ -89,6 +89,47 @@ suite '<deck-builder-toolbar>', ->
       return
     return
 
+  test 'check open copy dialog works', (done)->
+    eventT = ->
+      dbt.removeEventListener 'core-overlay-open-completed', eventT
+      animationFrameFlush ->
+        expect(dbt.$.copyDialog.opened).to.be.true
+        expect(dbt.$.dialogAffirmButton.disabled).to.be.true
+        done()
+        return
+      return
+
+    dbt.$.copyDialog.addEventListener 'core-overlay-open-completed', eventT
+    dbt.openCopyDialog()
+    return
+
+  test 'check copy button enabled on good input', (done)->
+    dbt.deckToCopyTo = deckGUID
+    animationFrameFlush ->
+      expect(dbt.$.dialogAffirmButton.disabled).to.be.false
+      done()
+      return
+    return
+
+  test 'check copy selected works', (done)->
+    eventT = ->
+      dbt.removeEventListener 'deck-saved', eventT
+      animationFrameFlush ->
+        expect(dbt.$.copyDialog.opened).to.be.false
+        expect(dbt.selectedCards).to.have.length 0
+        dbt.$.dataStorage.getDeck(deckGUID).then (deck)->
+          expect(deck.cards).to.have.length 4
+          done()
+          return
+        , (err)->
+          done(err)
+          return
+        return
+      return
+    dbt.$.dataStorage.addEventListener 'deck-saved', eventT
+    dbt.copySelected()
+    return
+
   test 'check delete selected works', (done)->
     eventThing = ->
       dbt.removeEventListener 'deck-saved', eventThing

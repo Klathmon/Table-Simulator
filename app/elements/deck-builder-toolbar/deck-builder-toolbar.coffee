@@ -5,11 +5,6 @@ Polymer 'deck-builder-toolbar',
   created: ->
     @decks = []
     return
-  ready: ->
-    @$.dataStorage.listDecks().then (decks)=>
-      @decks = decks
-      return
-    return
 
   deckGUIDChanged: ->
     return @updateButtons()
@@ -62,4 +57,34 @@ Polymer 'deck-builder-toolbar',
         @clearSelected()
         return
       return
+    return
+
+  copySelected: ->
+    @$.copyDialog.opened = false
+
+    cardsToAdd = []
+    for card in @selectedCards
+      for i in [0...@numberToCopy]
+        cardsToAdd.push card
+
+    @$.dataStorage.getDeck(@deckToCopyTo).then (deck)=>
+      for card in cardsToAdd
+        deck.cards.push card
+      @$.dataStorage.saveDeck(deck).then =>
+        @clearSelected()
+        return
+      return
+    return
+
+  openCopyDialog: ->
+    @$.dataStorage.listDecks().then (decks)=>
+      @decks = decks
+      @numberToCopy = 1
+      @deckToCopyTo = null
+      @$.copyDialog.opened = true
+      return
+    return
+
+  dropdownElementSelected: ->
+    @$.dialogAffirmButton.disabled = false
     return
