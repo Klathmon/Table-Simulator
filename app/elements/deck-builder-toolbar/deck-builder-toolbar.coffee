@@ -46,3 +46,10 @@ Polymer 'deck-builder-toolbar',
   clearSelected: ->
     @selectedCards = []
     return @updateButtons()
+
+  selectAll: ->
+    @$.dataStorage.getDeck(@deckGUID).then (deck)=>
+      @selectedCards = deck.cards
+      @updateButtons()
+      return
+    return

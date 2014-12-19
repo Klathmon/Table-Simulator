@@ -52,4 +52,23 @@ suite '<deck-builder-toolbar>', ->
       return
     return
 
+  test 'check select all works', (done)->
+    dbt.$.dataStorage.getDeck(deckGUID).then (deck)->
+      animationFrameFlush ->
+        dbt.selectAll()
+        dbt.updateButtons().then ->
+          animationFrameFlush ->
+            attrAll = dbt.$.selectAllButton.hasAttribute('disabled')
+            expect(attrAll).to.be.true
+
+            selectedLen = dbt.selectedCards.length
+            deckLen = deck.cards.length
+            expect(selectedLen).to.equal deckLen
+            done()
+            return
+          return
+        return
+      return
+    return
+
   return

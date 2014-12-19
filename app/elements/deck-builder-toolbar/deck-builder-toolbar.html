@@ -23,40 +23,44 @@
 
     <data-storage id="dataStorage"></data-storage>
 
-    <div flex>
-      <paper-button
-      id="deleteSelectedButton"
-      disabled
-      on-tap="{{deleteSelected}}">
-        <core-icon icon="delete"></core-icon>
-        Delete
-      </paper-button>
+    <div
+    horizontal layout end>
 
-      <paper-button
-      id="copySelectedButton"
-      disabled
-      on-tap="{{openCopyDialog}}">
-        <core-icon icon="content-copy"></core-icon>
-        Copy To...
-      </paper-button>
+      <div flex>
+        <paper-button
+        id="deleteSelectedButton"
+        disabled
+        on-tap="{{deleteSelected}}">
+          <core-icon icon="delete"></core-icon>
+          Delete
+        </paper-button>
 
-      <paper-button
-      id="selectAllButton"
-      on-tap="{{selectAll}}">
-        <core-icon icon="done-all"></core-icon>
-        Select All
-      </paper-button>
+        <paper-button
+        id="copySelectedButton"
+        disabled
+        on-tap="{{openCopyDialog}}">
+          <core-icon icon="content-copy"></core-icon>
+          Copy To...
+        </paper-button>
 
-      <paper-button
-      id="selectNoneButton"
-      disabled
-      on-tap="{{clearSelected}}">
-        <core-icon icon="clear"></core-icon>
-        Clear Selection
-      </paper-button>
+        <paper-button
+        id="selectAllButton"
+        on-tap="{{selectAll}}">
+          <core-icon icon="done-all"></core-icon>
+          Select All
+        </paper-button>
+
+        <paper-button
+        id="selectNoneButton"
+        disabled
+        on-tap="{{clearSelected}}">
+          <core-icon icon="clear"></core-icon>
+          Clear Selection
+        </paper-button>
+      </div>
+
+      <image-uploader id="imageUploader"></image-uploader>
     </div>
-
-    <image-uploader id="imageUploader"></image-uploader>
 
     <paper-action-dialog
     id="copyDialog"
