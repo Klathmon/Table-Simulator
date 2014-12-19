@@ -432,8 +432,9 @@ module.exports = (grunt) ->
 
     coveralls:
       options:
-        src: 'coverage/lcov.info'
         force: false
+      build:
+        src: 'coverage/lcov.info'
 
     devUpdate:
       main:
@@ -490,7 +491,7 @@ module.exports = (grunt) ->
       'copy:bower'
       'buildDev'
       'wct-test:remote'
-      'coveralls'
+      'coveralls:build'
     ]
 
   grunt.registerTask 'testTravis', [
@@ -498,7 +499,7 @@ module.exports = (grunt) ->
       'copy:bower'
       'buildDev'
       'wct-test:remoteTravis'
-      'coveralls'
+      'coveralls:build'
       'clean:build'
     ]
 

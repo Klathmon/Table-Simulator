@@ -5,24 +5,19 @@
   <meta charset="utf-8">
   <script src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
   <script src="../bower_components/web-component-tester/browser.js"></script>
-  <script src="runner.coffee"></script>
 </head>
 <body>
   <script>
 
-    setTimeout(function(){
-      interval = setInterval(function(){
-        element = document.querySelector('#mocha');
-        element.scrollTop = element.scrollHeight;
-      }, 200);
+    if(typeof WCT !== "undefined"){
       setTimeout(function(){
-        clearInterval(interval);
-      }, 9000)
-    }, 1000)
+        interval = setInterval(function(){
+          element = document.querySelector('#mocha');
+          element.scrollTop = element.scrollHeight;
+        }, 200);
+      }, 1000)
+    }
 
-    //var runner = new TestRunner();
-
-    //WCT.loadSuites(runner.testElements());
     WCT.loadSuites([
       '/elements/base-card/tests/base-card-test.html',
       '/elements/builder-card/tests/builder-card-test.html',
