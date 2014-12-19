@@ -1,0 +1,89 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/core-icons/image-icons.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-action-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-dropdown/paper-dropdown-transition.html">
+
+<link rel="import" href="../image-uploader/image-uploader.html">
+<link rel="import" href="../data-storage/data-storage.html">
+
+<polymer-element
+    name="deck-builder-toolbar"
+    constructor="DeckListing"
+    attributes="deckGUID selectedCards">
+  <template>
+    <link rel="stylesheet" href="deck-builder-toolbar.sass">
+
+    <data-storage id="dataStorage"></data-storage>
+
+    <div flex>
+      <paper-button
+      id="deleteSelectedButton"
+      disabled
+      on-tap="{{deleteSelected}}">
+        <core-icon icon="delete"></core-icon>
+        Delete
+      </paper-button>
+
+      <paper-button
+      id="copySelectedButton"
+      disabled
+      on-tap="{{openCopyDialog}}">
+        <core-icon icon="content-copy"></core-icon>
+        Copy To...
+      </paper-button>
+
+      <paper-button
+      id="selectAllButton"
+      on-tap="{{selectAll}}">
+        <core-icon icon="done-all"></core-icon>
+        Select All
+      </paper-button>
+
+      <paper-button
+      id="selectNoneButton"
+      disabled
+      on-tap="{{clearSelected}}">
+        <core-icon icon="clear"></core-icon>
+        Clear Selection
+      </paper-button>
+    </div>
+
+    <image-uploader id="imageUploader"></image-uploader>
+
+    <paper-action-dialog
+    id="copyDialog"
+    heading="Copy To..."
+    transition="paper-dialog-transition-bottom"
+    backdrop
+    layered>
+      <div id="moveCopyInnerContainer" vertical layout style="min-width: 400px; min-height: 300px">
+        <paper-dropdown-menu
+        label="Choose Deck to Copy cards into..."
+        on-core-select="{{dropdownElementSelected}}">
+          <paper-dropdown class="dropdown" duration=150>
+            <core-menu class="menu" valueattr="data-guid" selected="{{deckToCopyTo}}">
+              <template repeat="{{ deck in decks }}">
+                <paper-item data-guid="{{deck.guid}}">{{deck.name}}</paper-item>
+              </template>
+            </core-menu>
+          </paper-dropdown>
+        </paper-dropdown-menu>
+        <paper-input label="Number of copies to make?" floatingLabel value="{{numberToCopy}}"></paper-input>
+      </div>
+      <paper-button id="dialogDismissButton" raised dismissive>Cancel</paper-button>
+      <paper-button id="dialogAffirmButton" raised disabled affirmative on-tap="{{copySelectedCards}}">Copy</paper-button>
+    </paper-action-dialog>
+
+  </template>
+  <!-- build:js deck-builder-toolbar.js -->
+  <script src="deck-builder-toolbar.coffee"></script>
+  <!-- endbuild -->
+</polymer-element>
