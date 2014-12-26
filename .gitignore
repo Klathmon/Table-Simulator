@@ -5,3 +5,5 @@ node_modules
 app/bower_components
 add-env-vars.sh
 coverage
+.bower
+.npm

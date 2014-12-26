@@ -259,6 +259,8 @@ module.exports = (grunt) ->
           APP_DIR + '/bower_components'
           'node_modules'
           'coverage'
+          '.bower'
+          '.npm'
         ]
       postRelease:
         [
