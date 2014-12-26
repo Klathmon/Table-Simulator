@@ -86,7 +86,7 @@ module.exports = (grunt) ->
     sass:
       options:
         cacheLocation: TEMP_DIR
-        loadPath: [APP_DIR + '/styles/partials']
+        loadPath: require('node-bourbon').with(APP_DIR + '/styles/partials')
 
       dev:
         options:
