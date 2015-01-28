@@ -497,7 +497,6 @@ module.exports = (grunt) ->
       'copy:bower'
       'buildDev'
       'wct-test:remoteTravis'
-      'coveralls:build'
       'clean:build'
     ]
 
