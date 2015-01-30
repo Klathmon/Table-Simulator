@@ -8,7 +8,8 @@
     "url": "https://github.com/Klathmon/Table-Simulator.git"
   },
   "devDependencies": {
-    "coffeelint": "^1.8.1",
+    "lodash": "2.4.1",
+    "coffeelint": "1.8.1",
     "coffeelint-no-implicit-returns": "0.0.4",
     "connect-livereload": "0.5.2",
     "grunt": "0.4.5",
@@ -25,7 +26,7 @@
     "grunt-coveralls": "1.0.0",
     "grunt-dev-update": "1.0.2",
     "grunt-dom-munger": "3.4.0",
-    "grunt-git": "^0.3.3",
+    "grunt-git": "0.3.3",
     "grunt-git-deploy": "0.1.1",
     "grunt-rename": "0.1.4",
     "grunt-usemin": "buddhike/grunt-usemin#relative-path-issue",
