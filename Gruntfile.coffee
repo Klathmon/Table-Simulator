@@ -396,7 +396,7 @@ module.exports = (grunt) ->
           ]
       remoteTravis:
         options:
-          remote: true
+          sauce: true
           ttyOutput: false
           browserOptions:
             name: 'Travis Job ' + process.env.TRAVIS_JOB_NUMBER
@@ -410,23 +410,23 @@ module.exports = (grunt) ->
             # 100% Supported
             'Windows 8.1/Chrome@39'
             'Windows 7/Chrome@39'
-            'OS X 10.10/Chrome@39'
+            #'OS X 10.10/Chrome@39'
             'Linux/Chrome@39'
 
             # Supported as Client
             'Windows 8.1/Firefox@34'
             'Windows 7/Firefox@34'
-            'OS X 10.10/Firefox@34'
+            #'OS X 10.10/Firefox@34'
             'Linux/Firefox@34'
 
             # Not supported but might work
-            'OS X 10.10/Safari@8'
-            'OS X 10.9/Safari@7'
+            #'OS X 10.10/Safari@8'
+            #'OS X 10.9/Safari@7'
 
             # Mobile
             'Linux/Android@4.4'
-            'OS X 10.9/iPhone@8.1'
-            'OS X 10.9/iPad@8.1'
+            #'OS X 10.9/iPhone@8.1'
+            #'OS X 10.9/iPad@8.1'
           ]
 
     coveralls:
