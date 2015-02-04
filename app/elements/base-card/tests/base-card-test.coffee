@@ -1,6 +1,6 @@
 
 suite '<base-card>', ->
-  
+
   baseCard = document.querySelector 'base-card'
   img = document.querySelector 'img'
   baseCard.imageData = img.src
