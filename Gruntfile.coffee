@@ -351,11 +351,26 @@ module.exports = (grunt) ->
       local:
         options:
           #persistent: true
-          remote: false
-          browsers: [
-            'chrome'
-            'firefox'
-          ]
+          verbose: true
+          plugins:
+            local:
+              browsers: [
+                'chrome'
+              ]
+            'web-component-tester-istanbul':
+              dir: './coverage'
+              reporters: [
+                'text-summary'
+                'lcov'
+              ]
+              include: [
+                '/**/*.js'
+              ]
+              exclude: [
+                '/bower_components/**/*.js'
+                '/testing/*.js'
+                '/**/tests/*.js'
+              ]
       remote:
         options:
           verbose: true
@@ -369,24 +384,24 @@ module.exports = (grunt) ->
               browsers: [
                 # 100% Supported
                 {
-                  browserName: "chrome"
-                  platform: "Windows 8.1"
-                  version: ""
+                  browserName: 'chrome'
+                  platform: 'Windows 8.1'
+                  version: ''
                 }
               ]
-            "web-component-tester-istanbul":
-              dir: "./coverage"
+            'web-component-tester-istanbul':
+              dir: './coverage'
               reporters: [
-                "text-summary"
-                "lcov"
+                'text-summary'
+                'lcov'
               ]
               include: [
-                "/**/*.js"
+                '/**/*.js'
               ]
               exclude: [
-                "/bower_components/**/*.js"
-                "/testing/*.js"
-                "/**/tests/*.js"
+                '/bower_components/**/*.js'
+                '/testing/*.js'
+                '/**/tests/*.js'
               ]
       remoteTravis:
         options:

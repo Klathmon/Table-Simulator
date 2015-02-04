@@ -34,7 +34,7 @@
     "jit-grunt": "0.9.0",
     "node-bourbon": "1.2.3",
     "time-grunt": "1.0.0",
-    "web-component-tester": "Polymer/web-component-tester",
+    "web-component-tester": "Polymer/web-component-tester#master",
     "web-component-tester-istanbul": "Klathmon/web-component-tester-istanbul#2.1_compat"
   },
   "engines": {
