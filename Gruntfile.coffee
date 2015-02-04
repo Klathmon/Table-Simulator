@@ -358,42 +358,36 @@ module.exports = (grunt) ->
           ]
       remote:
         options:
-          remote: true
+          verbose: true
           browserOptions:
             name: 'Manual Build'
             tags: 'manual'
             'video-upload-on-pass': false
-          browsers: [
-            # 100% Supported
-            'Windows 8.1/Chrome@39'
-            'Windows 8/Chrome@39'
-            'Windows 7/Chrome@39'
-            'Windows 7/Chrome@39'
-            'OS X 10.10/Chrome@39'
-            'Linux/Chrome@39'
-
-            # Supported as Client
-            'Windows 8.1/Firefox@34'
-            'Windows 8/Firefox@34'
-            'Windows 7/Firefox@34'
-            'OS X 10.10/Firefox@34'
-            'Linux/Firefox@34'
-
-            # Not supported but might work
-            'OS X 10.10/Safari@8'
-            'OS X 10.9/Safari@7'
-            'Windows 8.1/Internet Explorer@11'
-            'Windows 7/Internet Explorer@11'
-
-            # Mobile
-            'Linux/Android@4.4'
-            'OS X 10.9/iPhone@8.1'
-            'OS X 10.9/iPad@8.1'
-            'OS X 10.9/iPhone@8.0'
-            'OS X 10.9/iPad@8.0'
-            'OS X 10.9/iPhone@7.1'
-            'OS X 10.9/iPad@7.1'
-          ]
+            build: 1
+          plugins:
+            sauce:
+              browsers: [
+                # 100% Supported
+                {
+                  browserName: "chrome"
+                  platform: "Windows 8.1"
+                  version: ""
+                }
+              ]
+            "web-component-tester-istanbul":
+              dir: "./coverage"
+              reporters: [
+                "text-summary"
+                "lcov"
+              ]
+              include: [
+                "/**/*.js"
+              ]
+              exclude: [
+                "/bower_components/**/*.js"
+                "/testing/*.js"
+                "/**/tests/*.js"
+              ]
       remoteTravis:
         options:
           sauce: true
@@ -490,6 +484,7 @@ module.exports = (grunt) ->
       'copy:bower'
       'buildDev'
       'wct-test:remote'
+      #'coveralls:build'
     ]
 
   grunt.registerTask 'testTravis', [

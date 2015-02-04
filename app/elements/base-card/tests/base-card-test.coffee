@@ -16,7 +16,7 @@ suite '<base-card>', ->
   return
 
 
-suite '<base-card> Benchmarks', ->
+suite.skip '<base-card> Benchmarks', ->
   test 'Create 10 BaseCards', (done)->
     for x in [0...10]
       baseCard2 = new BaseCard()
