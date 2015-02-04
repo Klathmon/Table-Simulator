@@ -10,6 +10,6 @@
     "localforage": "1.2.1"
   },
   "devDependencies": {
-    "web-component-tester": "Klathmon/web-component-tester#send-status"
+    "web-component-tester": "Polymer/web-component-tester"
   }
 }
