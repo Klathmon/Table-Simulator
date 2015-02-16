@@ -351,11 +351,26 @@ module.exports = (grunt) ->
       local:
         options:
           #persistent: true
-          remote: false
-          browsers: [
-            'chrome'
-            'firefox'
-          ]
+          plugins:
+            local:
+              browsers: [
+                'chrome'
+                'firefox'
+              ]
+            'web-component-tester-istanbul':
+              dir: './coverage'
+              reporters: [
+                'text-summary'
+                'lcov'
+              ]
+              include: [
+                '/**/*.js'
+              ]
+              exclude: [
+                '/bower_components/**/*.js'
+                '/testing/*.js'
+                '/**/tests/*.js'
+              ]
       remote:
         options:
           remote: true
