@@ -373,42 +373,94 @@ module.exports = (grunt) ->
               ]
       remote:
         options:
-          remote: true
           browserOptions:
             name: 'Manual Build'
             tags: 'manual'
             'video-upload-on-pass': false
-          browsers: [
-            # 100% Supported
-            'Windows 8.1/Chrome@39'
-            'Windows 8/Chrome@39'
-            'Windows 7/Chrome@39'
-            'Windows 7/Chrome@39'
-            'OS X 10.10/Chrome@39'
-            'Linux/Chrome@39'
-
-            # Supported as Client
-            'Windows 8.1/Firefox@34'
-            'Windows 8/Firefox@34'
-            'Windows 7/Firefox@34'
-            'OS X 10.10/Firefox@34'
-            'Linux/Firefox@34'
-
-            # Not supported but might work
-            'OS X 10.10/Safari@8'
-            'OS X 10.9/Safari@7'
-            'Windows 8.1/Internet Explorer@11'
-            'Windows 7/Internet Explorer@11'
-
-            # Mobile
-            'Linux/Android@4.4'
-            'OS X 10.9/iPhone@8.1'
-            'OS X 10.9/iPad@8.1'
-            'OS X 10.9/iPhone@8.0'
-            'OS X 10.9/iPad@8.0'
-            'OS X 10.9/iPhone@7.1'
-            'OS X 10.9/iPad@7.1'
-          ]
+            build: 1
+          plugins:
+            sauce:
+              browsers: [
+                # Chrome
+                {
+                  browserName: 'chrome'
+                  platform: 'Windows 8.1'
+                  version: '40'
+                }
+                {
+                  browserName: 'chrome'
+                  platform: 'Linux'
+                  version: '40'
+                }
+                {
+                  browserName: 'chrome'
+                  platform: 'OS X 10.10'
+                  version: '40'
+                }
+                # Firefox
+                {
+                  browserName: 'firefox'
+                  platform: 'Windows 8.1'
+                  version: '35'
+                }
+                {
+                  browserName: 'firefox'
+                  platform: 'Linux'
+                  version: '35'
+                }
+                {
+                  browserName: 'firefox'
+                  platform: 'OS X 10.10'
+                  version: '35'
+                }
+                # Safari
+                {
+                  browserName: 'safari'
+                  platform: 'OS X 10.10'
+                  version: '8.0'
+                }
+                {
+                  browserName: 'safari'
+                  platform: 'OS X 10.9'
+                  version: '7.0'
+                }
+                # Android
+                {
+                  browserName: 'android'
+                  platform: 'Linux'
+                  version: '4.4'
+                }
+                {
+                  browserName: 'android'
+                  platform: 'Linux'
+                  version: '4.3'
+                }
+                # iOS
+                {
+                  browserName: 'iphone'
+                  platform: 'OS X 10.10'
+                  version: '8.1'
+                }
+                {
+                  browserName: 'iphone'
+                  platform: 'OS X 10.10'
+                  version: '7.1'
+                }
+              ]
+            'web-component-tester-istanbul':
+              dir: './coverage'
+              reporters: [
+                'text-summary'
+                'lcov'
+              ]
+              include: [
+                '/**/*.js'
+              ]
+              exclude: [
+                '/bower_components/**/*.js'
+                '/testing/*.js'
+                '/**/tests/*.js'
+              ]
       remoteTravis:
         options:
           sauce: true
