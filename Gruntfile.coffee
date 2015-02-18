@@ -346,7 +346,9 @@ module.exports = (grunt) ->
       options:
         root: BUILD_DIR
         suites: ['testing/runner.html']
-        testTimeout: 90 * 1000
+        testTimeout: 5 * 60 * 1000
+        webserver:
+          port: 9001
         #verbose: true
       local:
         options:
@@ -361,7 +363,7 @@ module.exports = (grunt) ->
               dir: './coverage'
               reporters: [
                 'text-summary'
-                'lcov'
+                'json'
               ]
               include: [
                 '/**/*.js'
@@ -387,65 +389,7 @@ module.exports = (grunt) ->
                   platform: 'Windows 8.1'
                   version: '40'
                 }
-                {
-                  browserName: 'chrome'
-                  platform: 'Linux'
-                  version: '40'
-                }
-                {
-                  browserName: 'chrome'
-                  platform: 'OS X 10.10'
-                  version: '40'
-                }
-                # Firefox
-                {
-                  browserName: 'firefox'
-                  platform: 'Windows 8.1'
-                  version: '35'
-                }
-                {
-                  browserName: 'firefox'
-                  platform: 'Linux'
-                  version: '35'
-                }
-                {
-                  browserName: 'firefox'
-                  platform: 'OS X 10.10'
-                  version: '35'
-                }
-                # Safari
-                {
-                  browserName: 'safari'
-                  platform: 'OS X 10.10'
-                  version: '8.0'
-                }
-                {
-                  browserName: 'safari'
-                  platform: 'OS X 10.9'
-                  version: '7.0'
-                }
-                # Android
-                {
-                  browserName: 'android'
-                  platform: 'Linux'
-                  version: '4.4'
-                }
-                {
-                  browserName: 'android'
-                  platform: 'Linux'
-                  version: '4.3'
-                }
-                # iOS
-                {
-                  browserName: 'iphone'
-                  platform: 'OS X 10.10'
-                  version: '8.1'
-                }
-                {
-                  browserName: 'iphone'
-                  platform: 'OS X 10.10'
-                  version: '7.1'
-                }
+
               ]
             'web-component-tester-istanbul':
               dir: './coverage'
@@ -508,6 +452,37 @@ module.exports = (grunt) ->
           updateType: 'prompt'
           semver: false
 
+  grunt.registerTask 'convertCoverage', 'Convert coverage using sourcemaps', ->
+    istanbul = require 'istanbul'
+    istanbulCoverageSourceMap = require 'istanbul-coverage-source-map'
+
+    done = @async()
+    collector = new istanbul.Collector()
+    reporter = new istanbul.Reporter false, './coverage'
+
+    covObj = grunt.file.readJSON './coverage/coverage-final.json'
+    covObjConverted = istanbulCoverageSourceMap(covObj,
+      generatorPrefix: /(\.\.\/)/g)
+
+    covObjConverted = JSON.parse covObjConverted
+
+
+    newCovObj = {}
+    cwd = process.cwd() + '\\'
+    Object.keys(covObjConverted).forEach (value, index, array)->
+      newValue = covObjConverted[value]
+      newValue.path = newValue.path.replace(cwd, '')
+      newCovObj[value.replace(cwd, '')] = newValue
+      return
+
+    collector.add covObjConverted
+    reporter.add 'lcov'
+    reporter.write collector, false, ->
+      console.log 'Coverage reports converted.'
+      done()
+      return
+    return
+
 
   grunt.registerTask 'buildDev', [
       'coffeelint:app'
@@ -550,6 +525,7 @@ module.exports = (grunt) ->
       'copy:bower'
       'buildDev'
       'wct-test:local'
+      'convertCoverage'
     ]
 
   grunt.registerTask 'testRemote', [
@@ -557,6 +533,7 @@ module.exports = (grunt) ->
       'copy:bower'
       'buildDev'
       'wct-test:remote'
+      'convertCoverage'
     ]
 
   grunt.registerTask 'testTravis', [
