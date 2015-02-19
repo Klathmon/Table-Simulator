@@ -27,6 +27,15 @@ suite '<builder-card>', ->
     expect(builderCard.draggie).to.be.an.instanceof Draggabilly
     return
 
+  test 'check checkbox works', (done)->
+    builderCard.$.checkbox.classList.add 'checked'
+    builderCard.checkboxChanged null, null, builderCard.$.checkbox
+    animationFrameFlush ->
+      expect(builderCard.classList.contains 'checked').to.be.true
+      done()
+      return
+    return
+
   test 'check zoom works', (done)->
     builderCard.addEventListener 'zoomed-card-added', ->
       flush ->
@@ -43,4 +52,5 @@ suite '<builder-card>', ->
 
     eventFire builderCard, 'dblclick'
     return
+
   return
