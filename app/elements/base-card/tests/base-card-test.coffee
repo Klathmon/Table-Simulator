@@ -1,9 +1,8 @@
-baseCard = document.querySelector 'base-card'
-img = document.querySelector 'img'
-baseCard.imageData = img.src
-img.style.display = 'none'
-
 suite '<base-card>', ->
+  baseCard = document.querySelector 'base-card'
+  img = document.querySelector 'img'
+  baseCard.imageData = img.src
+  img.style.display = 'none'
 
   test 'check element exists', ->
     expect(baseCard.imageData).to.equal img.src
