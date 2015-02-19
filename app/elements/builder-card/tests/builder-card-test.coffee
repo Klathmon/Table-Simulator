@@ -32,7 +32,12 @@ suite '<builder-card>', ->
     builderCard.checkboxChanged null, null, builderCard.$.checkbox
     animationFrameFlush ->
       expect(builderCard.classList.contains 'checked').to.be.true
-      done()
+      builderCard.$.checkbox.classList.remove 'checked'
+      builderCard.checkboxChanged null, null, builderCard.$.checkbox
+      animationFrameFlush ->
+        expect(builderCard.classList.contains 'checked').to.be.false
+        done()
+        return
       return
     return
 
