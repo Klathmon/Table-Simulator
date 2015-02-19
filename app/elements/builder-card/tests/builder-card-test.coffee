@@ -1,17 +1,17 @@
-builderCard = document.querySelector 'builder-card'
-img = document.querySelector 'img'
-builderCard.imageData = img.src
-
-eventFire = (element, type)->
-  if element.fireEvent
-    (element.fireEvent('on' + type))
-  else
-    evObj = document.createEvent('Events')
-    evObj.initEvent(type, true, false)
-    element.dispatchEvent evObj
-  return
-
 suite '<builder-card>', ->
+  builderCard = document.querySelector 'builder-card'
+  img = document.querySelector 'img'
+  builderCard.imageData = img.src
+
+  eventFire = (element, type)->
+    if element.fireEvent
+      (element.fireEvent('on' + type))
+    else
+      evObj = document.createEvent('Events')
+      evObj.initEvent(type, true, false)
+      element.dispatchEvent evObj
+    return
+
 
   test 'check element exists', ->
     expect(builderCard.imageData).to.equal img.src
@@ -42,17 +42,5 @@ suite '<builder-card>', ->
       return
 
     eventFire builderCard, 'dblclick'
-    return
-  return
-
-
-suite '<builder-card> Benchmarks', ->
-  test 'Create 10 BuilderCards', (done)->
-    for x in [0...10]
-      builderCard2 = new BuilderCard()
-      builderCard2.imageData = img.src
-      document.body.appendChild builderCard2
-      Polymer.flush()
-    done()
     return
   return
