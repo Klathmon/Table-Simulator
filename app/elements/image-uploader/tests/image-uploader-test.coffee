@@ -1,7 +1,6 @@
-imageUploader = document.querySelector 'image-uploader'
-img = document.querySelector 'img'
-
 suite '<image-uploader>', ->
+  imageUploader = document.querySelector 'image-uploader'
+  img = document.querySelector 'img'
 
   test 'check element has layout', ->
     computedStyle = window.getComputedStyle imageUploader
