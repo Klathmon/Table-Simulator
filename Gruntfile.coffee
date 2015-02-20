@@ -366,6 +366,8 @@ module.exports = (grunt) ->
               browsers: [
                 'chrome'
                 'firefox'
+                #'canary'
+                #'ie'
               ]
             'web-component-tester-istanbul':
               dir: './coverage'
