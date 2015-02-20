@@ -1,5 +1,5 @@
-dataStorage = document.querySelector 'data-storage'
 suite '<data-storage>', ->
+  dataStorage = document.querySelector 'data-storage'
   setup (done)->
     dataStorage.purgeEverything().then ->
       done()
