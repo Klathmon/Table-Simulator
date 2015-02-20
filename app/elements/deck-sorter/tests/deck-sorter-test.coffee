@@ -1,20 +1,22 @@
-img1 = document.querySelector '#img1'
-img2 = document.querySelector '#img2'
-imageUploader = document.querySelector 'image-uploader'
-deckSorter = document.querySelector 'deck-sorter'
-
-addCardToDeckSorter = (img1Element)->
-  newImage = (event)->
-    card = document.createElement 'builder-card'
-    card.imageData = event.detail.imageData
-    deckSorter.appendChild card
-    imageUploader.removeEventListener 'new-image', newImage
-    return
-  imageUploader.addEventListener 'new-image', newImage
-  imageUploader.importFile img1Element.src, 'image/jpg'
-  return
-
 suite '<deck-sorter>', ->
+
+  img1 = document.querySelector '#img1'
+  img2 = document.querySelector '#img2'
+  imageUploader = document.querySelector 'image-uploader'
+  deckSorter = document.querySelector 'deck-sorter'
+
+  addCardToDeckSorter = (img1Element)->
+    newImage = (event)->
+      card = document.createElement 'builder-card'
+      card.imageData = event.detail.imageData
+      deckSorter.appendChild card
+      imageUploader.removeEventListener 'new-image', newImage
+      return
+    imageUploader.addEventListener 'new-image', newImage
+    imageUploader.importFile img1Element.src, 'image/jpg'
+    return
+
+
   test 'check element exists', ->
     expect(deckSorter.packery).to.be.instanceof Packery
     return

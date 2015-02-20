@@ -1,16 +1,17 @@
-deckListing = document.querySelector 'deck-listing'
-
-eventFire = (element, type)->
-  if element.fireEvent
-    (element.fireEvent('on' + type))
-  else
-    evObj = document.createEvent('Events')
-    evObj.initEvent(type, true, false)
-    element.dispatchEvent evObj
-  return
-
 suite '<deck-listing>', ->
   addedDeckGUID = ''
+
+  deckListing = document.querySelector 'deck-listing'
+
+  eventFire = (element, type)->
+    if element.fireEvent
+      (element.fireEvent('on' + type))
+    else
+      evObj = document.createEvent('Events')
+      evObj.initEvent(type, true, false)
+      element.dispatchEvent evObj
+    return
+
   suiteSetup (done)->
     localforage.clear(done)
     return

@@ -1,9 +1,10 @@
-dbt = document.querySelector 'deck-builder-toolbar'
-img1 = document.querySelector '#img1'
-img2 = document.querySelector '#img2'
-
 suite '<deck-builder-toolbar>', ->
   deckGUID = ''
+
+  dbt = document.querySelector 'deck-builder-toolbar'
+  img1 = document.querySelector '#img1'
+  img2 = document.querySelector '#img2'
+
   suiteSetup (done)->
     dbt.$.dataStorage.purgeEverything().then ->
       deck = dbt.$.dataStorage.createDeck()
