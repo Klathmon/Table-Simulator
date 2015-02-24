@@ -7,10 +7,22 @@ window.addEventListener 'polymer-ready', ->
     document.body.appendChild deckBuilder
     return
 
-  fieldCard = document.querySelector 'field-card'
-  #builderCard = document.querySelector 'builder-card'
   img = document.querySelector 'img'
-  fieldCard.imageData = img.src
+  fieldDeck = document.querySelector 'field-deck'
+  dataStorage = document.querySelector 'data-storage'
+  dataStorage.listDecks().then (decks)->
+    deckGUID = decks[0]['guid']
+    dataStorage.getDeck(deckGUID).then (deck) ->
+      console.log deck
+      fieldDeck.deck = deck
+      return
+    , (err)->
+      console.log err
+      return
+    return
+  #fieldCard = document.querySelector 'field-card'
+  #builderCard = document.querySelector 'builder-card'
+  #fieldCard.imageData = img.src
   #builderCard.imageData = img.src
 
   return
