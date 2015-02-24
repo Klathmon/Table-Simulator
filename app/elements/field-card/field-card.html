@@ -1,0 +1,23 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../base-card/base-card.html">
+
+<polymer-element
+    name="field-card"
+    constructor="FieldCard"
+    extends="base-card"
+    attributes="imageData"
+    on-dblclick="{{zoomCard}}">
+  <template>
+    <link rel="stylesheet" href="field-card.sass">
+    
+    <shadow></shadow>
+
+  </template>
+  <!-- build:js field-card.js -->
+  <script src="../../bower_components/draggabilly/dist/draggabilly.pkgd.js"></script>
+  <script src="../../scripts/globals.coffee"></script>
+  <script src="../../scripts/zoomCard.coffee"></script>
+  <script src="field-card.coffee"></script>
+  <!-- endbuild -->
+</polymer-element>

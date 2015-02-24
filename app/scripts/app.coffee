@@ -6,6 +6,13 @@ window.addEventListener 'polymer-ready', ->
     deckBuilder = new DeckBuilder()
     document.body.appendChild deckBuilder
     return
+
+  fieldCard = document.querySelector 'field-card'
+  #builderCard = document.querySelector 'builder-card'
+  img = document.querySelector 'img'
+  fieldCard.imageData = img.src
+  #builderCard.imageData = img.src
+
   return
 
 #  document.querySelector('#addCardButton').addEventListener 'click', ->
